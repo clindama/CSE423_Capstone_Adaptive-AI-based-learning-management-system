@@ -113,3 +113,307 @@ INSERT INTO LearningObjective (goal_id, title, description, obj_order)
 VALUES 
 (2, 'Two-Step - Objective 1', 'Identify two-step equations and their components.', 1),
 (2, 'Two-Step - Objective 2', 'Apply inverse operations to solve two-step equations.', 2);
+
+-- Goal 2.3: Solving Multi-Step Equations
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (3, 2, 'Solving Multi-Step Equations', 'Learn to solve multi-step equations using inverse operations.', 3);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(3, 'Multi-Step - Objective 1', 'Identify multi-step equations and their components.', 1),
+(3, 'Multi-Step - Objective 2', 'Apply inverse operations to solve multi-step equations.', 2);
+
+-- Goal 2.4: Solving Equations with Variables on Both Sides
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (4, 2, 'Solving Equations with Variables on Both Sides', 'Learn to solve equations with variables on both sides using inverse operations.', 4);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(4, 'Variables on Both Sides - Objective 1', 'Identify equations with variables on both sides.', 1),
+(4, 'Variables on Both Sides - Objective 2', 'Apply inverse operations to solve equations with variables on both sides.', 2);
+
+-- Goal 2.5: Literal Equations and Formulas
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (5, 2, 'Literal Equations and Formulas', 'Learn to manipulate literal equations and formulas.', 5);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(5, 'Literal Equations - Objective 1', 'Identify literal equations and their components.', 1),
+(5, 'Literal Equations - Objective 2', 'Apply inverse operations to solve literal equations.', 2);
+
+-- Goal 2.6: Solve Word Problems with 1 Unknown
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (6, 2, 'Solve Word Problems with 1 Unknown', 'Learn to translate word problems into equations and solve for one unknown.', 6);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(6, 'Word Problems - Objective 1', 'Identify key information in word problems.', 1),
+(6, 'Word Problems - Objective 2', 'Translate word problems into equations.', 2),
+(6, 'Word Problems - Objective 3', 'Solve equations derived from word problems.', 3);
+
+-- Goal 2.7: Solve Word Problems with 2 or more Unknowns
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (7, 2, 'Solve Word Problems with 2 or more Unknowns', 'Learn to translate word problems into equations and solve for two or more unknowns.', 7);
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(7, 'Word Problems with 2 Unknowns - Objective 1', 'Identify key information in word problems with multiple unknowns.', 1),
+(7, 'Word Problems with 2 Unknowns - Objective 2', 'Translate word problems into systems of equations.', 2),
+(7, 'Word Problems with 2 Unknowns - Objective 3', 'Solve systems of equations derived from word problems.', 3);
+
+-- Goal 2.8: Absolute Value equations/Inequalities
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (8, 2, 'Absolute Value Equations and Inequalities', 'Learn to solve absolute value equations and inequalities.', 8);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(8, 'Absolute Value - Objective 1', 'Identify absolute value equations and inequalities.', 1),
+(8, 'Absolute Value - Objective 2', 'Solve absolute value equations.', 2),
+(8, 'Absolute Value - Objective 3', 'Graph absolute value inequalities.', 3);
+
+-- Goal 2.9: Ratios and Proportions
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (9, 2, 'Ratios and Proportions', 'Learn to solve problems involving ratios and proportions.', 9);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(9, 'Ratios - Objective 1', 'Identify and create ratios from given information.', 1),
+(9, 'Ratios - Objective 2', 'Solve problems involving equivalent ratios.', 2),
+(9, 'Proportions - Objective 1', 'Understand the concept of proportions.', 3),
+(9, 'Proportions - Objective 2', 'Solve problems involving proportions.', 4);
+
+-- Goal 2.10: Solve Proportions
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (10, 2, 'Solve Proportions', 'Learn to solve proportions using cross-multiplication and other methods.', 10);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(10, 'Solve Proportions - Objective 1', 'Identify and set up proportions from given information.', 1),
+(10, 'Solve Proportions - Objective 2', 'Use cross-multiplication to solve proportions.', 2),
+(10, 'Solve Proportions - Objective 3', 'Apply proportions to real-world problems.', 3);
+
+-- Goal 2.11: Percent
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (11, 2, 'Percent', 'Learn to calculate and apply percentages in various contexts.', 11);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(11, 'Percent - Objective 1', 'Understand the concept of percent.', 1),
+(11, 'Percent - Objective 2', 'Calculate percentages of given quantities.', 2),
+(11, 'Percent - Objective 3', 'Apply percent concepts to real-world problems.', 3);
+
+-- Goal 2.12: Percent Change
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (12, 2, 'Percent Change', 'Learn to calculate and apply percent change in various contexts.', 12);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(12, 'Percent Change - Objective 1', 'Understand the concept of percent change.', 1),
+(12, 'Percent Change - Objective 2', 'Calculate percent change for given values.', 2),
+(12, 'Percent Change - Objective 3', 'Apply percent change concepts to real-world problems.', 3);
+
+-- Topic 3: Inequalities
+INSERT INTO Topic (id, name, description, topic_order)
+VALUES (3, 'Inequalities', 'Explore the world of inequalities, their properties, and how to solve them.', 3);
+
+-- Goal 3.1: Properties of Sets
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (1, 3, 'Properties of Sets', 'Learn the properties of sets and how to work with them.', 1);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(1, 'Properties of Sets - Objective 1', 'Understand the basic properties of sets.', 1),
+(1, 'Properties of Sets - Objective 2', 'Analyze the relationships between different sets.', 2);
+
+-- Goal 3.2: Write and Graph Inequalities
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (2, 3, 'Write and Graph Inequalities', 'Learn to write and graph inequalities on a number line.', 2);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(2, 'Write Inequalities - Objective 1', 'Translate verbal statements into inequalities.', 1),
+(2, 'Graph Inequalities - Objective 1', 'Graph inequalities on a number line.', 2);
+
+-- Goal 3.3: Solve Inequalities using Addition and Subtraction
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (3, 3, 'Solve Inequalities using Addition and Subtraction', 'Learn to solve inequalities using addition and subtraction.', 3);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(3, 'Solve Inequalities - Objective 1', 'Use addition to solve inequalities.', 1),
+(3, 'Solve Inequalities - Objective 2', 'Use subtraction to solve inequalities.', 2);
+
+-- Goal 3.4: Solve Inequalities using Multiplication and Division
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (4, 3, 'Solve Inequalities using Multiplication and Division', 'Learn to solve inequalities using multiplication and division.', 4);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(4, 'Solve Inequalities - Objective 1', 'Use multiplication to solve inequalities.', 1),
+(4, 'Solve Inequalities - Objective 2', 'Use division to solve inequalities.', 2);
+
+-- Goal 3.5: Solve Multi-Step Inequalities
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (5, 3, 'Solve Multi-Step Inequalities', 'Learn to solve multi-step inequalities.', 5);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(5, 'Solve Multi-Step Inequalities - Objective 1', 'Understand the process of solving multi-step inequalities.', 1),
+(5, 'Solve Multi-Step Inequalities - Objective 2', 'Apply appropriate strategies to solve multi-step inequalities.', 2);
+
+-- Goal 3.6: Union and Intersection of Sets
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (6, 3, 'Union and Intersection of Sets', 'Learn to find the union and intersection of sets.', 6);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(6, 'Union of Sets - Objective 1', 'Understand the concept of union of sets.', 1),
+(6, 'Intersection of Sets - Objective 1', 'Understand the concept of intersection of sets.', 2);
+
+-- Goal 3.7: Compound Inequalities
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (7, 3, 'Compound Inequalities', 'Learn to solve compound inequalities.', 7);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(7, 'Compound Inequalities - Objective 1', 'Understand the concept of compound inequalities.', 1),
+(7, 'Compound Inequalities - Objective 2', 'Solve compound inequalities using various methods.', 2);
+
+-- Topic 4: Functions and Linear Equations
+INSERT INTO Topic (id, name, description, topic_order)
+VALUES (4, 'Functions and Linear Equations', 'Explore the concepts of functions and linear equations.', 4);
+
+-- Goal 4.1: Coordinate Plane
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (1, 4, 'Coordinate Plane', 'Learn about the coordinate plane and how to plot points.', 1);
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(1, 'Coordinate Plane - Objective 1', 'Understand the concept of the coordinate plane.', 1),
+(1, 'Coordinate Plane - Objective 2', 'Plot points on the coordinate plane.', 2);
+
+-- Goal 4.2: Identify relations and functions
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (2, 4, 'Identify Relations and Functions', 'Learn to identify and represent relations and functions.', 2);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(2, 'Identify Relations - Objective 1', 'Understand the concept of relations.', 1),
+(2, 'Identify Functions - Objective 1', 'Understand the concept of functions.', 2);
+
+-- Goal 4.3: Function Notation
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (3, 4, 'Function Notation', 'Learn about function notation and how to use it.', 3);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(3, 'Function Notation - Objective 1', 'Understand the concept of function notation.', 1),
+(3, 'Function Notation - Objective 2', 'Use function notation to represent functions.', 2);
+
+-- Goal 4.4: Write and Graph function rules
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (4, 4, 'Write and Graph Function Rules', 'Learn to write and graph function rules.', 4);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(4, 'Write Function Rules - Objective 1', 'Understand how to write function rules.', 1),
+(4, 'Graph Function Rules - Objective 1', 'Learn to graph function rules.', 2);
+
+-- Goal 4.5: Direct Variation
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (5, 4, 'Direct Variation', 'Learn about direct variation and how to identify it.', 5);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(5, 'Direct Variation - Objective 1', 'Understand the concept of direct variation.', 1),
+(5, 'Direct Variation - Objective 2', 'Identify direct variation in real-world scenarios.', 2);
+
+-- Goal 4.6: Slope
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (6, 4, 'Slope', 'Learn about slope and how to calculate it.', 6);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(6, 'Slope - Objective 1', 'Understand the concept of slope.', 1),
+(6, 'Slope - Objective 2', 'Calculate the slope of a line given two points.', 2);
+
+-- Goal 4.7: Write and Graph Equations in Slope-Intercept Form
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (7, 4, 'Write and Graph Equations in Slope-Intercept Form', 'Learn to write and graph equations in slope-intercept form.', 7);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(7, 'Write Equations - Objective 1', 'Understand how to write equations in slope-intercept form.', 1),
+(7, 'Graph Equations - Objective 1', 'Learn to graph equations in slope-intercept form.', 2);
+
+-- Goal 4.8: Write and Graph Equations in Point-Slope Form
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (8, 4, 'Write and Graph Equations in Point-Slope Form', 'Learn to write and graph equations in point-slope form.', 8);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(8, 'Write Equations - Objective 1', 'Understand how to write equations in point-slope form.', 1),
+(8, 'Graph Equations - Objective 1', 'Learn to graph equations in point-slope form.', 2);
+
+-- Goal 4.9: Write and Graph Equations in Standard Form
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (9, 4, 'Write and Graph Equations in Standard Form', 'Learn to write and graph equations in standard form.', 9);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(9, 'Write Equations - Objective 1', 'Understand how to write equations in standard form.', 1),
+(9, 'Graph Equations - Objective 1', 'Learn to graph equations in standard form.', 2);
+
+-- Goal 4.10: Write Equations of Parallel lines
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (10, 4, 'Write Equations of Parallel Lines', 'Learn to write equations of parallel lines.', 10);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(10, 'Write Equations - Objective 1', 'Understand how to write equations of parallel lines.', 1),
+(10, 'Graph Equations - Objective 1', 'Learn to graph equations of parallel lines.', 2);
+
+-- Goal 4.11: Write Equations of Perpendicular lines
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (11, 4, 'Write Equations of Perpendicular Lines', 'Learn to write equations of perpendicular lines.', 11);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(11, 'Write Equations - Objective 1', 'Understand how to write equations of perpendicular lines.', 1),
+(11, 'Graph Equations - Objective 1', 'Learn to graph equations of perpendicular lines.', 2);
+
+-- Goal 4.12: Write and Graph Absolute Value Functions
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (12, 4, 'Write and Graph Absolute Value Functions', 'Learn to write and graph absolute value functions.', 12);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(12, 'Write Absolute Value Functions - Objective 1', 'Understand how to write absolute value functions.', 1),
+(12, 'Graph Absolute Value Functions - Objective 1', 'Learn to graph absolute value functions.', 2);
+
+-- Goal 4.13: Write Inverse Function equations
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (13, 4, 'Write Inverse Function Equations', 'Learn to write inverse function equations.', 13);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(13, 'Write Inverse Functions - Objective 1', 'Understand how to write inverse functions.', 1),
+(13, 'Graph Inverse Functions - Objective 1', 'Learn to graph inverse functions.', 2);
+
+-- Goal 4.14: Arithmetic Sequences
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (14, 4, 'Arithmetic Sequences', 'Learn about arithmetic sequences and how to find their terms.', 14);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(14, 'Arithmetic Sequences - Objective 1', 'Understand the concept of arithmetic sequences.', 1),
+(14, 'Arithmetic Sequences - Objective 2', 'Find the nth term of an arithmetic sequence.', 2);
+
+-- Goal 4.15: Scatter Plots and Line of Best Fit
+INSERT INTO Goal (id, topic_id, title, description, goal_order)
+VALUES (15, 4, 'Scatter Plots and Line of Best Fit', 'Learn to create scatter plots and find the line of best fit.', 15);
+
+INSERT INTO LearningObjective (goal_id, title, description, obj_order)
+VALUES 
+(15, 'Scatter Plots - Objective 1', 'Understand how to create scatter plots.', 1),
+(15, 'Line of Best Fit - Objective 1', 'Learn to find the line of best fit for a scatter plot.', 2);
+
+-- Topic 5: Systems of Equations and Inequalities
