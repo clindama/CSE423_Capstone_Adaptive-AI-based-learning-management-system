@@ -70,8 +70,8 @@ CREATE TABLE InstructionMethod (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
-    -- Students will be assigned a method type based on their learning style or choose one themself
-    method_type TEXT NOT NULL CHECK (method_type IN ('video', 'auditory', 'interactive'))
+    method_type TEXT NOT NULL CHECK (method_type IN ('general', 'interactive', 'reinforcement')),
+    method_keyword TEXT NOT NULL UNIQUE
 );
 
 -- Direct Instruction Content
