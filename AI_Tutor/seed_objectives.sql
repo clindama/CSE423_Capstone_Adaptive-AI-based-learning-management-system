@@ -1,5 +1,5 @@
 
--- Content for Topics 1-3 (Only the first 3 Goals and their Objectives)
+-- Content for Topics 1-3 (Only the first 2-3 Goals and their Objectives)
 -- =========================================================================
 -- Topic 1: Foundations for Algebra
 -- =========================================================================
