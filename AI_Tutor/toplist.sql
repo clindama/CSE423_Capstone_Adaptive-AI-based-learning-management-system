@@ -44,7 +44,7 @@ VALUES (
 (
     (SELECT id FROM Goal WHERE title = 'Combine Like Terms' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
     'Combine Like Terms - Objective 2',
-    'Understand how to simplify expressions.',
+    'Apply the distributive property to combine like terms.',
     2
 );
 
@@ -60,14 +60,14 @@ VALUES (
 INSERT INTO LearningObjective (goal_id, title, description, obj_order)
 VALUES (
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
-    'Properties - Objective 1',
+    'Properties of Real Numbers - Objective 1',
     'Recognize associative, commutative, and distributive properties.',
     1
 ),
 (
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
-    'Properties - Objective 2',
-    'Apply properties to simplify algebraic expressions.',
+    'Properties of Real Numbers - Objective 2',
+    'Recognize identity and inverse properties of addition and multiplication.',
     2
 );
 
@@ -256,7 +256,7 @@ VALUES
 (
     (SELECT id FROM Goal WHERE title = 'Solving One-Step Equations' AND topic_id = (SELECT id FROM Topic WHERE name = 'Equations')),
     'One-Step - Objective 2',
-    'Apply inverse operations to solve one-step equations.',
+    'Recognize common mistakes in solving one-step equations',
     2
 );
 
@@ -586,7 +586,7 @@ VALUES (
 (
     (SELECT id FROM Goal WHERE title = 'Properties of Sets' AND topic_id = (SELECT id FROM Topic WHERE name = 'Inequalities')),
     'Properties of Sets - Objective 2',
-    'Analyze the relationships between different sets.',
+    'How to apply set properties in problem-solving.',
     2
 );
 
@@ -603,13 +603,13 @@ INSERT INTO LearningObjective (goal_id, title, description, obj_order)
 VALUES (
     (SELECT id FROM Goal WHERE title = 'Write and Graph Inequalities' AND topic_id = (SELECT id FROM Topic WHERE name = 'Inequalities')),
     'Write Inequalities - Objective 1',
-    'Translate verbal statements into inequalities.',
+    'Understanding inequalities.',
     1
 ),
 (
     (SELECT id FROM Goal WHERE title = 'Write and Graph Inequalities' AND topic_id = (SELECT id FROM Topic WHERE name = 'Inequalities')),
-    'Graph Inequalities - Objective 1',
-    'Graph inequalities on a number line.',
+    'Graph Inequalities - Objective 2',
+    'Graphing inequalities on a number line.',
     2
 );
 

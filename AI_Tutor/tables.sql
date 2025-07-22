@@ -70,7 +70,7 @@ CREATE TABLE InstructionMethod (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
-    method_type TEXT NOT NULL CHECK (method_type IN ('general', 'interactive', 'reinforcement')),
+    method_type TEXT NOT NULL CHECK (method_type IN ('general', 'factual', 'strategic', 'procedural', 'rational')),
     method_keyword TEXT NOT NULL UNIQUE
 );
 
