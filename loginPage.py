@@ -1,6 +1,6 @@
-
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
 from login_subsystem import AuthService
 import sqlite3
 import random
@@ -14,6 +14,8 @@ def fetch_all_topics():
     topics = cursor.fetchall()
     conn.close()
     return topics
+
+
 
 def fetch_random_topic():
     conn = sqlite3.connect("learning_platform.db")
@@ -37,6 +39,41 @@ def fetch_goals_for_topic(topic_name):
     conn.close()
     return goals
 
+def fetch_topic_progress(username):
+    conn = sqlite3.connect("learning_platform.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM User WHERE username = ?", (username,))
+    user_id = cursor.fetchone()[0]
+
+    cursor.execute("""
+        SELECT Topic.name, TopicProgress.progress
+        FROM Topic
+        LEFT JOIN TopicProgress ON Topic.id = TopicProgress.topic_id
+        AND TopicProgress.user_id = ?
+    """, (user_id,))
+    progress_data = cursor.fetchall()
+    conn.close()
+    return progress_data
+
+def mark_topic_complete(username, topic_name):
+    conn = sqlite3.connect("learning_platform.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id FROM User WHERE username = ?", (username,))
+    user_id = cursor.fetchone()[0]
+
+    cursor.execute("SELECT id FROM Topic WHERE name = ?", (topic_name,))
+    topic_id = cursor.fetchone()[0]
+
+    cursor.execute("""
+        INSERT INTO TopicProgress (user_id, topic_id, progress)
+        VALUES (?, ?, 100)
+        ON CONFLICT(user_id, topic_id) DO UPDATE SET progress = 100
+    """, (user_id, topic_id))
+
+    conn.commit()
+    conn.close()
+
 def launch_main_app(username):
     main_app = tk.Tk()
     main_app.title("Main Dashboard")
@@ -44,6 +81,24 @@ def launch_main_app(username):
 
     welcome_label = tk.Label(main_app, text=f"Welcome, {username}!", font=("Helvetica", 16))
     welcome_label.pack(pady=20)
+
+    # Show Topic Progress
+    progress_frame = tk.Frame(main_app)
+    progress_frame.pack(pady=10)
+
+    tk.Label(progress_frame, text="Your Topic Progress:", font=("Helvetica", 12, "underline")).pack()
+
+    progress_data = fetch_topic_progress(username)
+    for topic, progress in progress_data:
+        progress = progress if progress is not None else 0
+        tk.Label(progress_frame, text=f"{topic}: {progress}%", font=("Helvetica", 10)).pack(anchor="w", padx=10)
+
+    def show_completed_topics():
+        completed = [topic for topic, progress in progress_data if progress == 100]
+        if completed:
+            messagebox.showinfo("Completed Topics", "\n".join(completed))
+        else:
+            messagebox.showinfo("Completed Topics", "No topics completed yet.")
 
     def handle_student_pick():
         for widget in main_app.winfo_children():
@@ -68,13 +123,14 @@ def launch_main_app(username):
             messagebox.showinfo("No Topics", "No topics available to choose from.")
 
     # Buttons
-    student_pick_button = tk.Button(main_app, text="Student Pick", font=("Helvetica", 14), width=20, height=2,
-                                    command=handle_student_pick)
-    student_pick_button.pack(pady=10)
+    tk.Button(main_app, text="Student Pick", font=("Helvetica", 14), width=20, height=2,
+              command=handle_student_pick).pack(pady=10)
 
-    computer_pick_button = tk.Button(main_app, text="Computer Pick", font=("Helvetica", 14), width=20, height=2,
-                                     command=handle_computer_pick)
-    computer_pick_button.pack(pady=10)
+    tk.Button(main_app, text="Computer Pick", font=("Helvetica", 14), width=20, height=2,
+              command=handle_computer_pick).pack(pady=10)
+
+    tk.Button(main_app, text="View Completed Topics", font=("Helvetica", 12),
+              command=show_completed_topics).pack(pady=5)
 
     main_app.mainloop()
 
@@ -105,7 +161,9 @@ def show_goals_for_topic(window, username, topic_name):
             goal_index[0] += 1
             update_goal()
         else:
-            messagebox.showinfo("Done", "You’ve reached the last goal.")
+            mark_topic_complete(username, topic_name)
+            messagebox.showinfo("Done", f"You’ve reached the last goal for '{topic_name}'. Topic marked as complete!")
+            go_back()
 
     def go_back():
         window.destroy()
@@ -116,7 +174,7 @@ def show_goals_for_topic(window, username, topic_name):
     tk.Button(window, text="Next", command=next_goal).pack(pady=10)
     tk.Button(window, text="Back to Topics", command=go_back).pack(pady=5)
 
-#Login login using login_subsystem
+# Login logic using login_subsystem
 def handle_login():
     username = username_entry.get()
     password = password_entry.get()
@@ -127,33 +185,28 @@ def handle_login():
     else:
         messagebox.showerror("Login Failed", "Invalid username or password.")
 
-#Regristration popup
+# Registration popup
 def show_register_window():
     reg_window = tk.Toplevel(root)
     reg_window.title("Register New Account")
     reg_window.geometry("250x225")
 
-    # Username
     tk.Label(reg_window, text="Username:").grid(row=0, column=0, padx=10, pady=5)
     new_username_entry = tk.Entry(reg_window)
     new_username_entry.grid(row=0, column=1)
 
-    # Password
     tk.Label(reg_window, text="Password:").grid(row=1, column=0, padx=10, pady=5)
     new_password_entry = tk.Entry(reg_window, show="*")
     new_password_entry.grid(row=1, column=1)
 
-    # First name
     tk.Label(reg_window, text="First Name:").grid(row=2, column=0, padx=10, pady=5)
     new_first_name_entry = tk.Entry(reg_window)
     new_first_name_entry.grid(row=2, column=1)
 
-    # Last name
     tk.Label(reg_window, text="Last Name:").grid(row=3, column=0, padx=10, pady=5)
     new_last_name_entry = tk.Entry(reg_window)
     new_last_name_entry.grid(row=3, column=1)
 
-    # Email
     tk.Label(reg_window, text="Email:").grid(row=4, column=0, padx=10, pady=5)
     new_email_entry = tk.Entry(reg_window)
     new_email_entry.grid(row=4, column=1)
