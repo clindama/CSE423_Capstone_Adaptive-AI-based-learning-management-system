@@ -124,14 +124,16 @@ CREATE TABLE WalkthroughCompletion (
 -- Stores all problems that can be assigned to users
 CREATE TABLE Problem (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    goal_id INTEGER NOT NULL,               
+    topic_id INTEGER NOT NULL,
+    goal_id INTEGER NOT NULL,
+    objective_id INTEGER NOT NULL,
     prompt TEXT NOT NULL,
     correct_answer TEXT NOT NULL,
-    -- Optional, but may be useful
-    difficulty INTEGER DEFAULT 1,
-    -- Categorigizes based on learning objective, difficulty, type, etc.
+    category TEXT NOT NULL CHECK (category IN ('factual', 'procedural', 'strategic', 'rational')),
     tags TEXT,
-    FOREIGN KEY (goal_id) REFERENCES Goal(id)
+    FOREIGN KEY (topic_id) REFERENCES Topic(id),
+    FOREIGN KEY (goal_id) REFERENCES Goal(id),
+    FOREIGN KEY (objective_id) REFERENCES LearningObjective(id)
 );
 
 -- Practice Problems Table
