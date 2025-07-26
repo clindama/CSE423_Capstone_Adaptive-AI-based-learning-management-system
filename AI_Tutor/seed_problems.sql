@@ -30,7 +30,7 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Expressions'),
     (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Simplify the expression: 3x + 5 + 2x.',
+    'Combine the like terms: 3x + 5 + 2x.',
     '5x + 5',
     'procedural',
     'simplify, combine like terms'
@@ -51,8 +51,8 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Expressions'),
     (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'You see the expression 6(x - 2) + 3x. What is the most efficient first step to simplify it?',
-    'Use the distributive property on 6(x - 2)',
+    'Simplify the expression 6(x - 2) + 3x.',
+    '9x - 12',
     'strategic',
     'strategy, order of operations'
 ),
@@ -60,8 +60,8 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Expressions'),
     (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Which of the following should you simplify first in the expression 2(x + 3) + 4x - 1? A) Combine like terms, B) Distribute, C) Subtract 1',
-    'B) Distribute',
+    'Simplify 3(x + 3) + 4x - 1?',
+    '7x + 8',
     'strategic',
     'simplify, strategy'
 );
@@ -251,8 +251,8 @@ VALUES (
     (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
     (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
     'You are given the expression: 4x + 2y - 3x + y - 6.' || CHAR(10) ||
-    'Describe the process you would use to simplify it.',
-    'Group like terms (4x and -3x, 2y and y), combine them, and bring down the constant. Final: x + 3y - 6',
+    'Simplify it.',
+    'x + 3y - 6',
     'strategic',
     'simplification, process'
 );
@@ -263,11 +263,10 @@ VALUES (
     (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
     (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
     'You need to simplify this expression for a final answer:' || CHAR(10) ||
-    '6m - 4 + 2m - 3m + 10.' || CHAR(10) ||
-    'What strategy would help avoid mistakes?',
-    'Group variables first (6m + 2m - 3m), then constants (-4 + 10), then combine their results: 5m + 6.',
+    '6m - 4 + 2m - 3m + 10.',
+    '4m + 6',
     'strategic',
-    'simplify, full strategy'
+    'simplify, combining like terms'
 );
 
 -- Rationale
@@ -323,10 +322,9 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
   (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
-  'Explain step-by-step how to simplify the expression: 4a + 3b - 2a + 7b.',
-  '1) Identify like terms: 4a and -2a; 3b and 7b. 2) Combine coefficients: (4 - 2)a = 2a; (3 + 7)b = 10b. 3) Write simplified expression: 2a + 10b.',
-  'procedural',
-  'simplification, steps, combining like terms'
+  'Identify like terms in the expression: 4a + 3b - 2a + 7b.',
+  '4a and -2a; 3b and 7b. 2)',
+  'simplification, combining like terms'
 );
 
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category, tags)
@@ -334,10 +332,9 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
   (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
-  'How do you simplify the expression 6x - 4 + 2x + 9?',
-  'Combine like terms: 6x + 2x = 8x; -4 + 9 = 5. Simplified expression is 8x + 5.',
-  'procedural',
-  'combining like terms, simplification'
+  'Identify like terms in the expression 6x - 4 + 2x + 9?',
+  '6x and 2x; -4 and 9.',
+  'simplification, combining like terms'
 );
 
 -- Strategic
@@ -346,10 +343,10 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
   (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
-  'Given the expression 5m + 3n - 2m + 7, describe your strategy to simplify it efficiently.',
-  'First, group like terms: 5m and -2m; constants 7 and the term 3n stays as is. Then combine coefficients for like terms: (5 - 2)m = 3m. Final expression: 3m + 3n + 7.',
+  'Given the expression 5m + 3n - 2m + 7, simplify it.',
+  '3m + 3n + 7.',
   'strategic',
-  'simplification, grouping, strategy'
+  'simplification, grouping'
 );
 
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category, tags)
@@ -357,8 +354,8 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
   (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
-  'What approach would you use to simplify an expression with multiple variables and constants, like 2x + 3y - x + 5 - 2y + 7?',
-  'Group all like terms by variable: (2x - x), (3y - 2y), and constants (5 + 7). Combine to get x + y + 12.',
+  'Simplify an expression with multiple variables and constants, like 2x + 3y - x + 5 - 2y + 7?',
+  'x + y + 12.',
   'strategic',
   'complex expressions, grouping, approach'
 );
@@ -447,8 +444,8 @@ VALUES (
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
     'You are given an expression: 3(x + 4) + 2x.' || CHAR(10) ||
-    'Which properties would help you simplify it efficiently?',
-    'Distributive property to expand 3(x + 4), then combine like terms using addition properties.',
+    'Simplify it using the distributive and addition properties.',
+    '5x + 12',
     'strategic',
     'distributive, simplify, multi-step'
 );
@@ -458,9 +455,8 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
-    'You want to simplify: (x + 2) + (3x + 5).' || CHAR(10) ||
-    'Explain which property lets you rearrange and group terms.',
-    'Use the associative and commutative properties of addition to group x with 3x and 2 with 5.',
+    'You want to simplify: (x + 2) + (3x + 5).',
+    '4x + 7',
     'strategic',
     'associative, commutative, expression strategy'
 );
@@ -518,19 +514,20 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
   (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
-  'Explain step-by-step how to simplify 3(x + 4) using the distributive property.',
-  'Multiply 3 by x to get 3x, multiply 3 by 4 to get 12, then write simplified expression as 3x + 12.',
+  'Simplify 3(x + 4) using the distributive property.',
+  '3x + 12.',
   'procedural',
   'distributive property, simplification, steps'
 );
 
+-- ================= Good for testing multiple answer formats =================
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category, tags)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
   (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
-  'Describe how you would use the associative property to simplify the expression (2 + 3) + 4.',
-  'Group 2 and 3 first to get 5, then add 4 to get 9. The associative property allows changing grouping without changing result.',
+  'Use the associative property to simplify the expression (2+ 7x) + 3x.',
+  '(7x + 3x) = 2 + 10x = 10x + 2',
   'procedural',
   'associative property, simplification, grouping'
 );
@@ -552,8 +549,8 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
   (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
-  'Outline a strategy to simplify the expression 2(x + 3) + 4x.',
-  'First, use distributive property on 2(x + 3) to get 2x + 6, then combine like terms 2x + 4x = 6x, resulting in 6x + 6.',
+  'Simplify the expression 2(x + 3) + 4x.',
+  '6x + 6.',
   'strategic',
   'simplification strategy, distributive property, combining like terms'
 );
@@ -580,3 +577,4 @@ VALUES (
   'rational',
   'simplification, reasoning, distributive property'
 );
+
