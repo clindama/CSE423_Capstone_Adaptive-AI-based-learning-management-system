@@ -258,11 +258,11 @@ VALUES (
 -- General Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
-    'Real numbers have several important properties that are used in algebraic operations.' || CHAR(10) ||
-    'These properties include the commutative, associative, and distributive properties, which govern how numbers can be combined and manipulated.' || CHAR(10) ||
-    'Understanding these properties is crucial for simplifying expressions and solving equations.'
+  (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'The properties of real numbers describe predictable behaviors of addition and multiplication.' || CHAR(10) ||
+  'These include the commutative property (order doesn''t matter), the associative property (grouping doesn''t matter), and the distributive property (multiplying over a sum or difference).' || CHAR(10) ||
+  'Knowing these rules helps in simplifying expressions, solving equations, and recognizing mathematical patterns across different problems.'
 );
 
 -- Factual Knowledge
@@ -280,48 +280,685 @@ VALUES (
 -- Procedural Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
-    'Understanding the properties of real numbers involves recognizing how they apply to different operations.' || CHAR(10) ||
-    'For example, the commutative property allows you to rearrange terms in an expression without changing its value.' || CHAR(10) ||
-    'The associative property lets you regroup terms, which can simplify calculations.' || CHAR(10) ||
-    'The distributive property is particularly useful for expanding expressions and combining like terms.' || CHAR(10) ||
-    'Applying these properties correctly can lead to more efficient problem-solving and clearer algebraic expressions.'
+  (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Simplifying algebraic expressions becomes more efficient when you use properties of real numbers deliberately.' || CHAR(10) ||
+  'For example, recognizing when the distributive property can help eliminate parentheses or when rearranging terms using the commutative property makes like terms easier to spot.' || CHAR(10) ||
+  'These properties are tools—not just rules—and selecting the right one depends on how the expression is structured.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'Rather than memorizing properties in isolation, focus on how each one helps you manipulate expressions more flexibly.' || CHAR(10) ||
+  'For example, the commutative property is most helpful when you''re trying to group like terms together, while the distributive property is key when removing parentheses efficiently.' || CHAR(10) ||
+  'Strategically, your goal is to recognize which property simplifies your task—not just to identify the property, but to see its purpose in context.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Mathematical properties exist to guarantee consistency, regardless of how operations are arranged.' || CHAR(10) ||
+  'Understanding these properties is not about rules for their own sake, it''s about why we can safely rearrange or regroup without changing value.' || CHAR(10) ||
+  'This reliability underpins everything from simple arithmetic to advanced algebra, making these properties fundamental to mathematical reasoning.'
 );
 
 -- Properties of Real Numbers - Objective 2: "Recognize identity and inverse properties of addition and multiplication."
 -- General Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
-    'The identity and inverse properties are key concepts in algebra that help simplify expressions and solve equations.' || CHAR(10) ||
-    'The identity property states that adding zero or multiplying by one does not change a number (e.g., a + 0 = a, a * 1 = a).' || CHAR(10) ||
-    'The inverse property involves adding the opposite (negative) or multiplying by the reciprocal to obtain the identity element (e.g., a + (-a) = 0, a * (1/a) = 1).'
+  (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Simplifying algebraic expressions becomes more efficient when you use properties of real numbers deliberately.' || CHAR(10) ||
+  'For example, recognizing when the distributive property can help eliminate parentheses or when rearranging terms using the commutative property makes like terms easier to spot.' || CHAR(10) ||
+  'These properties are tools—not just rules—and selecting the right one depends on how the expression is structured.'
 );
 
 -- Factual Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
-    '**Identity property:** Adding zero or multiplying by one does not change a number (e.g., a + 0 = a, a * 1 = a).' || CHAR(10) ||
-    '**Inverse property:** Adding the opposite (negative) or multiplying by the reciprocal yields the identity element (e.g., a + (-a) = 0, a * (1/a) = 1).'
+  (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
+  'Simplifying expressions often uses:' || CHAR(10) ||
+  '- The **commutative property** to reorder terms for easier grouping.' || CHAR(10) ||
+  '- The **associative property** to regroup numbers or variables.' || CHAR(10) ||
+  '- The **distributive property** to eliminate parentheses and combine like terms.'
 );
 
 -- Procedural Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
-    'Applying the identity and inverse properties involves recognizing when to use them in algebraic expressions.' || CHAR(10) ||
-    'For example, when simplifying an expression, you can add zero to a term without changing its value.' || CHAR(10) ||
-    'Similarly, multiplying by one keeps the term unchanged.' || CHAR(10) ||
-    'Using the inverse property allows you to eliminate terms by adding their opposites or multiplying by their reciprocals.' || CHAR(10) ||
-    'These properties are essential for solving equations and simplifying algebraic expressions effectively.'
+  (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To simplify using the distributive property: Identify any multiplication over parentheses and distribute the multiplier to each term inside.' || CHAR(10) ||
+  'After removing parentheses, use the commutative and associative properties to reorder and regroup like terms, which can then be combined.' || CHAR(10) ||
+  'This step-by-step approach ensures clarity, especially in more complex expressions.'
 );
 
--- Goal 1.4: Solving Equations
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'When simplifying, pause to decide *which* property helps you gain the most clarity.' || CHAR(10) ||
+  'You might begin by distributing to remove parentheses, then rearrange terms using the commutative property, followed by regrouping via the associative property.' || CHAR(10) ||
+  'This flexible sequencing is key: not every problem follows the same path, and skilled simplification means choosing the most efficient property at each step based on structure.' || CHAR(10) ||
+  'Think of these properties as tools in a toolkit. You select and apply them strategically to simplify without introducing errors.'
+);
+
+-- Rational Knowledge 
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'These properties exist because arithmetic and algebra need consistent behavior regardless of how numbers are grouped or ordered.' || CHAR(10) ||
+  'They ensure that expressions can be simplified or rearranged without changing their value.' || CHAR(10) ||
+  'Without these properties, basic operations like distributing a value across a sum or swapping the order of multiplication wouldn''t be reliable—making algebra much harder to work with.'
+);
+
+-- Goal 1.4: Exponents and Order of Operations
+-- Exponents and Order of Operations - Objective 1
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+    'Order of operations ensures consistency in solving expressions. ' ||
+    'PEMDAS stands for Parentheses, Exponents, Multiplication and Division, Addition and Subtraction. ' || CHAR(10) ||
+    'This order dictates how complex expressions are approached and guarantees uniform results regardless of who is solving them.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'recap'),
+    'PEMDAS is an acronym used to remember the order of operations: ' ||
+    'Parentheses, Exponents, Multiplication, Division, Addition, Subtraction. ' || CHAR(10) ||
+    'Multiplication and division are processed from left to right, as are addition and subtraction.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+    'To apply the order of operations, begin by evaluating expressions within parentheses, ' ||
+    'then apply any exponents. Next, handle all multiplication and division from left to right, ' ||
+    'and finally perform addition and subtraction from left to right.'
+);
+
+-- Strategic knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+    'When facing expressions that involve nested groupings, exponents, and multiple operations, ' ||
+    'scan the entire expression first to identify dependencies. Consider rewriting parts using simpler structures ' ||
+    'or grouping logically related terms to avoid misapplication of operations. ' || CHAR(10) ||
+    'Strategically balancing steps avoids common pitfalls like doing addition before division.'
+);
+
+-- Rational knoledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+    'Following a universal order of operations prevents ambiguity and ensures fairness in mathematics. ' ||
+    'It allows individuals and systems to agree on one interpretation and ensures automated systems produce reliable results.'
+);
+
+-- Exponents and Order of Operations - Objective 2
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+    'Exponent rules are shortcuts that simplify repeated multiplication. ' ||
+    'They include ways to combine powers, distribute them over multiplication or division, ' ||
+    'and interpret expressions with zero or negative exponents.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'recap'),
+    'Important exponent rules include the product rule (add exponents), ' ||
+    'power of a power rule (multiply exponents), and the zero exponent rule (any base to the zero power equals one).'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+    'To apply the product rule, ensure the bases are the same and then add their exponents. ' ||
+    'Use the power of a power rule when an exponent is raised to another exponent. ' ||
+    'Apply each rule based on the structure of the expression.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+    'Begin by identifying which rule applies to each portion of the expression. ' ||
+    'If the expression involves multiple terms and operations, isolate power components and simplify them in stages. ' ||
+    'Group terms with common bases and delay simplification until all like terms have been addressed. ' || CHAR(10) ||
+    'This modular approach allows better control and fewer mistakes when applying multiple exponent rules together.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+    'Exponent rules provide efficient alternatives to repeated multiplication, ' ||
+    'especially as expressions become more complex. ' ||
+    'These rules reduce cognitive load and allow for generalizations that apply across algebra and higher mathematics.'
+);
+
+-- Goal 1.5: Absolute Value
+-- Absolute Value - Objective 1
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Absolute value represents the distance of a number from zero on the number line, regardless of direction. ' || CHAR(10) ||
+  'It is always a non-negative value because distance cannot be negative. ' || CHAR(10) ||
+  'This concept helps students understand how numbers relate to position and magnitude rather than just their sign.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'The **absolute value** of a real number x, denoted |x|, is the distance between x and zero on the number line. ' || CHAR(10) ||
+  'Formally, |x| = x if x is greater than or equal to zero, and |x| = -x if x is less than zero.' || CHAR(10) ||
+  'Absolute value ignores the sign of the number and focuses on magnitude.' || CHAR(10) ||
+  'This makes it useful in many areas such as measuring distance, error tolerance, and solving equations involving distances.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To find the absolute value of a number, first identify whether it is positive or negative. ' || CHAR(10) ||
+  'If the number is positive or zero, its absolute value is the number itself. ' || CHAR(10) ||
+  'If the number is negative, the absolute value is its opposite (change the sign to positive).'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'When interpreting absolute value in problems, consider it as a measure of distance on the number line rather than a typical arithmetic operation. ' || CHAR(10) ||
+  'This perspective helps in solving equations or inequalities involving absolute values by framing the problem as finding all points a certain distance from zero.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Absolute value reflects the fundamental idea of distance, which by nature cannot be negative. ' || CHAR(10) ||
+  'Understanding absolute value prepares students for broader mathematical concepts such as metric spaces and vector norms, where magnitude is separated from direction. ' || CHAR(10) ||
+  'It reinforces that mathematical operations can represent real-world measurements beyond simple calculations.'
+);
+
+-- Absolute Value - Objective 2
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Evaluating absolute value expressions means applying the definition of absolute value to calculate the distance from zero. ' || CHAR(10) ||
+  'This includes recognizing when to change the sign of negative numbers and understanding the results in the context of the problem.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'When evaluating |x|, if x is positive or zero, the result is x itself. ' || CHAR(10) ||
+  'If x is negative, the result is -x, which is positive. ' || CHAR(10) ||
+  'Absolute value expressions can also involve variables, requiring evaluation after substituting numerical values.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To evaluate an absolute value expression, first simplify inside the absolute value symbols if necessary. ' || CHAR(10) ||
+  'Then determine the sign of the result and apply the absolute value definition accordingly, ' || CHAR(10) ||
+  'ensuring the final answer is always non-negative.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'When evaluating expressions involving absolute values, analyze the structure to determine if multiple absolute values interact. ' || CHAR(10) ||
+  'Plan to simplify each absolute value component individually before combining results, especially in more complex algebraic expressions.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Evaluating absolute value expressions requires an understanding of how absolute value reflects distance and magnitude, ' || CHAR(10) ||
+  'not just numerical value. ' || CHAR(10) ||
+  'This conceptual understanding helps you to correctly interpret results in real-world contexts such as error measurement and distance comparisons.'
+);
+
+-- Goal 1.6 Simplify Expressions
+-- Simplify Expresions - Objective 1
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Simplifying expressions involves using arithmetic and algebraic properties such as the associative, commutative, and distributive properties. ' || CHAR(10) ||
+  'These properties allow rearranging and grouping terms to make expressions easier to work with and understand. ' || CHAR(10) ||
+  'Recognizing when and how to apply these properties is key to effective simplification.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'The **associative property** states that how numbers are grouped does not affect their sum or product.' || CHAR(10) ||
+  'The **commutative property** means numbers can be added or multiplied in any order.' || CHAR(10) ||
+  'The **distributive property** allows multiplication over addition or subtraction to be rewritten as a sum or difference of products.' || CHAR(10) ||
+  'These properties underpin many simplification techniques in algebra.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To simplify an expression, identify parts where properties of operations apply. ' || CHAR(10) ||
+  'Group like terms and rearrange terms using commutative or associative properties. ' || CHAR(10) ||
+  'Apply distributive property to remove parentheses and combine terms where possible.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'Effective simplification involves planning the order in which properties are applied. ' || CHAR(10) ||
+  'Consider simplifying inside parentheses first, then combining like terms, and finally using distributive or associative properties to rewrite the expression efficiently. ' || CHAR(10) ||
+  'Strategically approaching simplification helps prevent errors and reduces the expression to its simplest form.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Simplifying expressions is fundamental to algebra as it transforms complex problems into manageable ones. ' || CHAR(10) ||
+  'Understanding the properties that justify simplification ensures students grasp not just how but why expressions are equivalent before and after simplification.'
+);
+
+-- Simplify Expressions - Objective 2
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Solving complex expressions requires integrating multiple simplification techniques, careful order of operations, and accurate application of algebraic properties. ' || CHAR(10) ||
+  'Complex expressions often include nested operations, exponents, and multiple terms that must be handled systematically.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'Complex expressions may contain multiple layers such as nested parentheses, exponents, multiplication, division, addition, and subtraction. ' || CHAR(10) ||
+  'Accurate simplification depends on the correct order of operations and application of algebraic properties at each step.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'Approach complex expressions by simplifying innermost parentheses first. ' || CHAR(10) ||
+  'Next, apply exponent rules and multiplication or division, then combine like terms. ' || CHAR(10) ||
+  'Maintain careful tracking of operations to ensure each step preserves equivalence.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'Tackle complex expressions by decomposing them into smaller, simpler components. ' || CHAR(10) ||
+  'Identify sequences where properties and operations interact, and plan simplification in stages. ' || CHAR(10) ||
+  'This layered strategy reduces errors and helps manage complexity effectively.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Developing skill in simplifying complex expressions builds confidence for higher-level mathematics. ' || CHAR(10) ||
+  'It promotes understanding of algebraic structure and the logical flow of operations, essential for problem solving across math disciplines.'
+);
+
+-- Goal 1.7 Evaluate Expressions
+-- Evalualte Expressions - Objective 1
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Evaluating algebraic expressions involves replacing variables with specific numerical values. ' || CHAR(10) ||
+  'This process transforms abstract expressions into concrete numbers, allowing calculation of their value. ' || CHAR(10) ||
+  'Understanding the substitution process lays the foundation for solving equations and interpreting formulas.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'Substitution is the process of replacing each variable in an expression with a given numerical value. ' || CHAR(10) ||
+  'The expression is then simplified by performing arithmetic operations on the substituted values. ' || CHAR(10) ||
+  'Correct substitution requires careful attention to each variable and its corresponding value to avoid errors.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To substitute values, identify each variable in the expression. ' || CHAR(10) ||
+  'Replace the variable with the assigned number. ' || CHAR(10) ||
+  'Perform arithmetic operations following standard rules to simplify the expression to a single numerical result.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'When evaluating expressions with multiple variables and operations, consider substituting all variables first, ' || CHAR(10) ||
+  'then simplify systematically to reduce mistakes. ' || CHAR(10) ||
+  'Plan the evaluation to follow the order of operations strictly after substitution.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Substitution connects abstract algebraic concepts to concrete numeric values, ' || CHAR(10) ||
+  'allowing students to interpret and evaluate mathematical models and formulas practically. ' || CHAR(10) ||
+  'This understanding is essential for problem solving in science, engineering, and real-world applications.'
+);
+
+-- Evaluate Expressions - Objective 2
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Order of operations dictates the sequence in which parts of an expression are evaluated to ensure consistent and correct results. ' || CHAR(10) ||
+  'It is essential when evaluating expressions that contain multiple operations to follow this hierarchy precisely.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'The standard order of operations is remembered by PEMDAS: Parentheses, Exponents, Multiplication and Division, Addition and Subtraction. ' || CHAR(10) ||
+  'Operations inside parentheses are evaluated first, followed by exponents, then multiplication and division (left to right), and finally addition and subtraction (left to right).'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To evaluate an expression accurately, first perform calculations inside parentheses. ' || CHAR(10) ||
+  'Next, apply exponentiation, then multiplication and division from left to right. ' || CHAR(10) ||
+  'Finally, carry out addition and subtraction from left to right to simplify the expression completely.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'Before calculating, analyze the expression to identify nested operations and prioritize calculations accordingly. ' || CHAR(10) ||
+  'Breaking down the expression mentally or on paper helps prevent misapplication of the order of operations, especially in complex expressions involving several operation types.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Strict adherence to the order of operations is crucial because it provides a universal standard ensuring all students and mathematicians arrive at the same result for the same expression. ' || CHAR(10) ||
+  'This consistency is foundational to clear mathematical communication and problem solving.'
+);
+
+-- Goal 1.8 Write Expressions from Verbal
+-- Write Expressions from Verbal - Objective 1
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Translating verbal phrases into algebraic expressions requires understanding common keywords that represent operations and relationships. ' || CHAR(10) ||
+  'This skill enables students to convert real-world descriptions into mathematical language for analysis and problem solving.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'Common keywords include: "sum" meaning addition, "difference" meaning subtraction, "product" meaning multiplication, and "quotient" meaning division. ' || CHAR(10) ||
+  '"More than," "increased by," and "added to" usually indicate addition, while "less than," "decreased by," and "subtracted from" indicate subtraction. ' || CHAR(10) ||
+  'Recognizing these keywords helps accurately translate phrases into symbols like +, -, *, and /.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To translate verbal phrases, first identify the keywords representing mathematical operations. ' || CHAR(10) ||
+  'Next, assign variables to unknown quantities mentioned in the phrase. ' || CHAR(10) ||
+  'Finally, write the corresponding algebraic expression using symbols that match the keywords.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'When translating more complex verbal statements, break down the sentence into smaller parts, identifying operations in sequence. ' || CHAR(10) ||
+  'Analyze the relationship between quantities and how each part connects before forming the complete expression.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Translating verbal phrases to algebraic expressions builds a bridge between everyday language and mathematical reasoning. ' || CHAR(10) ||
+  'This process improves problem comprehension and prepares students for solving algebraic problems based on real-world scenarios.'
+);
+
+-- Write Expressions from Verbal - Objective 2
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Multi-step verbal scenarios involve several operations and relationships that must be translated carefully into algebraic expressions. ' || CHAR(10) ||
+  'Understanding the sequence and connection between parts is essential for accurate expression construction.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'Multi-step expressions combine multiple operations such as addition, subtraction, multiplication, and division, often with variables representing unknown quantities. ' || CHAR(10) ||
+  'Proper interpretation requires identifying each operation and its position within the scenario.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To construct expressions from multi-step scenarios, begin by breaking the problem into parts. ' || CHAR(10) ||
+  'Translate each part into an algebraic expression using variables and operations. ' || CHAR(10) ||
+  'Then, combine these parts according to the relationships described to form the full expression.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'Approach multi-step translations by planning the order of operations represented in the scenario. ' || CHAR(10) ||
+  'Consider grouping related operations with parentheses to clarify structure and ensure correct interpretation.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Mastering multi-step translation sharpens analytical skills and helps students to interpret and solve complex real-world problems using algebraic methods. ' || CHAR(10) ||
+  'It deepens understanding of how mathematical expressions model relationships between quantities.'
+);
+
+-- Goal 1.9: Intro to Equations
+-- Intro to Equations - Objective 1
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'An equation is a mathematical statement that asserts the equality of two expressions by using an equals sign (=). ' || CHAR(10) ||
+  'Solving an equation means finding the value(s) of the variable(s) that make the equation true. ' || CHAR(10) ||
+  'Simple equations typically involve one variable and straightforward operations.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'An **equation** is a statement that two expressions are equal, using the symbol "=". ' || CHAR(10) ||
+  'A **variable** is a symbol representing an unknown value to be found. ' || CHAR(10) ||
+  'The goal of solving is to isolate the variable on one side of the equation to determine its value.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To solve a simple equation, perform operations that isolate the variable step by step. ' || CHAR(10) ||
+  'Use inverse operations such as addition/subtraction or multiplication/division to both sides of the equation. ' || CHAR(10) ||
+  'Maintain equality by performing the same operation on both sides until the variable is alone.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'When solving equations, plan your approach by identifying the simplest inverse operations first. ' || CHAR(10) ||
+  'Consider the order of operations in reverse to systematically undo operations applied to the variable. ' || CHAR(10) ||
+  'Check your solution by substituting it back into the original equation.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Solving equations is fundamental because it allows us to find unknown quantities and understand relationships expressed mathematically. ' || CHAR(10) ||
+  'The process builds logical thinking by balancing both sides of an equation to maintain equality.'
+);
+
+-- Intro to Equations - Objective 2
+-- General Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'More complex equations may involve multiple steps, variables on both sides, parentheses, or requiring the use of distributive property. ' || CHAR(10) ||
+  'Solving these requires applying several algebraic techniques in combination.'
+);
+
+-- Factual Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  'Complex equations might include expressions on both sides of the equals sign and require simplification before isolating the variable. ' || CHAR(10) ||
+  'Use of properties such as the distributive property is often necessary to remove parentheses and combine like terms.'
+);
+
+-- Procedural Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+  'To solve complex equations, first simplify each side by applying distributive property and combining like terms. ' || CHAR(10) ||
+  'Next, collect variable terms on one side and constants on the other by adding or subtracting both sides accordingly. ' || CHAR(10) ||
+  'Finally, isolate the variable by performing inverse operations.'
+);
+
+-- Strategic Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'Develop a plan to simplify and reorganize the equation stepwise: ' || CHAR(10) ||
+  'Start with removing parentheses, then combine like terms, next move variables and constants to separate sides, and lastly isolate the variable. ' || CHAR(10) ||
+  'Review each step carefully to avoid mistakes and verify solutions at the end.'
+);
+
+-- Rational Knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Mastering complex equations helps students handle real-world problems where relationships between quantities are not simple. ' || CHAR(10) ||
+  'Understanding the logic behind each step strengthens problem-solving skills and algebraic thinking.'
+);
+
+-- ************************************************************************* - End of Topic 1
 
 -- =========================================================================
 -- Topic 2: Equations
