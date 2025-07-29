@@ -12,10 +12,11 @@ INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
     (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
-    'An algebraic expression combines variables, constants, and arithmetic operations (such as addition, subtraction, multiplication, and division) to represent quantities or relationships.' || CHAR(10) ||
-    'Unlike equations, expressions do not have an equals sign.' || CHAR(10) ||
-    'Understanding expressions is foundational for algebra because it enables simplification, evaluation, and preparation for solving equations.' || CHAR(10) ||
-    'Manipulating expressions allows us to rewrite them in simpler or equivalent forms, making complex problems easier to solve.'
+    'Expressions are foundational in algebra and serve as the building blocks for more complex mathematical reasoning.' || CHAR(10) ||
+    'They consist of numbers, variables, and operators arranged to represent relationships or quantities without using an equals sign.' || CHAR(10) ||
+    'Expressions can range from a single term to combinations of many terms connected by addition or subtraction.' || CHAR(10) ||
+    'Mastery of expressions enables students to simplify, transform, and interpret mathematical relationships.' || CHAR(10) ||
+    'To manipulate expressions effectively, one must understand how terms interact, when terms are considered alike, and how properties of real numbers—such as the distributive property—can be applied to simplify expressions or reformat them for problem solving.'
 );
 
 -- Factual Knowledge
@@ -23,15 +24,13 @@ INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
     (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
-    '**Expression:** A mathematical phrase made up of numbers, variables, and operators but without an equals sign.' || CHAR(10) ||
-    '**Variable:** A symbol, often a letter, that represents an unknown or changeable quantity.' || CHAR(10) ||
-    '**Coefficient:** The numerical factor multiplying a variable.' || CHAR(10) ||
-    '**Constant:** A fixed number that does not change.' || CHAR(10) ||
-    '**Term:** A single number, variable, or the product of numbers and variables.' || CHAR(10) ||
-    '**Operator:** Symbols that indicate mathematical operations (e.g., +, -, *, /).' || CHAR(10) ||
-    CHAR(10) ||
-    'Expressions can be classified by the number of terms they contain, such as monomials (one term), binomials (two terms), and polynomials (many terms).' || CHAR(10) ||
-    'Manipulating expressions requires knowledge of arithmetic rules and properties such as the distributive property and combining like terms.'
+    '**Expression**: A mathematical phrase composed of numbers, variables, and operators that does not include an equals sign.' || CHAR(10) ||
+    '**Variable**: A symbol that represents an unknown or changeable quantity, usually written as a letter.' || CHAR(10) ||
+    '**Constant**: A fixed numerical value that does not change.' || CHAR(10) ||
+    '**Term**: A part of an expression; can be a number, a variable, or a combination of both.' || CHAR(10) ||
+    '**Coefficient**: A number that multiplies a variable in a term.' || CHAR(10) ||
+    '**Operator**: A symbol that denotes a mathematical operation, such as +, -, *, or /.' || CHAR(10) ||
+    '**Like Terms**: Terms that have the same variable(s) raised to the same exponent(s), allowing them to be combined.'
 );
 
 -- Procedural Knowledge
@@ -39,16 +38,37 @@ INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
     (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
-    'Manipulating algebraic expressions involves understanding their structure and the relationships between terms.' || CHAR(10) ||
-    'An expression is made up of terms that can include variables and constants connected by operations.' || CHAR(10) ||
-    CHAR(10) ||
-    'When working with expressions, the first step is to identify all the terms clearly — this helps determine which parts can be combined or simplified.' || CHAR(10) ||
-    'Next, recognizing "like terms" is important because only terms with the same variables and exponents can be combined without changing the meaning.' || CHAR(10) ||
-    'Combining like terms simplifies the expression, making it easier to understand and work with.' || CHAR(10) ||
-    'Applying properties like the distributive property allows us to rewrite expressions by removing parentheses and making the expression clearer.' || CHAR(10) ||
-    'Throughout this process, following the correct order of operations ensures that the expression remains equivalent and accurate.' || CHAR(10) ||
-    CHAR(10) ||
-    'Each of these steps is designed to preserve the value the expression represents, while making it simpler or more useful for problem solving.'
+    'To manipulate expressions effectively, begin by identifying like terms—these are terms that share identical variables and exponents.' || CHAR(10) ||
+    'Once identified, combine them by performing the operation indicated (usually addition or subtraction) on their coefficients.' || CHAR(10) ||
+    'If the expression includes parentheses, apply the distributive property to remove them before combining terms.' || CHAR(10) ||
+    'Each step in this process preserves the mathematical value of the original expression while simplifying its structure for easier interpretation.'
+);
+
+-- Strategic Knowlege
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+    'Solving complex expressions often involves linking multiple simplification strategies.' || CHAR(10) ||
+    'Start by scanning the entire expression for parentheses and use the distributive property to eliminate them.' || CHAR(10) ||
+    'Then, identify all like terms across the expanded expression and group them accordingly.' || CHAR(10) ||
+    'After grouping, combine the coefficients of like terms through addition or subtraction.' || CHAR(10) ||
+    'Throughout this process, keep track of negative signs and the correct order of operations.' || CHAR(10) ||
+    'Finally, check whether further simplification is possible by re-evaluating the structure of the expression.' || CHAR(10) ||
+    'Using this layered approach helps avoid mistakes and builds a habit of structured algebraic thinking.'
+);
+
+-- Rationale knowledge
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+    'Understanding how to manipulate expressions is essential because it allows us to reframe mathematical relationships in simpler or more usable forms.' || CHAR(10) ||
+    'Simplified expressions are easier to evaluate, compare, or use within equations.' || CHAR(10) ||
+    'Manipulating expressions isn''t just about getting a shorter form, it''s about clarity and preparation.' || CHAR(10) ||
+    'For example, transforming an expression might reveal patterns or equivalences that are otherwise hidden.' || CHAR(10) ||
+    'This skill also serves as a foundation for solving equations and inequalities, which involve identifying values that make expressions equal or satisfy conditions.' || CHAR(10) ||
+    'Thus, mastering expression manipulation is both a practical tool and a conceptual stepping stone.'
 );
 
 -- *** Expressions - Objective 2 *** 
@@ -57,41 +77,59 @@ VALUES (
 -- General Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
-    'Translating word problems into algebraic expressions is a critical skill that bridges everyday language and mathematical reasoning.' || CHAR(10) ||
-    'It allows you to model real-world situations using variables and operations, making problems solvable with algebra.' || CHAR(10) ||
-    'This process involves interpreting key quantities and their relationships as mathematical symbols.' || CHAR(10) ||
-    'Developing this skill strengthens problem-solving ability, helping you analyze scenarios systematically and accurately.'
+  (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Translating word problems into algebraic expressions is a critical skill that connects real-world scenarios to mathematical representation.' || CHAR(10) ||
+  'This process involves identifying key quantities, relationships, and operations described in words and expressing them using variables, numbers, and arithmetic symbols.' || CHAR(10) ||
+  'Understanding common verbal cues and phrases helps to map language to mathematical operations accurately.' || CHAR(10) ||
+  'Once translated, these expressions provide a foundation for further problem solving, such as evaluating or solving equations.'
 );
 
 -- Factual Knowledge 
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
-    '**Word problem:** A real-world scenario described in words requiring translation into a mathematical expression.' || CHAR(10) ||
-    '**Variable assignment:** Choosing symbols to represent unknown quantities in the problem.' || CHAR(10) ||
-    '**Operations keywords:** Words that indicate mathematical operations, such as "sum" for addition or "product" for multiplication.' || CHAR(10) ||
-    CHAR(10) ||
-    'Recognizing these keywords helps convert verbal descriptions into the correct arithmetic symbols.' || CHAR(10) ||
-    'Assigning variables correctly and choosing the right operations are essential to accurately model the problem.' || CHAR(10) ||
-    'Errors in this translation step can lead to incorrect solutions, so careful reading and understanding are important.'
+  (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  '**Variable:** A letter or symbol representing an unknown quantity.' || CHAR(10) ||
+  '**Coefficient:** A number multiplying a variable.' || CHAR(10) ||
+  '**Constant:** A fixed number.' || CHAR(10) ||
+  '**Key Words:** Terms in a problem that indicate operations, such as "sum" (addition), "difference" (subtraction), "product" (multiplication), and "quotient" (division).' || CHAR(10) ||
+  '**Translate:** To convert verbal information into an algebraic expression using variables and operations.'
 );
 
 -- Procedural Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
-    'Translating a word problem into an algebraic expression involves several important conceptual steps.' || CHAR(10) ||
-    'First, reading carefully allows you to understand the situation and what quantities are involved.' || CHAR(10) ||
-    'Assigning variables to unknown quantities is a way of representing the problem symbolically — this makes it possible to use algebraic methods to analyze it.' || CHAR(10) ||
-    'Identifying keywords that correspond to mathematical operations helps translate verbal relationships into arithmetic expressions.' || CHAR(10) ||
-    'Constructing the expression by combining variables and numbers using these operations creates a mathematical model of the problem.' || CHAR(10) ||
-    'Reviewing your expression ensures it accurately represents the original scenario.' || CHAR(10) ||
-    CHAR(10) ||
-    'This process transforms everyday language into a precise mathematical format, which is essential for solving the problem using algebra.'
+  (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+  'Begin translating a word problem by carefully reading the problem to identify important quantities.' || CHAR(10) ||
+  'Next, determine which quantity will be represented by a variable.' || CHAR(10) ||
+  'Identify the operations indicated by the problem''s wording.' || CHAR(10) ||
+  'Assign appropriate arithmetic symbols to these operations.' || CHAR(10) ||
+  'Construct an algebraic expression by arranging the variables and numbers with their corresponding operations in the correct order.'
+);
+
+-- Strategic knowlege
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'When translating multi-step verbal scenarios into expressions, first break down the problem into smaller parts.' || CHAR(10) ||
+  'Identify each quantity and its role in the overall relationship.' || CHAR(10) ||
+  'Determine the sequence of operations implied by the problem.' || CHAR(10) ||
+  'Translate each part individually using variables and operations, then combine these parts to form a complete expression.' || CHAR(10) ||
+  'Check that the resulting expression accurately models the original verbal scenario and maintains the correct order of operations.'
+);
+
+-- Rational knowlege
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Translating word problems into algebraic expressions bridges the gap between language and mathematics.' || CHAR(10) ||
+  'This skill enables students to see how everyday situations can be represented symbolically, allowing the use of algebra to analyze and solve problems.' || CHAR(10) ||
+  'Developing this ability enhances critical thinking, as it requires understanding both the problem''s context and the mathematical operations needed to express it.' || CHAR(10) ||
+  'It lays the groundwork for setting up equations and functions, making it an essential step in algebraic reasoning.'
 );
 
 -- Goal 1.2: Combining Like Terms
@@ -100,61 +138,82 @@ VALUES (
 -- General Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
-    'Combining like terms is a fundamental skill in algebra that simplifies expressions and makes solving equations easier.' || CHAR(10) ||
-    'Like terms are terms that have the same variable raised to the same power, and they can be combined by adding or subtracting their coefficients.' || CHAR(10) ||
-    'This process is essential for simplifying expressions, solving equations, and understanding algebraic structures.'
+  (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Combining like terms is a fundamental skill in simplifying algebraic expressions.' || CHAR(10) ||
+  'Like terms are terms within an expression that have the same variables raised to the same powers.' || CHAR(10) ||
+  'Grouping like terms allows us to rewrite expressions in simpler forms without changing their value.' || CHAR(10) ||
+  'This process reduces complexity and prepares expressions for further operations such as evaluation or solving equations.' || CHAR(10) ||
+  'Identifying like terms requires attention to both the variables involved and their exponents.'
 );
 
 -- Factual Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
-    '**Like terms:** Terms in an expression that have the same variable(s) raised to the same power.' || CHAR(10) ||
-    '**Coefficient:** The numerical factor in a term, which can be positive, negative, or zero.' || CHAR(10) ||
-    '**Combining like terms:** The process of adding or subtracting like terms to simplify an expression.' || CHAR(10) ||
-    CHAR(10) ||
-    'Recognizing like terms is crucial for simplifying expressions correctly.' || CHAR(10) ||
-    'Combining like terms helps to reduce the complexity of algebraic expressions, making them easier to work with.'
+  (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  '**Like Terms:** Terms in an expression that contain the exact same variables with the same exponents.' || CHAR(10) ||
+  '**Coefficient:** The numerical part of a term that multiplies the variable.' || CHAR(10) ||
+  '**Variable:** A letter that represents an unknown or changeable quantity.' || CHAR(10) ||
+  '**Exponent:** A number that indicates how many times the variable is multiplied by itself.' || CHAR(10) ||
+  'Only like terms can be combined by adding or subtracting their coefficients.'
 );
 
 -- Procedural Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
-    'Combining like terms involves a process of organizing and simplifying an expression to make it more manageable.' || CHAR(10) ||
-    'First, scan the expression to identify which terms are like terms; they must have the same variable part (e.g., x, or 2xy).' || CHAR(10) ||
-    'Next, group the like terms together. This helps visualize which terms can be combined.' || CHAR(10) ||
-    'Then, add or subtract their coefficients while keeping the variable part unchanged.' || CHAR(10) ||
-    'This step reduces the number of terms and simplifies the structure of the expression, making it easier to evaluate or manipulate further.' || CHAR(10) ||
-    'Always double-check that terms are truly "like" before combining, especially when variables have exponents.'
+  (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+  'To identify like terms, compare the variables and their exponents in each term.' || CHAR(10) ||
+  'Group terms that have exactly the same variables raised to the same powers.' || CHAR(10) ||
+  'Ignore the coefficients when grouping since like terms can have different numerical coefficients.' || CHAR(10) ||
+  'Once grouped, these terms can be combined in later steps to simplify the expression.'
 );
+
+-- Strategic Knowledge 
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'When identifying like terms in complex expressions, first remove any parentheses by applying the distributive property if necessary.' || CHAR(10) ||
+  'Next, write down all terms clearly, paying attention to variables and exponents.' || CHAR(10) ||
+  'Group terms by matching their variables and exponents precisely.' || CHAR(10) ||
+  'Label each group to keep track of which terms can be combined.' || CHAR(10) ||
+  'This organized approach makes it easier to simplify the expression systematically.'
+);
+
+-- Rational Knowlege
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Identifying and grouping like terms is essential because it helps maintain the integrity of an expression while simplifying it.' || CHAR(10) ||
+  'Combining unlike terms would change the value and meaning of the expression.' || CHAR(10) ||
+  'Recognizing like terms ensures that simplification follows algebraic principles and prepares expressions for further operations like evaluation or solving equations.' || CHAR(10) ||
+  'This skill builds precision and deeper understanding of algebraic structure.'
+);  
 
 -- Combining Like Terms - Objective 2: "Apply the distributive property to combine like terms."
 -- General Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
-    'The distributive property states that a(b + c) = ab + ac. This property can be used to combine like terms in an expression.' || CHAR(10) ||
-    'By distributing a factor across terms inside parentheses, you can simplify expressions and combine like terms more easily.' || CHAR(10) ||
-    'This technique is essential for solving equations and simplifying algebraic expressions.'
+  (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  'Simplifying an expression means rewriting it in the most compact and understandable form without changing its value.' || CHAR(10) ||
+  'This includes combining like terms, removing unnecessary parentheses, and reducing constants where possible.' || CHAR(10) ||
+  'Simplification helps make expressions easier to evaluate, compare, and use in equations or functions.' || CHAR(10) ||
+  'Understanding simplification prepares students to work more efficiently with more complex algebraic problems later.'
 );
 
 -- Factual Knowledge
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
-    (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
-    '**Distributive property:** A mathematical property that allows you to multiply a single term by each term inside parentheses.' || CHAR(10) ||
-    '**Factor:** A number or expression that is multiplied by another to form a product.' || CHAR(10) ||
-    '**Combining like terms with distribution:** Using the distributive property to simplify expressions by combining like terms.' || CHAR(10) ||
-    CHAR(10) ||
-    'Understanding the distributive property is crucial for manipulating algebraic expressions effectively.' || CHAR(10) ||
-    'It allows for simplification and helps in solving equations by breaking down complex expressions.'
+  (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  '**Simplify:** To rewrite an expression in its simplest form by combining like terms and reducing constants.' || CHAR(10) ||
+  '**Constant:** A number without a variable.' || CHAR(10) ||
+  '**Simplified Expression:** An expression where no further operations can be performed to combine terms.' || CHAR(10) ||
+  'Only like terms may be combined during simplification.'
 );
 
 -- Procedural Knowledge
@@ -168,6 +227,29 @@ VALUES (
     'Then, add or subtract their coefficients while keeping the variable part unchanged.' || CHAR(10) ||
     'This step reduces the number of terms and simplifies the structure of the expression, making it easier to evaluate or manipulate further.' || CHAR(10) ||
     'Always double-check that terms are truly "like" before combining, especially when variables have exponents.'
+);
+
+-- Stragegic knowlege
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'strategy'),
+  'When simplifying algebraic expressions, it''s important to first scan the entire expression to understand its overall structure.' || CHAR(10) ||
+  'Rather than jumping straight into combining terms, consider how different parts of the expression interact—such as distributed terms, constants, or signs spread throughout.' || CHAR(10) ||
+  'Look for opportunities to mentally group terms and anticipate which combinations will streamline the expression most effectively.' || CHAR(10) ||
+  'This mindset prevents common mistakes like combining unrelated terms and allows for greater flexibility in how the expression is approached and rewritten.' || CHAR(10) ||
+  'Mastering this strategy leads to quicker recognition of simplification patterns and prepares students for manipulating more complex algebraic forms.'
+);
+
+-- Rational
+INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
+VALUES (
+  (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'rationale'),
+  'Simplifying expressions is a critical skill because it makes mathematical communication more efficient.' || CHAR(10) ||
+  'It helps reduce the chances of making errors in later steps like solving equations or graphing functions.' || CHAR(10) ||
+  'Simplification also reveals the structure of an expression, making it easier to analyze and apply in real-world contexts.' || CHAR(10) ||
+  'Without simplification, expressions can remain unnecessarily complex and harder to interpret.'
 );
 
 -- Goal 1.3: Properties of Real Numbers 
@@ -238,6 +320,8 @@ VALUES (
     'Using the inverse property allows you to eliminate terms by adding their opposites or multiplying by their reciprocals.' || CHAR(10) ||
     'These properties are essential for solving equations and simplifying algebraic expressions effectively.'
 );
+
+-- Goal 1.4: Solving Equations
 
 -- =========================================================================
 -- Topic 2: Equations
@@ -519,3 +603,4 @@ VALUES (
     'Use an open circle for < or > inequalities and a closed circle for <= or >= inequalities.' || CHAR(10) ||
     'Finally, shade the appropriate region of the number line to indicate all possible solutions.'
 );
+

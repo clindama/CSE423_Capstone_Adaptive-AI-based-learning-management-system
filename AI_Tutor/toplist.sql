@@ -113,7 +113,7 @@ VALUES (
 (
     (SELECT id FROM Goal WHERE title = 'Absolute Value' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
     'Absolute Value - Objective 2',
-    'Solve simple absolute value expressions and equations.',
+    'Evaluate absolute value expressions',
     2
 );
 
@@ -130,13 +130,13 @@ INSERT INTO LearningObjective (goal_id, title, description, obj_order)
 VALUES (
     (SELECT id FROM Goal WHERE title = 'Simplify Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
     'Simplify - Objective 1',
-    'Combine like terms and apply properties to simplify expressions.',
+    'Simplify expressions using properties of operations.',
     1
 ),
 (
     (SELECT id FROM Goal WHERE title = 'Simplify Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
     'Simplify - Objective 2',
-    'Identify unnecessary steps and streamline solutions.',
+    'Solve complex expressions.',
     2
 );
 
@@ -199,13 +199,13 @@ INSERT INTO LearningObjective (goal_id, title, description, obj_order)
 VALUES (
     (SELECT id FROM Goal WHERE title = 'Intro to Equations' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
     'Equations - Objective 1',
-    'Define an equation and identify parts like variables and constants.',
+    'Definition and solving of simple equations.',
     1
 ),
 (
     (SELECT id FROM Goal WHERE title = 'Intro to Equations' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
     'Equations - Objective 2',
-    'Differentiate between expressions and equations.',
+    'Solve more complex equations.',
     2
 );
 
