@@ -15,8 +15,6 @@ def fetch_all_topics():
     conn.close()
     return topics
 
-
-
 def fetch_random_topic():
     conn = sqlite3.connect("learning_platform.db")
     cursor = conn.cursor()
@@ -43,17 +41,51 @@ def fetch_topic_progress(username):
     conn = sqlite3.connect("learning_platform.db")
     cursor = conn.cursor()
     cursor.execute("SELECT id FROM User WHERE username = ?", (username,))
-    user_id = cursor.fetchone()[0]
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return []
+    user_id = row[0]
 
     cursor.execute("""
         SELECT Topic.name, TopicProgress.progress
         FROM Topic
         LEFT JOIN TopicProgress ON Topic.id = TopicProgress.topic_id
         AND TopicProgress.user_id = ?
+        ORDER BY Topic.name ASC
     """, (user_id,))
     progress_data = cursor.fetchall()
     conn.close()
     return progress_data
+
+# -------- Placeholder data for UI-only Practice Problems & Tests --------
+def fetch_practice_progress(username):
+    """
+    Placeholder: return deterministic mock progress so the UI looks consistent.
+    Replace this with real SELECTs when you add your practice tables.
+    """
+    random.seed(username)  # deterministic per user
+    sets = [
+        ("Practice Set A", random.choice([0, 20, 40, 60, 80, 100])),
+        ("Practice Set B", random.choice([0, 25, 50, 75, 100])),
+        ("Practice Set C", random.choice([10, 30, 50, 70, 90])),
+        ("Practice Set D", random.choice([0, 100])),
+    ]
+    return sets
+
+def fetch_test_progress(username):
+    """
+    Placeholder: return mock results for tests/quizzes.
+    Later, drive from Test and Attempt tables (e.g., latest score, best score, status).
+    """
+    random.seed(username + "_tests")
+    tests = [
+        ("Quiz 1", random.choice(["Not started", "In progress", "Complete"]), random.choice([None, 68, 75, 84, 92])),
+        ("Quiz 2", random.choice(["Not started", "Complete"]), random.choice([None, 70, 88, 95])),
+        ("Unit Test", random.choice(["Not started", "In progress", "Complete"]), random.choice([None, 60, 73, 81, 90])),
+    ]
+    return tests
+# -----------------------------------------------------------------------
 
 def mark_topic_complete(username, topic_name):
     conn = sqlite3.connect("learning_platform.db")
@@ -74,6 +106,38 @@ def mark_topic_complete(username, topic_name):
     conn.commit()
     conn.close()
 
+def build_table(parent, columns, heading_map, rows, stretch_last=True, height=8):
+    """
+    Utility to create a styled ttk.Treeview table with a vertical scrollbar.
+    columns: list of column keys
+    heading_map: dict {key: heading label}
+    rows: list of tuples/lists to insert
+    """
+    frame = ttk.Frame(parent)
+    frame.pack(fill="x", padx=10, pady=6)
+
+    tree = ttk.Treeview(frame, columns=columns, show="headings", height=height)
+    vsb = ttk.Scrollbar(frame, orient="vertical", command=tree.yview)
+    tree.configure(yscrollcommand=vsb.set)
+
+    tree.grid(row=0, column=0, sticky="nsew")
+    vsb.grid(row=0, column=1, sticky="ns")
+
+    frame.columnconfigure(0, weight=1)
+
+    # Configure columns
+    for i, key in enumerate(columns):
+        tree.heading(key, text=heading_map.get(key, key))
+        # Make the last column stretch if requested
+        width = 140 if i < len(columns) - 1 or not stretch_last else 220
+        tree.column(key, width=width, anchor="w", stretch=True if (stretch_last and i == len(columns) - 1) else False)
+
+    # Insert rows
+    for r in rows:
+        tree.insert("", "end", values=r)
+
+    return tree
+
 def launch_main_app(username):
     main_app = tk.Tk()
     main_app.title("Main Dashboard")
@@ -82,24 +146,7 @@ def launch_main_app(username):
     welcome_label = tk.Label(main_app, text=f"Welcome, {username}!", font=("Helvetica", 16))
     welcome_label.pack(pady=20)
 
-    # Show Topic Progress
-    progress_frame = tk.Frame(main_app)
-    progress_frame.pack(pady=10)
-
-    tk.Label(progress_frame, text="Your Topic Progress:", font=("Helvetica", 12, "underline")).pack()
-
-    progress_data = fetch_topic_progress(username)
-    for topic, progress in progress_data:
-        progress = progress if progress is not None else 0
-        tk.Label(progress_frame, text=f"{topic}: {progress}%", font=("Helvetica", 10)).pack(anchor="w", padx=10)
-
-    def show_completed_topics():
-        completed = [topic for topic, progress in progress_data if progress == 100]
-        if completed:
-            messagebox.showinfo("Completed Topics", "\n".join(completed))
-        else:
-            messagebox.showinfo("Completed Topics", "No topics completed yet.")
-
+    # ----- Main action buttons (tabs) -----
     def handle_student_pick():
         for widget in main_app.winfo_children():
             widget.destroy()
@@ -111,8 +158,12 @@ def launch_main_app(username):
             return
 
         for topic_id, topic_name in topics:
-            tk.Button(main_app, text=topic_name, font=("Helvetica", 12), width=30,
-                      command=lambda t=topic_name: show_goals_for_topic(main_app, username, t)).pack(pady=5)
+            tk.Button(
+                main_app, text=topic_name, font=("Helvetica", 12), width=30,
+                command=lambda t=topic_name: show_goals_for_topic(main_app, username, t)
+            ).pack(pady=5)
+
+        tk.Button(main_app, text="Back", command=lambda: relaunch_main_home(main_app, username)).pack(pady=20)
 
     def handle_computer_pick():
         topic = fetch_random_topic()
@@ -122,17 +173,103 @@ def launch_main_app(username):
         else:
             messagebox.showinfo("No Topics", "No topics available to choose from.")
 
-    # Buttons
-    tk.Button(main_app, text="Student Pick", font=("Helvetica", 14), width=20, height=2,
-              command=handle_student_pick).pack(pady=10)
+    def show_progress():
+        show_progress_dashboard(main_app, username)
 
-    tk.Button(main_app, text="Computer Pick", font=("Helvetica", 14), width=20, height=2,
-              command=handle_computer_pick).pack(pady=10)
+    # Buttons that act like "tabs"
+    btn_container = tk.Frame(main_app)
+    btn_container.pack(pady=10)
+    tk.Button(btn_container, text="Student Pick", font=("Helvetica", 14), width=20, height=2,
+              command=handle_student_pick).grid(row=0, column=0, padx=8)
+    tk.Button(btn_container, text="Computer Pick", font=("Helvetica", 14), width=20, height=2,
+              command=handle_computer_pick).grid(row=0, column=1, padx=8)
+    tk.Button(btn_container, text="Progress", font=("Helvetica", 14), width=20, height=2,
+              command=show_progress).grid(row=0, column=2, padx=8)
 
-    tk.Button(main_app, text="View Completed Topics", font=("Helvetica", 12),
-              command=show_completed_topics).pack(pady=5)
-
+    # (Moved progress display into the dedicated Progress view)
     main_app.mainloop()
+
+def relaunch_main_home(window, username):
+    """Reset the main dashboard after child screens."""
+    window.destroy()
+    launch_main_app(username)
+
+def show_progress_dashboard(window, username):
+    for widget in window.winfo_children():
+        widget.destroy()
+
+    header = tk.Label(window, text="Your Progress", font=("Helvetica", 16, "bold"))
+    header.pack(pady=12)
+
+    container = tk.Frame(window)
+    container.pack(fill="both", expand=True)
+
+    # ----- Topic Progress (REAL DATA) -----
+    section1 = tk.Label(container, text="Topic Progress", font=("Helvetica", 13, "underline"))
+    section1.pack(anchor="w", padx=10, pady=(8, 2))
+
+    topic_rows = []
+    progress_data = fetch_topic_progress(username)  # [(topic, progress_or_None), ...]
+    for topic, progress in progress_data:
+        pct = 0 if progress is None else progress
+        topic_rows.append((topic, f"{pct}%"))
+
+    build_table(
+        parent=container,
+        columns=["topic", "progress"],
+        heading_map={"topic": "Topic", "progress": "Progress"},
+        rows=topic_rows,
+        stretch_last=True,
+        height=8
+    )
+
+    # Completed topics button (same behavior, placed here):
+    def show_completed_topics():
+        completed = [topic for topic, prog in progress_data if (prog or 0) == 100]
+        if completed:
+            messagebox.showinfo("Completed Topics", "\n".join(completed))
+        else:
+            messagebox.showinfo("Completed Topics", "No topics completed yet.")
+
+    tk.Button(container, text="View Completed Topics", command=show_completed_topics).pack(anchor="e", padx=12, pady=(0, 10))
+
+    # ----- Practice Problems (MOCK / UI ONLY) -----
+    section2 = tk.Label(container, text="Practice Problems", font=("Helvetica", 13, "underline"))
+    section2.pack(anchor="w", padx=10, pady=(8, 2))
+
+    practice_rows = []
+    for name, pct in fetch_practice_progress(username):
+        practice_rows.append((name, f"{pct}%"))
+
+    build_table(
+        parent=container,
+        columns=["set", "progress"],
+        heading_map={"set": "Problem Set", "progress": "Progress"},
+        rows=practice_rows,
+        stretch_last=True,
+        height=6
+    )
+
+    # ----- Tests (MOCK / UI ONLY) -----
+    section3 = tk.Label(container, text="Tests", font=("Helvetica", 13, "underline"))
+    section3.pack(anchor="w", padx=10, pady=(8, 2))
+
+    test_rows = []
+    for name, status, score in fetch_test_progress(username):
+        score_display = "-" if score is None else f"{score}%"
+        test_rows.append((name, status, score_display))
+
+    build_table(
+        parent=container,
+        columns=["test", "status", "score"],
+        heading_map={"test": "Test", "status": "Status", "score": "Score"},
+        rows=test_rows,
+        stretch_last=True,
+        height=6
+    )
+
+    # Back button
+    tk.Button(window, text="Back to Main", command=lambda: relaunch_main_home(window, username)).pack(pady=16)
 
 def show_goals_for_topic(window, username, topic_name):
     for widget in window.winfo_children():
@@ -141,6 +278,7 @@ def show_goals_for_topic(window, username, topic_name):
     goals = fetch_goals_for_topic(topic_name)
     if not goals:
         messagebox.showinfo("No Goals", f"No goals found for {topic_name}.")
+        relaunch_main_home(window, username)
         return
 
     goal_index = [0]
@@ -166,15 +304,14 @@ def show_goals_for_topic(window, username, topic_name):
             go_back()
 
     def go_back():
-        window.destroy()
-        launch_main_app(username)
+        relaunch_main_home(window, username)
 
     update_goal()
 
     tk.Button(window, text="Next", command=next_goal).pack(pady=10)
     tk.Button(window, text="Back to Topics", command=go_back).pack(pady=5)
 
-# Login logic using login_subsystem
+# ---------------- Login logic using login_subsystem ----------------
 def handle_login():
     username = username_entry.get()
     password = password_entry.get()
@@ -185,7 +322,6 @@ def handle_login():
     else:
         messagebox.showerror("Login Failed", "Invalid username or password.")
 
-# Registration popup
 def show_register_window():
     reg_window = tk.Toplevel(root)
     reg_window.title("Register New Account")
@@ -226,7 +362,7 @@ def show_register_window():
 
     tk.Button(reg_window, text="Register", command=register_user).grid(row=5, column=1, pady=20)
 
-# Login window
+# ---------------- Login window ----------------
 root = tk.Tk()
 root.title("Login Page")
 root.geometry("275x175")
