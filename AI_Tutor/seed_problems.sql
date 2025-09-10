@@ -12,25 +12,29 @@ VALUES (
     'procedural'
 );
 
--- 1. Problem Type 
-INSERT INTO ProblemType (problem_id, problem_type_id)
-VALUES (10, (SELECT id FROM ProblemType WHERE name = 'procedural'));
+-- 1. Difficulty Band
+INSERT INTO ProblemDifficultyLink (problem_id, difficulty_id)
+VALUES (10, (SELECT id FROM DifficultyBand WHERE name = 'Core'));
 
--- 2. Difficulty 
-INSERT INTO Difficulty (problem_id, difficulty_id)
-VALUES (10, (SELECT id FROM DifficultyLevel WHERE name = 'medium'));
+-- 2. Numeric Complexity
+INSERT INTO ProblemNumericComplexityLink (problem_id, numeric_complexity_id)
+VALUES (10, (SELECT id FROM NumericComplexity WHERE name = 'integers_only'));
 
--- 3. Representation Mode 
-INSERT INTO Representation (problem_id, representation_id)
+-- 3. Representation Mode
+INSERT INTO ProblemRepresentationLink (problem_id, representation_mode_id)
 VALUES (10, (SELECT id FROM RepresentationMode WHERE name = 'visual'));
 
--- 4. Engagement Method 
-INSERT INTO Engagement (problem_id, engagement_id)
-VALUES (10, (SELECT id FROM EngagementMethod WHERE name = 'real-world'));
+-- 4. Instructional Strategy
+INSERT INTO ProblemStrategyLink (problem_id, strategy_id)
+VALUES (10, (SELECT id FROM InstructionalStrategy WHERE name = 'scaffolding'));
 
--- 5. Cognitive Skill 
-INSERT INTO CognitiveSkill (problem_id, skill_id)
-VALUES (10, (SELECT id FROM CognitiveSkill WHERE name = 'application'));
+-- 5. Engagement Method
+INSERT INTO ProblemEngagementLink (problem_id, engagement_id)
+VALUES (10, (SELECT id FROM EngagementMethod WHERE name = 'real_world'));
+
+-- 6. Teaching Style
+INSERT INTO ProblemTeachingLink (problem_id, teaching_style_id)
+VALUES (10, (SELECT id FROM TeachingStyle WHERE name = 'facilitator'));
 
 
 -- ===========================================================
