@@ -1,12 +1,12 @@
 -- Factual Knowledge
 INSERT INTO InstructionMethod (name, description, method_type, method_keyword)
 VALUES 
-('Concept Recap', 'Reinforces core facts, definitions, and terminology.', 'factual', 'definition');
+('Concept Recap', 'Reinforces core facts, definitions, and terminology.', 'factual', 'fact');
 
 -- Procedural Knowledge
 INSERT INTO InstructionMethod (name, description, method_type, method_keyword)
 VALUES 
-('Focused on an individual step or precedure', 'Guides students through how to solve problems by looking at it in parts.', 'procedural', 'example');
+('Focused on an individual step or procedure', 'Guides students through how to solve problems by looking at it in parts.', 'procedural', 'procedure');
 
 -- Strategic Knowledge
 INSERT INTO InstructionMethod (name, description, method_type, method_keyword)

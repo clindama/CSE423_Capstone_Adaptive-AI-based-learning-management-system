@@ -23,7 +23,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     '**Expression**: A mathematical phrase composed of numbers, variables, and operators that does not include an equals sign.' || CHAR(10) ||
     '**Variable**: A symbol that represents an unknown or changeable quantity, usually written as a letter.' || CHAR(10) ||
     '**Constant**: A fixed numerical value that does not change.' || CHAR(10) ||
@@ -37,8 +37,8 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
-    'To manipulate expressions effectively, begin by identifying like terms—these are terms that share identical variables and exponents.' || CHAR(10) ||
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
+    'To manipulate expressions effectively, begin by identifying like terms these are terms that share identical variables and exponents.' || CHAR(10) ||
     'Once identified, combine them by performing the operation indicated (usually addition or subtraction) on their coefficients.' || CHAR(10) ||
     'If the expression includes parentheses, apply the distributive property to remove them before combining terms.' || CHAR(10) ||
     'Each step in this process preserves the mathematical value of the original expression while simplifying its structure for easier interpretation.'
@@ -89,7 +89,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   '**Variable:** A letter or symbol representing an unknown quantity.' || CHAR(10) ||
   '**Coefficient:** A number multiplying a variable.' || CHAR(10) ||
   '**Constant:** A fixed number.' || CHAR(10) ||
@@ -101,7 +101,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
   'Begin translating a word problem by carefully reading the problem to identify important quantities.' || CHAR(10) ||
   'Next, determine which quantity will be represented by a variable.' || CHAR(10) ||
   'Identify the operations indicated by the problem''s wording.' || CHAR(10) ||
@@ -151,7 +151,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   '**Like Terms:** Terms in an expression that contain the exact same variables with the same exponents.' || CHAR(10) ||
   '**Coefficient:** The numerical part of a term that multiplies the variable.' || CHAR(10) ||
   '**Variable:** A letter that represents an unknown or changeable quantity.' || CHAR(10) ||
@@ -163,7 +163,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
   'To identify like terms, compare the variables and their exponents in each term.' || CHAR(10) ||
   'Group terms that have exactly the same variables raised to the same powers.' || CHAR(10) ||
   'Ignore the coefficients when grouping since like terms can have different numerical coefficients.' || CHAR(10) ||
@@ -209,7 +209,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   '**Simplify:** To rewrite an expression in its simplest form by combining like terms and reducing constants.' || CHAR(10) ||
   '**Constant:** A number without a variable.' || CHAR(10) ||
   '**Simplified Expression:** An expression where no further operations can be performed to combine terms.' || CHAR(10) ||
@@ -220,7 +220,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
     'Combining like terms involves a process of organizing and simplifying an expression to make it more manageable.' || CHAR(10) ||
     'First, scan the expression to identify which terms are like terms; they must have the same variable part (e.g., x, or 2xy).' || CHAR(10) ||
     'Next, group the like terms together. This helps visualize which terms can be combined.' || CHAR(10) ||
@@ -269,7 +269,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     '**Commutative property:** The order of addition or multiplication does not change the result (e.g., a + b = b + a).' || CHAR(10) ||
     '**Associative property:** The way numbers are grouped in addition or multiplication does not change the result (e.g., (a + b) + c = a + (b + c)).' || CHAR(10) ||
     '**Distributive property:** Multiplying a number by a sum is the same as doing each multiplication separately (e.g., a(b + c) = ab + ac).' || CHAR(10) ||
@@ -281,7 +281,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
   'Simplifying algebraic expressions becomes more efficient when you use properties of real numbers deliberately.' || CHAR(10) ||
   'For example, recognizing when the distributive property can help eliminate parentheses or when rearranging terms using the commutative property makes like terms easier to spot.' || CHAR(10) ||
   'These properties are tools—not just rules—and selecting the right one depends on how the expression is structured.'
@@ -315,7 +315,7 @@ VALUES (
   (SELECT id FROM InstructionMethod WHERE method_keyword = 'overview'),
   'Simplifying algebraic expressions becomes more efficient when you use properties of real numbers deliberately.' || CHAR(10) ||
   'For example, recognizing when the distributive property can help eliminate parentheses or when rearranging terms using the commutative property makes like terms easier to spot.' || CHAR(10) ||
-  'These properties are tools—not just rules—and selecting the right one depends on how the expression is structured.'
+  'These properties are tools not just rules and selecting the right one depends on how the expression is structured.'
 );
 
 -- Factual Knowledge
@@ -376,7 +376,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'recap'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     'PEMDAS is an acronym used to remember the order of operations: ' ||
     'Parentheses, Exponents, Multiplication, Division, Addition, Subtraction. ' || CHAR(10) ||
     'Multiplication and division are processed from left to right, as are addition and subtraction.'
@@ -427,7 +427,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'recap'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     'Important exponent rules include the product rule (add exponents), ' ||
     'power of a power rule (multiply exponents), and the zero exponent rule (any base to the zero power equals one).'
 );
@@ -479,7 +479,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 1'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'The **absolute value** of a real number x, denoted |x|, is the distance between x and zero on the number line. ' || CHAR(10) ||
   'Formally, |x| = x if x is greater than or equal to zero, and |x| = -x if x is less than zero.' || CHAR(10) ||
   'Absolute value ignores the sign of the number and focuses on magnitude.' || CHAR(10) ||
@@ -529,7 +529,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 2'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'When evaluating |x|, if x is positive or zero, the result is x itself. ' || CHAR(10) ||
   'If x is negative, the result is -x, which is positive. ' || CHAR(10) ||
   'Absolute value expressions can also involve variables, requiring evaluation after substituting numerical values.'
@@ -580,7 +580,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'The **associative property** states that how numbers are grouped does not affect their sum or product.' || CHAR(10) ||
   'The **commutative property** means numbers can be added or multiplied in any order.' || CHAR(10) ||
   'The **distributive property** allows multiplication over addition or subtraction to be rewritten as a sum or difference of products.' || CHAR(10) ||
@@ -630,7 +630,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'Complex expressions may contain multiple layers such as nested parentheses, exponents, multiplication, division, addition, and subtraction. ' || CHAR(10) ||
   'Accurate simplification depends on the correct order of operations and application of algebraic properties at each step.'
 );
@@ -680,7 +680,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 1'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'Substitution is the process of replacing each variable in an expression with a given numerical value. ' || CHAR(10) ||
   'The expression is then simplified by performing arithmetic operations on the substituted values. ' || CHAR(10) ||
   'Correct substitution requires careful attention to each variable and its corresponding value to avoid errors.'
@@ -730,7 +730,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Evaluate - Objective 2'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'The standard order of operations is remembered by PEMDAS: Parentheses, Exponents, Multiplication and Division, Addition and Subtraction. ' || CHAR(10) ||
   'Operations inside parentheses are evaluated first, followed by exponents, then multiplication and division (left to right), and finally addition and subtraction (left to right).'
 );
@@ -778,7 +778,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 1'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'Common keywords include: "sum" meaning addition, "difference" meaning subtraction, "product" meaning multiplication, and "quotient" meaning division. ' || CHAR(10) ||
   '"More than," "increased by," and "added to" usually indicate addition, while "less than," "decreased by," and "subtracted from" indicate subtraction. ' || CHAR(10) ||
   'Recognizing these keywords helps accurately translate phrases into symbols like +, -, *, and /.'
@@ -826,7 +826,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Verbal - Objective 2'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'Multi-step expressions combine multiple operations such as addition, subtraction, multiplication, and division, often with variables representing unknown quantities. ' || CHAR(10) ||
   'Proper interpretation requires identifying each operation and its position within the scenario.'
 );
@@ -875,7 +875,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 1'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'An **equation** is a statement that two expressions are equal, using the symbol "=". ' || CHAR(10) ||
   'A **variable** is a symbol representing an unknown value to be found. ' || CHAR(10) ||
   'The goal of solving is to isolate the variable on one side of the equation to determine its value.'
@@ -924,7 +924,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 2'),
-  (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+  (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
   'Complex equations might include expressions on both sides of the equals sign and require simplification before isolating the variable. ' || CHAR(10) ||
   'Use of properties such as the distributive property is often necessary to remove parentheses and combine like terms.'
 );
@@ -979,7 +979,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Solving One-Step Equations - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     '**One-step equation:** An equation that can be solved in one operation (e.g., x + 5 = 10).' || CHAR(10) ||
     '**Components:** Variable (x), constant (5), and the equality sign (=).' || CHAR(10) ||
     '**Inverse operation:** The operation that reverses the effect of the original operation (e.g., subtraction for addition, division for multiplication).' || CHAR(10) ||
@@ -991,7 +991,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Solving One-Step Equations - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
     'To solve a one-step equation, first identify the operation being performed on the variable.' || CHAR(10) ||
     'Next, apply the inverse operation to both sides of the equation to isolate the variable.' || CHAR(10) ||
     'For example, if the equation is x + 5 = 10, subtract 5 from both sides to find x = 5.' || CHAR(10) ||
@@ -1012,7 +1012,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Solving One-Step Equations - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     'Misidentifying the operation, incorrectly applying the inverse operation, and failing to isolate the variable.' || CHAR(10) ||
     'These mistakes can lead to incorrect solutions and a misunderstanding of the equation-solving process.' || CHAR(10) ||
     'By recognizing these common pitfalls, you can develop strategies to avoid them and improve your overall problem-solving skills.'
@@ -1022,7 +1022,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Solving One-Step Equations - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
     'To avoid common mistakes in solving one-step equations, carefully read the equation and identify the operation being performed on the variable.' || CHAR(10) ||
     'Ensure you apply the correct inverse operation to both sides of the equation.' || CHAR(10) ||
     'Double-check your work by substituting the solution back into the original equation to verify its correctness.' || CHAR(10) ||
@@ -1046,7 +1046,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Solving Two-Step Equations - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     'Two-step equations are defined by their requirement for two operations to isolate the variable.' || CHAR(10) ||
     'Key components include the variable (the unknown), constants (known values), and the equality sign (indicating balance).' || CHAR(10) ||
     'Understanding these definitions is crucial for effectively solving two-step equations.'
@@ -1056,7 +1056,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Solving Two-Step Equations - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
     'To solve a two-step equation, first identify the two operations involved in isolating the variable.' || CHAR(10) ||
     'Next, apply the inverse operation to eliminate the constant term from one side of the equation.' || CHAR(10) ||
     'Finally, use the inverse operation again to solve for the variable, ensuring to maintain balance throughout the process.'
@@ -1077,7 +1077,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Solving Two-Step Equations - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     'Two-step equations require the application of inverse operations to isolate the variable.' || CHAR(10) ||
     'Unlike one-step equations, two-step equations involve an additional constant that must be eliminated before isolating the variable.' || CHAR(10) ||
     'Understanding the correct order of operations is crucial for solving these equations effectively.'
@@ -1087,7 +1087,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Solving Two-Step Equations - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
     'To solve a two-step equation, first identify the two operations involved in isolating the variable.' || CHAR(10) ||
     'Next, apply the inverse operation to eliminate the constant term from one side of the equation.' || CHAR(10) ||
     'Finally, use the inverse operation again to solve for the variable, ensuring to maintain balance throughout the process.'
@@ -1114,7 +1114,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Sets - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     '**Set:** A collection of distinct objects, considered as an object in its own right.' || CHAR(10) ||
     '**Membership:** An element is either in a set or not.' || CHAR(10) ||
     '**Subset:** A set is a subset of another if all its elements are in that set.' || CHAR(10) ||
@@ -1128,7 +1128,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Sets - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
     'To work with sets effectively, one must first understand how to define a set and its elements.' || CHAR(10) ||
     'Practice identifying whether an element belongs to a set. Does it belong to one set or is it a subset of another?' || CHAR(10) ||
     'Understand the relationships between sets, including Union and Intersection.' || CHAR(10) ||
@@ -1150,7 +1150,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Sets - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     '**Set Union (A u B):** The set of elements in A, or B, or both.' || CHAR(10) ||
     '**Set Intersection (A n B):** The set of elements in both A and B.' || CHAR(10) ||
     '**Set Difference (A - B):** The set of elements in A that are not in B.' || CHAR(10) ||
@@ -1162,7 +1162,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Sets - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
     'To apply set properties in problem-solving, start by identifying the sets involved in the problem.' || CHAR(10) ||
     'Determine which operations are needed: Are you looking for common elements (intersection), all elements combined (union), or elements unique to one set (difference)?' || CHAR(10) ||
     'Use Venn diagrams to visualize relationships between sets, which can help clarify complex problems.' || CHAR(10) ||
@@ -1186,7 +1186,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Write and Graph Inequalities - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     '**Inequality Symbols:** The symbols used to represent inequalities include:' || CHAR(10) ||
     '- **>** (greater than)' || CHAR(10) ||
     '- **<** (less than)' || CHAR(10) ||
@@ -1199,7 +1199,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Write and Graph Inequalities - Objective 1'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
     'To write an inequality, start by identifying the relationship between the two values.' || CHAR(10) ||
     'Use the appropriate inequality symbol to express this relationship.' || CHAR(10) ||
     'To solve inequalities, start by isolating the variable on one side of the inequality sign.' || CHAR(10) ||
@@ -1223,7 +1223,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Write and Graph Inequalities - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'definition'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'fact'),
     '**Open Circle:** Used on a number line to indicate that the endpoint is not included in the solution set (e.g., x < 3).' || CHAR(10) ||
     '**Closed Circle:** Used to indicate that the endpoint is included in the solution set (e.g., x <= 3).' || CHAR(10) ||
     '**Shading:** Represents all numbers that satisfy the inequality, extending infinitely in one direction.' || CHAR(10) ||
@@ -1234,7 +1234,7 @@ VALUES (
 INSERT INTO InstructionContent (objective_id, method_id, instruct_content)
 VALUES (
     (SELECT id FROM LearningObjective WHERE title = 'Write and Graph Inequalities - Objective 2'),
-    (SELECT id FROM InstructionMethod WHERE method_keyword = 'example'),
+    (SELECT id FROM InstructionMethod WHERE method_keyword = 'procedure'),
     'To graph an inequality on a number line, start by drawing a horizontal line representing the number line.' || CHAR(10) ||
     'Next, plot the critical point (the number that makes the inequality true) on the line.' || CHAR(10) ||
     'Use an open circle for < or > inequalities and a closed circle for <= or >= inequalities.' || CHAR(10) ||

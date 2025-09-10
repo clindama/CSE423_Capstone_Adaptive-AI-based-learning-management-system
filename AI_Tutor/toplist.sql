@@ -161,7 +161,7 @@ VALUES (
     'Evaluate - Objective 2',
     'Use order of operations to evaluate accurately.',
     2
-    );
+);
 
 -- Goal 1.8: Write Expressions from Verbal
 INSERT INTO Goal (topic_id, title, description, goal_order)

@@ -81,10 +81,10 @@ CREATE TABLE InstructionContent (
     method_id INTEGER NOT NULL,
     instruct_content TEXT NOT NULL,
     FOREIGN KEY (objective_id) REFERENCES LearningObjective(id),
-    FOREIGN KEY (method_id) REFERENCES InstructionMethod(id),
-    -- Ensures that each objective can have multiple methods
+    FOREIGN KEY (method_id) REFERENCES InstructionMethod(id)
+    -- Ensures that each objective can have multiple methodsS
     -- but each method can only be assigned once per objective
-    UNIQUE(objective_id, method_id)
+    -- UNIQUE(objective_id, method_id)
 );
 
 -- Instruction Completion Table
@@ -130,7 +130,6 @@ CREATE TABLE Problem (
     prompt TEXT NOT NULL,
     correct_answer TEXT NOT NULL,
     category TEXT NOT NULL CHECK (category IN ('factual', 'procedural', 'strategic', 'rational')),
-    tags TEXT,
     FOREIGN KEY (topic_id) REFERENCES Topic(id),
     FOREIGN KEY (goal_id) REFERENCES Goal(id),
     FOREIGN KEY (objective_id) REFERENCES LearningObjective(id)
@@ -235,3 +234,66 @@ CREATE TABLE Hint (
     hint_order INTEGER DEFAULT 1,
     FOREIGN KEY (problem_id) REFERENCES Problem(id)
 );
+
+-- LMS Variables (Used to personalize problem and content generation)
+-- These variables are still a work in progress so some may be added or removed in the future
+
+CREATE TABLE LearnerAttribute (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,         -- e.g., 'visual'
+    description TEXT
+);
+
+INSERT INTO LearnerAttribute (name, description) VALUES
+('visual', 'Learns best with diagrams, charts, and images'),
+('auditory', 'Learns best with listening and discussion'),
+('reading_writing', 'Learns best with text and notes'),
+('kinesthetic', 'Learns best with hands-on activities'),
+('logical', 'Learns best with reasoning and systems'),
+('social', 'Learns best in group settings'),
+('solitary', 'Learns best independently'),
+('nature', 'Learns best through real-world and environmental examples');
+
+CREATE TABLE TeachingStyle (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,      
+    description TEXT
+);
+
+INSERT INTO TeachingStyle (name, description) VALUES
+('authority', 'Teacher-centered, direct instruction'),
+('demonstrator', 'Shows processes and examples'),
+('facilitator', 'Guides learners with questions'),
+('delegator', 'Assigns tasks and peer work'),
+('hybrid', 'Mix of multiple styles');
+
+CREATE TABLE DifficultyBand (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    level INTEGER NOT NULL UNIQUE,  
+    name TEXT,
+    description TEXT
+);
+
+INSERT INTO DifficultyBand (level, name, description) VALUES
+(1, 'Intro', 'Entry-level, simple problems'),
+(2, 'Core', 'Typical grade-level problems'),
+(3, 'Stretch', 'Challenging but solvable'),
+(4, 'Advanced', 'Above grade-level complexity'),
+(5, 'Expert', 'Very difficult, enrichment');
+
+CREATE TABLE NumericComplexity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,         -- e.g., 'fractions'
+    description TEXT
+);
+
+INSERT INTO NumericComplexity (name, description) VALUES
+('integers_only', 'Whole numbers only'),
+('simple_fractions', 'Simple fractions included'),
+('decimals', 'Decimals included'),
+('negatives', 'Negative numbers included'),
+('mixed', 'Combination of multiple number types'),
+('radicals', 'Square roots or higher roots included');
+
+
+
