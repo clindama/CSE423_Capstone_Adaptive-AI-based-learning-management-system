@@ -1,25 +1,23 @@
 import sqlite3
 
-# Connect to your database
-conn = sqlite3.connect("learning_platform.db")
+# Connect to your new DB
+db_name = "learning_platform.db"
+conn = sqlite3.connect(db_name)
 cursor = conn.cursor()
 
-# Load and execute schema
-with open("test.sql", "r") as f:
-    schema_sql = f.read()
-cursor.executescript(schema_sql)
+# --- Seed objectives first ---
+with open("seed_objectives.sql", "r", encoding="utf-8") as f:
+    objectives_sql = f.read()
+cursor.executescript(objectives_sql)
+print("✅ seed_objectives.sql inserted successfully.")
 
-# Load and execute topic/goal data
-with open("toplist.sql", "r") as f:
-    topic_data_sql = f.read()
-cursor.executescript(topic_data_sql)
-
-# Add default admin user
-cursor.execute('''
-    INSERT INTO User (username, password, first_name, last_name, email, account_type)
-    VALUES (?, ?, ?, ?, ?, ?)
-''', ("admin", "1234", "Admin", "User", "admin@example.com", "admin"))
+# --- Then seed instruction methods + content ---
+with open("seed_instruction.sql", "r", encoding="utf-8") as f:
+    instruction_sql = f.read()
+cursor.executescript(instruction_sql)
+print("✅ seed_instruction.sql inserted successfully.")
 
 conn.commit()
-print("Database initialized and seeded.")
 conn.close()
+
+print("🎉 Database seeding complete!")

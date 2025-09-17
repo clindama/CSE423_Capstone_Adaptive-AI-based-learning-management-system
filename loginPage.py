@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from login_subsystem import AuthService
+from FoundationOfAlgebra import PracticeAI
 import sqlite3
 import random
 
@@ -79,6 +80,10 @@ def launch_main_app(username):
     main_app.mainloop()
 
 def show_goals_for_topic(window, username, topic_name):
+    if topic_name == "Foundations for Algebra":
+        window.destroy()
+        PracticeAI().run()
+        return
     for widget in window.winfo_children():
         widget.destroy()
 
