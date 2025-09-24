@@ -44,79 +44,151 @@ VALUES (10, (SELECT id FROM TeachingStyle WHERE name = 'facilitator'));
 -- Expressions - Objective 1
 -- Factual Problems
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
-VALUES (
-    (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'What is an algebraic expression?',
-    'An algebraic expression is a mathematical phrase that can contain numbers, variables, and operation symbols.',
-    'factual'
+VALUES 
+((SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
+ (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
+ (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+ 'What is an algebraic expression?',
+ 'An algebraic expression is a mathematical phrase that can contain numbers, variables, and operation symbols.',
+ 'factual'
 ),
-(
-    (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Which of the following is NOT an algebraic expression: A) 2x + 3, B) 7, C) = 4x - 1, D) x^2 - 5?',
-    'C) = 4x - 1',
-    'factual',
+((SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
+ (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
+ (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+ 'Which of the following is NOT an algebraic expression: A) 2x + 3, B) 7, C) = 4x - 1, D) x^2 - 5?',
+ 'C) = 4x - 1',
+ 'factual'
 );
+
+-- LMS Inserts for Factual Problems
+INSERT INTO ProblemDifficultyLink (problem_id, difficulty_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'What is an algebraic expression?'),
+        (SELECT id FROM Difficulty WHERE name = 'Intro')),
+       ((SELECT id FROM Problem WHERE prompt = 'Which of the following is NOT an algebraic expression: A) 2x + 3, B) 7, C) = 4x - 1, D) x^2 - 5?'),
+        (SELECT id FROM Difficulty WHERE name = 'Core'));
+
+INSERT INTO ProblemNumericComplexityLink (problem_id, numeric_complexity_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'What is an algebraic expression?'),
+        (SELECT id FROM NumericComplexity WHERE name = 'integers_only')),
+       ((SELECT id FROM Problem WHERE prompt = 'Which of the following is NOT an algebraic expression: A) 2x + 3, B) 7, C) = 4x - 1, D) x^2 - 5?'),
+        (SELECT id FROM NumericComplexity WHERE name = 'integers_only'));
+
+INSERT INTO ProblemLearnerAttributeLink (problem_id, learner_attribute_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'What is an algebraic expression?'),
+        (SELECT id FROM LearnerAttribute WHERE name = 'logical')),
+       ((SELECT id FROM Problem WHERE prompt = 'Which of the following is NOT an algebraic expression: A) 2x + 3, B) 7, C) = 4x - 1, D) x^2 - 5?'),
+        (SELECT id FROM LearnerAttribute WHERE name = 'logical'));
 
 -- Procedural Problems
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
-VALUES (
-    (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Expressions'),
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Combine the like terms: 3x + 5 + 2x.',
-    '5x + 5',
-    'procedural'
+VALUES 
+((SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
+ (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
+ (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+ 'Combine the like terms: 3x + 5 + 2x.',
+ '5x + 5',
+ 'procedural'
 ),
-(
-    (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Expressions'),
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Rewrite the expression 4(x + 2) using the distributive property.',
-    '4x + 8',
-    'procedural'
+((SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
+ (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
+ (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+ 'Rewrite the expression 4(x + 2) using the distributive property.',
+ '4x + 8',
+ 'procedural'
 );
+
+-- LMS Inserts for Procedural Problems
+INSERT INTO ProblemDifficultyLink (problem_id, difficulty_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'Combine the like terms: 3x + 5 + 2x.'),
+        (SELECT id FROM Difficulty WHERE name = 'Core')),
+       ((SELECT id FROM Problem WHERE prompt = 'Rewrite the expression 4(x + 2) using the distributive property.'),
+        (SELECT id FROM Difficulty WHERE name = 'Core'));
+
+INSERT INTO ProblemNumericComplexityLink (problem_id, numeric_complexity_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'Combine the like terms: 3x + 5 + 2x.'),
+        (SELECT id FROM NumericComplexity WHERE name = 'integers_only')),
+       ((SELECT id FROM Problem WHERE prompt = 'Rewrite the expression 4(x + 2) using the distributive property.'),
+        (SELECT id FROM NumericComplexity WHERE name = 'integers_only'));
+
+INSERT INTO ProblemLearnerAttributeLink (problem_id, learner_attribute_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'Combine the like terms: 3x + 5 + 2x.'),
+        (SELECT id FROM LearnerAttribute WHERE name = 'logical')),
+       ((SELECT id FROM Problem WHERE prompt = 'Rewrite the expression 4(x + 2) using the distributive property.'),
+        (SELECT id FROM LearnerAttribute WHERE name = 'logical'));
 
 -- Strategic Problems
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
-VALUES (
-    (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Expressions'),
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Simplify the expression 6(x - 2) + 3x.',
-    '9x - 12',
-    'strategic'
+VALUES 
+((SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
+ (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
+ (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+ 'Simplify the expression 6(x - 2) + 3x.',
+ '9x - 12',
+ 'strategic'
 ),
-(
-    (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Expressions'),
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Simplify 3(x + 3) + 4x - 1?',
-    '7x + 8',
-    'strategic'
+((SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
+ (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
+ (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+ 'Simplify 3(x + 3) + 4x - 1.',
+ '7x + 8',
+ 'strategic'
 );
+
+-- LMS Inserts for Strategic Problems
+INSERT INTO ProblemDifficultyLink (problem_id, difficulty_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'Simplify the expression 6(x - 2) + 3x.'),
+        (SELECT id FROM Difficulty WHERE name = 'Core')),
+       ((SELECT id FROM Problem WHERE prompt = 'Simplify 3(x + 3) + 4x - 1.'),
+        (SELECT id FROM Difficulty WHERE name = 'Challenge'));
+
+INSERT INTO ProblemNumericComplexityLink (problem_id, numeric_complexity_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'Simplify the expression 6(x - 2) + 3x.'),
+        (SELECT id FROM NumericComplexity WHERE name = 'integers_only')),
+       ((SELECT id FROM Problem WHERE prompt = 'Simplify 3(x + 3) + 4x - 1.'),
+        (SELECT id FROM NumericComplexity WHERE name = 'integers_only'));
+
+INSERT INTO ProblemLearnerAttributeLink (problem_id, learner_attribute_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'Simplify the expression 6(x - 2) + 3x.'),
+        (SELECT id FROM LearnerAttribute WHERE name = 'logical')),
+       ((SELECT id FROM Problem WHERE prompt = 'Simplify 3(x + 3) + 4x - 1.'),
+        (SELECT id FROM LearnerAttribute WHERE name = 'logical'));
 
 -- Rational Problems
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
-VALUES (
-    (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Expressions'),
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Why can we combine the terms 2x and 5x, but not 2x and 3y?',
-    'Because 2x and 5x are like terms (same variable), while 2x and 3y are not.',
-    'rational'
+VALUES 
+((SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
+ (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
+ (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+ 'Why can we combine the terms 2x and 5x, but not 2x and 3y?',
+ 'Because 2x and 5x are like terms (same variable), while 2x and 3y are not.',
+ 'rational'
 ),
-(
-    (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Expressions'),
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Explain why simplifying expressions is important before solving equations.',
-    'It makes equations easier to solve and reduces the chance of mistakes.',
-    'rational'
+((SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
+ (SELECT id FROM Goal WHERE title = 'Expressions' AND topic_id = (SELECT id FROM Topic WHERE name = 'Foundations for Algebra')),
+ (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
+ 'Explain why simplifying expressions is important before solving equations.',
+ 'It makes equations easier to solve and reduces the chance of mistakes.',
+ 'rational'
 );
+
+-- LMS Inserts for Rational Problems
+INSERT INTO ProblemDifficultyLink (problem_id, difficulty_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'Why can we combine the terms 2x and 5x, but not 2x and 3y?'),
+        (SELECT id FROM Difficulty WHERE name = 'Intro')),
+       ((SELECT id FROM Problem WHERE prompt = 'Explain why simplifying expressions is important before solving equations.'),
+        (SELECT id FROM Difficulty WHERE name = 'Core'));
+
+INSERT INTO ProblemNumericComplexityLink (problem_id, numeric_complexity_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'Why can we combine the terms 2x and 5x, but not 2x and 3y?'),
+        (SELECT id FROM NumericComplexity WHERE name = 'integers_only')),
+       ((SELECT id FROM Problem WHERE prompt = 'Explain why simplifying expressions is important before solving equations.'),
+        (SELECT id FROM NumericComplexity WHERE name = 'integers_only'));
+
+INSERT INTO ProblemLearnerAttributeLink (problem_id, learner_attribute_id)
+VALUES ((SELECT id FROM Problem WHERE prompt = 'Why can we combine the terms 2x and 5x, but not 2x and 3y?'),
+        (SELECT id FROM LearnerAttribute WHERE name = 'logical')),
+       ((SELECT id FROM Problem WHERE prompt = 'Explain why simplifying expressions is important before solving equations.'),
+        (SELECT id FROM LearnerAttribute WHERE name = 'logical'));
 
 -- Expressions - Objective 2
 -- Factual

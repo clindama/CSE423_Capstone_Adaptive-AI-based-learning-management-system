@@ -135,6 +135,21 @@ CREATE TABLE Problem (
     FOREIGN KEY (objective_id) REFERENCES LearningObjective(id)
 );
 
+-- Stores all AI Generated problems that can be assigned to users
+CREATE TABLE GenProblem (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    topic_id INTEGER NOT NULL,
+    goal_id INTEGER NOT NULL,
+    objective_id INTEGER NOT NULL,
+    prompt TEXT NOT NULL,
+    correct_answer TEXT NOT NULL,
+    category TEXT NOT NULL CHECK (category IN ('factual', 'procedural', 'strategic', 'rational')),
+    FOREIGN KEY (topic_id) REFERENCES Topic(id),
+    FOREIGN KEY (goal_id) REFERENCES Goal(id),
+    FOREIGN KEY (objective_id) REFERENCES LearningObjective(id)
+);
+
 -- Practice Problems Table
 -- This table tracks progress of practice problem set assigned to users
 CREATE TABLE PracticeProblemSet (
@@ -154,13 +169,13 @@ CREATE TABLE PracticeProblemSet (
 CREATE TABLE PracticeProblem (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     set_id INTEGER NOT NULL,
-    problem_id INTEGER NOT NULL,
+    genProblem_id INTEGER NOT NULL,
     student_answer TEXT,
     is_correct BOOLEAN,
     is_completed BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (set_id) REFERENCES PracticeProblemSet(id),
-    FOREIGN KEY (problem_id) REFERENCES Problem(id),
-    UNIQUE (set_id, problem_id)
+    FOREIGN KEY (genProblem_id) REFERENCES GenProblem(id),
+    UNIQUE (set_id, genProblem_id)
 );
 
 -- Student Test Table
@@ -180,11 +195,11 @@ CREATE TABLE StudentTest (
 CREATE TABLE TestProblems (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     test_id INTEGER NOT NULL,
-    problem_id INTEGER NOT NULL,
+    genProblem_id INTEGER NOT NULL,
     problem_order INTEGER,
     FOREIGN KEY (test_id) REFERENCES StudentTest(id),
-    FOREIGN KEY (problem_id) REFERENCES Problem(id),
-    UNIQUE (test_id, problem_id)
+    FOREIGN KEY (genProblem_id) REFERENCES GenProblem(id),
+    UNIQUE (test_id, genProblem_id)
 );
 
 -- Test Attempt Table
@@ -201,19 +216,18 @@ CREATE TABLE TestAttempt (
     FOREIGN KEY (test_id) REFERENCES StudentTest(id)
 );
 
--- Test Report Table
--- This table stores detailed reports of student attempts at each problem in a test
-CREATE TABLE TestReport (
+-- Tracks individual user data for problem attempts
+CREATE TABLE ProblemPerformance (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    attempt_id INTEGER NOT NULL,
-    problem_id INTEGER NOT NULL,
-    student_answer TEXT,
-    is_correct BOOLEAN,
-    is_completed BOOLEAN DEFAULT FALSE,
-    completion_time DATETIME,
-    FOREIGN KEY (attempt_id) REFERENCES TestAttempt(id),
-    FOREIGN KEY (problem_id) REFERENCES Problem(id),
-    UNIQUE (attempt_id, problem_id)
+    genProblem_id INTEGER NOT NULL,   
+    user_id INTEGER NOT NULL,               
+    is_correct BOOLEAN NOT NULL,             
+    attempts INTEGER DEFAULT 1,             
+    -- time_spent_seconds INTEGER,              
+    used_hints BOOLEAN DEFAULT 0,          
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (genProblem_id) REFERENCES GenProblem(id),
+    FOREIGN KEY (user_id) REFERENCES User(id)
 );
 
 -- Feedback after solving
@@ -246,7 +260,7 @@ CREATE TABLE LearnerAttribute (
 
 INSERT INTO LearnerAttribute (name, description) VALUES
 ('visual', 'Learns best with diagrams, charts, and images'),
-('auditory', 'Learns best with listening and discussion'),
+('auditory', 'Learns best w ith listening and discussion'),
 ('reading_writing', 'Learns best with text and notes'),
 ('kinesthetic', 'Learns best with hands-on activities'),
 ('logical', 'Learns best with reasoning and systems'),
@@ -254,36 +268,23 @@ INSERT INTO LearnerAttribute (name, description) VALUES
 ('solitary', 'Learns best independently'),
 ('nature', 'Learns best through real-world and environmental examples');
 
-CREATE TABLE TeachingStyle (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE,      
-    description TEXT
-);
-
-INSERT INTO TeachingStyle (name, description) VALUES
-('authority', 'Teacher-centered, direct instruction'),
-('demonstrator', 'Shows processes and examples'),
-('facilitator', 'Guides learners with questions'),
-('delegator', 'Assigns tasks and peer work'),
-('hybrid', 'Mix of multiple styles');
-
-CREATE TABLE DifficultyBand (
+CREATE TABLE Difficulty (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     level INTEGER NOT NULL UNIQUE,  
     name TEXT,
     description TEXT
 );
 
-INSERT INTO DifficultyBand (level, name, description) VALUES
+INSERT INTO Difficulty (level, name, description) VALUES
 (1, 'Intro', 'Entry-level, simple problems'),
 (2, 'Core', 'Typical grade-level problems'),
-(3, 'Stretch', 'Challenging but solvable'),
+(3, 'Challenge', 'Challenging but solvable'),
 (4, 'Advanced', 'Above grade-level complexity'),
 (5, 'Expert', 'Very difficult, enrichment');
 
 CREATE TABLE NumericComplexity (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE,         -- e.g., 'fractions'
+    name TEXT NOT NULL UNIQUE,         -- 'fractions'
     description TEXT
 );
 
@@ -294,6 +295,33 @@ INSERT INTO NumericComplexity (name, description) VALUES
 ('negatives', 'Negative numbers included'),
 ('mixed', 'Combination of multiple number types'),
 ('radicals', 'Square roots or higher roots included');
+
+-- Link Problem to Difficulty
+CREATE TABLE ProblemDifficultyLink (
+    problem_id INTEGER NOT NULL,
+    difficulty_id INTEGER NOT NULL,
+    PRIMARY KEY (problem_id, difficulty_id),
+    FOREIGN KEY (problem_id) REFERENCES Problem(id),
+    FOREIGN KEY (difficulty_id) REFERENCES Difficulty(id)
+);
+
+-- Link Problem to Numeric Complexity
+CREATE TABLE ProblemNumericComplexityLink (
+    problem_id INTEGER NOT NULL,
+    numeric_complexity_id INTEGER NOT NULL,
+    PRIMARY KEY (problem_id, numeric_complexity_id),
+    FOREIGN KEY (problem_id) REFERENCES Problem(id),
+    FOREIGN KEY (numeric_complexity_id) REFERENCES NumericComplexity(id)
+);
+
+-- Link Problem to Learner Attributes
+CREATE TABLE ProblemLearnerAttributeLink (
+    problem_id INTEGER NOT NULL,
+    learner_attribute_id INTEGER NOT NULL,
+    PRIMARY KEY (problem_id, learner_attribute_id),
+    FOREIGN KEY (problem_id) REFERENCES Problem(id),
+    FOREIGN KEY (learner_attribute_id) REFERENCES LearnerAttribute(id)
+);
 
 
 
