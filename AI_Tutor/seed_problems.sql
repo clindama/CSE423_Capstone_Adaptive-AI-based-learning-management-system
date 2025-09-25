@@ -1,42 +1,4 @@
 
--- This is an example outline of what I plan to change with problems to allow for 
--- the LMS variable inclusion. It is still a work in progress 
-
-INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
-VALUES (
-    (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Expressions'),
-    (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 1'),
-    'Simplify the expression 4(x + 3) - 2x.',
-    '2x + 12',
-    'procedural'
-);
-
--- 1. Difficulty Band
-INSERT INTO ProblemDifficultyLink (problem_id, difficulty_id)
-VALUES (10, (SELECT id FROM DifficultyBand WHERE name = 'Core'));
-
--- 2. Numeric Complexity
-INSERT INTO ProblemNumericComplexityLink (problem_id, numeric_complexity_id)
-VALUES (10, (SELECT id FROM NumericComplexity WHERE name = 'integers_only'));
-
--- 3. Representation Mode
-INSERT INTO ProblemRepresentationLink (problem_id, representation_mode_id)
-VALUES (10, (SELECT id FROM RepresentationMode WHERE name = 'visual'));
-
--- 4. Instructional Strategy
-INSERT INTO ProblemStrategyLink (problem_id, strategy_id)
-VALUES (10, (SELECT id FROM InstructionalStrategy WHERE name = 'scaffolding'));
-
--- 5. Engagement Method
-INSERT INTO ProblemEngagementLink (problem_id, engagement_id)
-VALUES (10, (SELECT id FROM EngagementMethod WHERE name = 'real_world'));
-
--- 6. Teaching Style
-INSERT INTO ProblemTeachingLink (problem_id, teaching_style_id)
-VALUES (10, (SELECT id FROM TeachingStyle WHERE name = 'facilitator'));
-
-
 -- ===========================================================
 -- 1.1 Expressions
 -- ===========================================================
@@ -218,7 +180,7 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Expressions'),
   (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
-  'Translate the sentence into an expression:' || CHAR(10) ||
+  'Translate the sentence into an expression:\n' ||
   '"Seven more than twice a number."',
   '2x + 7',
   'procedural'
@@ -229,7 +191,7 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Expressions'),
   (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
-  'Write an algebraic expression for the phrase:' || CHAR(10) ||
+  'Write an algebraic expression for the phrase:\n' ||
   '"The product of a number and 4 decreased by 9."',
   '4x - 9',
   'procedural'
@@ -241,7 +203,7 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Expressions'),
   (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
-  'A taxi company charges $3 for pickup and $2 per mile. Write an expression for the cost of a ride that is m miles long.' || CHAR(10) ||
+  'A taxi company charges $3 for pickup and $2 per mile. Write an expression for the cost of a ride that is m miles long.\n' ||
   'Explain your reasoning.',
   '3 + 2m || Fixed cost is $3, variable cost is $2 per mile.',
   'strategic'
@@ -252,13 +214,13 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Expressions'),
   (SELECT id FROM LearningObjective WHERE title = 'Expressions - Objective 2'),
-  'Write an expression to represent the cost of x movie tickets if each ticket costs $12, and you also buy a snack combo for $5.' || CHAR(10) ||
+  'Write an expression to represent the cost of x movie tickets if each ticket costs $12, and you also buy a snack combo for $5.\n' ||
   'Show the full expression and explain what each part represents.',
   '12x + 5 || 12x for tickets, 5 for the combo.',
   'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
@@ -289,10 +251,10 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
     (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-    'Which of the following are like terms?' || CHAR(10) ||
-    'A) 3x and 5y' || CHAR(10) ||
-    'B) 2x and 7x' || CHAR(10) ||
-    'C) 4 and 4x' || CHAR(10) ||
+    'Which of the following are like terms?\n' ||
+    'A) 3x and 5y\n' ||
+    'B) 2x and 7x\n' ||
+    'C) 4 and 4x\n' ||
     'D) x^2 and x',
     'B',
     'factual'
@@ -303,10 +265,10 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
     (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-    'What makes two terms "like terms"?' || CHAR(10) ||
-    'A) Same coefficients' || CHAR(10) ||
-    'B) Same variable raised to the same power' || CHAR(10) ||
-    'C) Any numeric terms' || CHAR(10) ||
+    'What makes two terms "like terms"?\n' ||
+    'A) Same coefficients\n' ||
+    'B) Same variable raised to the same power\n' ||
+    'C) Any numeric terms\n' ||
     'D) Identical signs',
     'B',
     'factual'
@@ -318,7 +280,7 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
     (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-    'Identify and group the like terms in the expression:' || CHAR(10) ||
+    'Identify and group the like terms in the expression:\n' ||
     '7x + 3y - 2x + 5y',
     '7x and -2x || 3y and 5y',
     'procedural'
@@ -329,7 +291,7 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
     (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-    'Group the like terms from the expression below:' || CHAR(10) ||
+    'Group the like terms from the expression below:\n' ||
     '8a + 2b + 3a - b + 4',
     '8a and 3a || 2b and -b',
     'procedural'
@@ -341,7 +303,7 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
     (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-    'You are given the expression: 4x + 2y - 3x + y - 6.' || CHAR(10) ||
+    'You are given the expression: 4x + 2y - 3x + y - 6.\n' ||
     'Simplify it.',
     'x + 3y - 6',
     'strategic'
@@ -352,13 +314,13 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
     (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 1'),
-    'You need to simplify this expression for a final answer:' || CHAR(10) ||
+    'You need to simplify this expression for a final answer:\n' ||
     '6m - 4 + 2m - 3m + 10.',
     '4m + 6',
     'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
@@ -418,7 +380,7 @@ VALUES (
   (SELECT id FROM Goal WHERE title = 'Combine Like Terms'),
   (SELECT id FROM LearningObjective WHERE title = 'Combine Like Terms - Objective 2'),
   'Identify like terms in the expression 6x - 4 + 2x + 9?',
-  '6x and 2x; -4 and 9.'
+  '6x and 2x; -4 and 9.',
   'procedural'
 );
 
@@ -443,7 +405,7 @@ VALUES (
   'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
@@ -474,7 +436,7 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
-    'Which property is illustrated by the equation below?' || CHAR(10) ||
+    'Which property is illustrated by the equation below?\n' ||
     '(2 + 3) + 4 = 2 + (3 + 4)',
     'Associative Property of Addition',
     'factual'
@@ -485,7 +447,7 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
-    'Which property allows you to write:' || CHAR(10) ||
+    'Which property allows you to write:\n' ||
     '6 * 3 = 3 * 6',
     'Commutative Property of Multiplication',
     'factual'
@@ -497,7 +459,7 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
-    'Apply the distributive property to rewrite:' || CHAR(10) ||
+    'Apply the distributive property to rewrite:\n' ||
     '5(2 + x)',
     '10 + 5x',
     'procedural'
@@ -508,7 +470,7 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
-    'Use the associative property to rewrite this expression without changing its value:' || CHAR(10) ||
+    'Use the associative property to rewrite this expression without changing its value:\n' ||
     '(7 * 2) * 5',
     '7 * (2 * 5)',
     'procedural'
@@ -520,7 +482,7 @@ VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
     (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
-    'You are given an expression: 3(x + 4) + 2x.' || CHAR(10) ||
+    'You are given an expression: 3(x + 4) + 2x.\n' ||
     'Simplify it using the distributive and addition properties.',
     '5x + 12',
     'strategic'
@@ -530,13 +492,13 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Properties of Real Numbers'),
-    (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 2'),
+    (SELECT id FROM LearningObjective WHERE title = 'Properties of Real Numbers - Objective 1'),
     'You want to simplify: (x + 2) + (3x + 5).',
     '4x + 7',
     'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
@@ -622,7 +584,7 @@ VALUES (
   'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
@@ -652,7 +614,7 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 1'),
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
     'What does the P stand for in PEMDAS?',
     'Parentheses',
     'factual'
@@ -663,8 +625,8 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 1'),
-    'Which operation should be performed first in the expression 3 + 4 * 2?' || CHAR(10) || 'A) Addition' || CHAR(10) || 'B) Multiplication' || CHAR(10) || 'C) Subtraction' || CHAR(10) || 'D) Division',
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
+    'Which operation should be performed first in the expression 3 + 4 * 2?\n' || 'A) Addition\n' || 'B) Multiplication\n' || 'C) Subtraction\n' || 'D) Division',
     'B multiplication',
     'factual'
 );
@@ -674,7 +636,7 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 1'),
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
     'Perform the first operation for: 2 + 3 * (4 - 1).',
     'Perform (4 - 1) first, which equals 2 + 3 * 3.',
     'procedural'
@@ -684,7 +646,7 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 1'),
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
     'What is the value of 2^3?',
     '8',
     'procedural'
@@ -695,7 +657,7 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 1'),
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
     'Simplify the expression 3 + 4 * 2^2?',
     '3 + 4 * 4 = 3 + 16 = 19',
     'strategic'
@@ -705,18 +667,18 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 1'),
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
     'What is the value of 3 + 2 * (3^2 - 1)?',
     '3 + 2 * 8 = 3 + 16 = 19',
     'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 1'),
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
     'Why is it important to follow the order of operations in mathematics?',
     'To ensure consistent and correct results when evaluating expressions.',
     'rational'
@@ -726,7 +688,7 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
     (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 1'),
+    (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 1'),
     'Explain why parentheses are used in the order of operations.',
     'Parentheses indicate which operations should be performed first, ensuring clarity in complex expressions.',
     'rational'
@@ -738,8 +700,8 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-  (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 2'),
-  'Are the following expressions equivalent?' || CHAR(10) ||
+  (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
+  'Are the following expressions equivalent?\n' ||
   '-4^2 and (-4)^2)?',
   'False, -4^2 = -16 while (-4)^2 = 16',
   'factual'
@@ -749,12 +711,12 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-  (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 2'),
-  'The following is an example of which property?' || CHAR(10) ||
-  '(a^x)^y = a^(x*y)' || CHAR(10) ||
-  'A) Power of a Power Rule' || CHAR(10) ||
-  'B) Power of a Product Rule' || CHAR(10) ||
-  'C) Power of a Fraction Rule' || CHAR(10) ||
+  (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
+  'The following is an example of which property?\n' ||
+  '(a^x)^y = a^(x*y)\n' ||
+  'A) Power of a Power Rule\n' ||
+  'B) Power of a Product Rule\n' ||
+  'C) Power of a Fraction Rule\n' ||
   'D) Multiplication of Powers Rule',
   'A Power of a Power Rule',
   'factual'
@@ -765,7 +727,7 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-  (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 2'),
+  (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
   'What is the first step in simplifying the expression (2^3 * 2^4)?',
   'Apply the Multiplication of Powers Rule: a^m * a^n = a^(m+n) == 2^(3+4)',
   'procedural'
@@ -775,7 +737,7 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-  (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 2'),
+  (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
   'Simplify the expression (3^2)^3.',
   '3^(2*3) = 3^6 = 729',
   'procedural'
@@ -786,7 +748,7 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-  (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 2'),
+  (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
   'What is the final result of the expression (2^3 * 2^2) * 3^2?',
   '2^(3+2) * 3^2 = 2^5 * 9 = 32 * 9 = 288',
   'strategic'
@@ -796,18 +758,18 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-  (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 2'),
+  (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
   'Use Power Rules to simplify the expression (2^3 * 3)^2',
   '(2^3)^2 * 3^2 = 2^(3*2) * 3^2 = 2^6 * 9 = 64 * 9 = 576',
   'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-  (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 2'),
+  (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
   'Why is it important to understand the properties of exponents?',
   'Understanding properties of exponents helps simplify complex expressions and solve equations efficiently.',
   'rational'
@@ -817,7 +779,7 @@ INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, ca
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Exponents and Order of Operations'),
-  (SELECT id FROM LearningObjective WHERE title = 'Exponents and Order of Operations - Objective 2'),
+  (SELECT id FROM LearningObjective WHERE title = 'Exponents - Objective 2'),
   'How does the order of operations affect the evaluation of expressions with exponents?',
   'It ensures that exponents are calculated before multiplication or addition, leading to correct results.',
   'rational'
@@ -890,7 +852,7 @@ VALUES (
   'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
@@ -928,8 +890,8 @@ VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
   (SELECT id FROM Goal WHERE title = 'Absolute Value'),
   (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 2'),
-  'Which of the following is an absolute value expression?' || CHAR(10) ||
-  'A) x + 3' || CHAR(10) || 'B) |x - 5|' || CHAR(10) || 'C) (x - 2)' || CHAR(10) || 'D) (x + 4)',
+  'Which of the following is an absolute value expression?\n' ||
+  'A) x + 3\n' || 'B) |x - 5|\n' || 'C) (x - 2)\n' || 'D) (x + 4)',
   'B |x - 5|',
   'factual'
 );
@@ -976,7 +938,7 @@ VALUES (
   'procedural'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
@@ -984,7 +946,7 @@ VALUES (
   (SELECT id FROM LearningObjective WHERE title = 'Absolute Value - Objective 2'),
   'Why are the following expressions equivalent? |a - b| and |b - a|.',
   'Because both expressions represent the distance between a and b on the number line.',
-  'rationale'
+  'rational'
 );
 
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
@@ -1005,8 +967,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'What does an expression not have that separates it from an equation?',
   'An equal sign.',
   'factual'
@@ -1015,12 +977,12 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
-  'Which of the following is an expression?' || CHAR(10) ||
-  'A) x + 5 = 10' || CHAR(10) ||
-  'B) 3x - 2' || CHAR(10) ||
-  'C) y / z = 4' || CHAR(10) ||
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
+  'Which of the following is an expression?\n' ||
+  'A) x + 5 = 10\n' ||
+  'B) 3x - 2\n' ||
+  'C) y / z = 4\n' ||
   'D) a^2 + b^2 = c^2',
   'B 3x - 2',
   'factual'
@@ -1030,8 +992,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'Find the like terms in the expression 3x + 5x - 2y + 2 - 3y.',
   '3x and 5x are like terms; -2y and -3y are like terms.',
   'procedural'
@@ -1040,8 +1002,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'Use the distributive property to simplify the expression 3(x + 2).',
   '3x + 6',
   'procedural'
@@ -1051,8 +1013,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'Simplify the expression 2(x + 3) + 4x.',
   '2x + 6 + 4x = 6x + 6',
   'strategic'
@@ -1061,19 +1023,19 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'Simplify the expression 5(2x + 3y) - 2(3x - 4).',
   '10x + 15y - 6x + 8 = 4x + 15y + 8',
   'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'Why is it important to simplify expressions?',
   'Simplifying expressions makes them easier to work with and understand, especially in solving equations.',
   'rational'
@@ -1082,8 +1044,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'Explain the importance of following the order of operations when simplifying expressions.',
   'Following the order of operations ensures that expressions are simplified correctly and consistently.',
   'rational'
@@ -1094,8 +1056,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 2'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
   'Where in PEMDAS does absolute value fall?',
   'Absolute value is evaluated along with parentheses, so it is part of the P in PEMDAS.',
   'factual'
@@ -1104,8 +1066,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 2'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
   'What property allows us to perform the following: a^x * a^y = a^(x + y)?',
   'Multiplication of Powers Rule',
   'factual'
@@ -1115,8 +1077,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'Use power rules to simplify the expression (2^3 * 2^2).',
   '8 * 4 = 32',
   'procedural'
@@ -1125,8 +1087,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 2'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
   'Simplify the expression |3 - 4| -  |4 - 3| ',
   '1 - 1 = 0',
   'procedural'
@@ -1136,8 +1098,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'Simplify the expression |3 - (2^3 + 2^2)|.',
   '|3 - (8 + 4)| = |3 - 12| = |-9| = 9',
   'strategic'
@@ -1146,19 +1108,19 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 1'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 1'),
   'Simplify the expression (7 - 2)(2x + 3^2)',
   '5(2x + 9) = 10x + 45',
   'strategic'
 );
 
--- Rationale
+-- rational
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 2'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
   'Why do we use properties of exponents when simplifying expressions?',
   'Properties of exponents allow us to rewrite and combine expressions more easily, making simplification straightforward.',
   'rational'
@@ -1167,8 +1129,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
   (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-  (SELECT id FROM Goal WHERE title = 'Simplifying Expressions'),
-  (SELECT id FROM LearningObjective WHERE title = 'Simplifying Expressions - Objective 2'),
+  (SELECT id FROM Goal WHERE title = 'Simplify Expressions'),
+  (SELECT id FROM LearningObjective WHERE title = 'Simplify - Objective 2'),
   'Explain how order of operations and properties simplify complex expressions.',
   'Order of operations and properties allow us to break down complex expressions into simpler parts, making them easier to evaluate.',
   'rational'
@@ -1528,8 +1490,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Evaluating Equations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Evaluating Equations - Objective 1'),
+    (SELECT id FROM Goal WHERE title = 'Intro to Equations'),
+    (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 1'),
     'What is an equation?',
     'An equation is a mathematical statement that asserts the equality of two expressions.',
     'factual'
@@ -1538,12 +1500,12 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Evaluating Equations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Evaluating Equations - Objective 1'),
-    'Which of the following is an equation?' || CHAR(10) ||
-    'A) 3x + 2' || CHAR(10) ||
-    'B) x - 5 = 10' || CHAR(10) ||
-    'C) 4y + 3' || CHAR(10) ||
+    (SELECT id FROM Goal WHERE title = 'Intro to Equations'),
+    (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 1'),
+    'Which of the following is an equation?\n' ||
+    'A) 3x + 2\n' ||
+    'B) x - 5 = 10\n' ||
+    'C) 4y + 3\n' ||
     'D) z / 2',
     'B x - 5 = 10',
     'factual'
@@ -1553,8 +1515,8 @@ VALUES (
 INSERT INTO Problem (topic_id, goal_id, objective_id, prompt, correct_answer, category)
 VALUES (
     (SELECT id FROM Topic WHERE name = 'Foundations for Algebra'),
-    (SELECT id FROM Goal WHERE title = 'Evaluating Equations'),
-    (SELECT id FROM LearningObjective WHERE title = 'Evaluating Equations - Objective 1'),
+    (SELECT id FROM Goal WHERE title = 'Intro to Equations'),
+    (SELECT id FROM LearningObjective WHERE title = 'Equations - Objective 1'),
     'Evaluate the equation x + 3 = 11 for x.',
     'x = 8',
     'procedural'
@@ -1697,7 +1659,7 @@ VALUES (
   'rational'
 );
 
-- ===========================================================
+-- ===========================================================
 -- 1.10 Patterns, Equations, and Graphs
 -- ===========================================================
 
