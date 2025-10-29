@@ -230,23 +230,19 @@ CREATE TABLE ProblemPerformance (
     FOREIGN KEY (user_id) REFERENCES User(id)
 );
 
--- Feedback after solving
--- This table allows students to recieve feedback on answers
-CREATE TABLE Feedback (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    answer_id INTEGER,
-    content TEXT NOT NULL,
-    FOREIGN KEY (answer_id) REFERENCES Answer(id)
-);
-
--- Hints Table
-CREATE TABLE Hint (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    problem_id INTEGER NOT NULL,
-    type TEXT NOT NULL CHECK (type IN ('goal', 'step', 'problem')),
-    content TEXT NOT NULL,
-    hint_order INTEGER DEFAULT 1,
-    FOREIGN KEY (problem_id) REFERENCES Problem(id)
+-- User LMS Profile Table Created by AI tutor
+CREATE TABLE IF NOT EXISTS UserLMSProfile (
+    user_id INTEGER PRIMARY KEY,                 -- one profile per user
+    preferred_learner_style TEXT,                -- e.g., 'visual', 'logical' (from LearnerAttribute.name)
+    target_difficulty INTEGER,                   -- numeric difficulty level (1-5)
+    preferred_length TEXT,                       -- 'short'|'medium'|'long'
+    preferred_numeric_complexity TEXT,           -- e.g., 'integers_only', 'decimals'
+    focus_category TEXT,                         -- 'factual'|'procedural'|'strategic'|'rational'
+    performance_score REAL,                      -- rolling overall accuracy (0-100)
+    ai_goal TEXT,                                -- 'reinforce'|'challenge'|'teach_new'
+    notes TEXT,                                  -- freeform JSON/text for extras (likes baseball, needs clarification, etc)
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES User(id)
 );
 
 -- LMS Variables (Used to personalize problem and content generation)
@@ -323,5 +319,30 @@ CREATE TABLE ProblemLearnerAttributeLink (
     FOREIGN KEY (learner_attribute_id) REFERENCES LearnerAttribute(id)
 );
 
+-- Persistent record of AI reference templates and meta-knowledge
+CREATE TABLE SystemMemory (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    memory_type TEXT NOT NULL CHECK (memory_type IN ('template', 'concept', 'instruction', 'identity')),
+    related_table TEXT,         -- e.g., 'Problem', 'Goal', etc.
+    related_id INTEGER,         -- optional link
+    content TEXT NOT NULL,      -- the core memory content
+    importance INTEGER DEFAULT 1,  -- 1=normal, 2=pinned (never removed)
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
+
+-- extra
+INSERT INTO UserLMSProfile (
+    user_id, preferred_learner_style, target_difficulty, preferred_length,
+    preferred_numeric_complexity, focus_category, performance_score, ai_goal, notes
+) VALUES
+-- User 2: decently smart, procedural, likes sports, struggles with ratSional
+(2, 'procedural', 3, 'medium', 'integers_only', 'rational', 0, 'teach_new',
+ 'Prefers procedure-based problems. Likes sports examples. Struggles with rationale.'),
+-- User 3: super smart, prefers rational and strategic, likes complex wording
+(3, 'rational', 4, 'long', 'mixed', 'factual', 0, 'challenge', 
+ 'Prefers rational and strategic questions. Likes complex and sophisticated wording.'),
+-- User 4: struggles with math, prefers factual, really struggles with strategic, likes simple visuals
+(4, 'factual', 2, 'short', 'integers_only', 'strategic', 0, 'teach_new',
+ 'Prefers simple and visual problems. Struggles with strategy. Struggles with math overall.');
 
