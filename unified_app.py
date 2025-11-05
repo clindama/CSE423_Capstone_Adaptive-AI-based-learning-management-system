@@ -23,7 +23,7 @@ except ImportError:
 
 # Configuration
 DB_PATH = "learning_platform.db"
-API_KEY = "AIzaSyCbaAhYPM6D6C1EonXwxyq49AxlGsvgjIQ"  # Replace with your actual API key
+API_KEY = "AIzaSyAuKWT3v9pI3YZKlxWBZoxEt1pyAm6zNik"  # Replace with your actual API key
 
 # Initialize services
 auth_service = AuthService(db_path=DB_PATH)
@@ -632,7 +632,30 @@ Keep the feedback encouraging, clear, and educational. Use simple language."""
         )
         return response.text
     except Exception as e:
-        return f"Could not generate AI feedback: {str(e)}"
+        error_msg = str(e)
+
+        # Check for specific error types
+        if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
+            return """⚠️ API Rate Limit Reached
+
+The AI service has reached its usage limit. This can happen when:
+• Too many requests are made in a short time
+• Daily/monthly quota has been exhausted
+
+💡 Solutions:
+1. Wait a few minutes and try again
+2. Get a new API key from: https://aistudio.google.com/app/apikey
+3. Update the API key in unified_app.py (line 26)
+
+📝 Manual Feedback:
+In the meantime, here's what you should focus on:
+• Review the correct answer: """ + str(correct_answer) + """
+• Compare it with your answer: """ + str(student_answer) + """
+• """ + ("Great job! You got it right! ✓" if is_correct else "Try to understand where the difference is and why the correct answer works.") + """
+
+For detailed help, consult your textbook or ask your instructor."""
+
+        return f"Could not generate AI feedback: {error_msg}"
 
 
 def show_ai_feedback_dialog(problem_text, student_answer, correct_answer, is_correct):
