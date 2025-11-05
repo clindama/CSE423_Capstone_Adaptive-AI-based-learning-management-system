@@ -715,8 +715,18 @@ def generate_practice_problem(window, topic_name, topic_id, goal_id, objective_i
     problem_text = tk.Text(problem_window, height=10, width=70, font=("Helvetica", 10), wrap="word", state="disabled")
     problem_text.pack(pady=15, padx=20)
 
-    answer_label = tk.Label(problem_window, text="Your Answer:", font=("Helvetica", 11))
-    answer_entry = tk.Entry(problem_window, font=("Helvetica", 11), width=50)
+    # Answer input section - create a frame for it
+    answer_frame = tk.Frame(problem_window)
+    answer_frame.pack(pady=10)
+
+    answer_label = tk.Label(answer_frame, text="Your Answer:", font=("Helvetica", 11))
+    answer_label.grid(row=0, column=0, padx=5, pady=5)
+
+    answer_entry = tk.Entry(answer_frame, font=("Helvetica", 11), width=50)
+    answer_entry.grid(row=0, column=1, padx=5, pady=5)
+
+    # Initially hide the answer frame
+    answer_frame.pack_forget()
 
     correct_answer = [None]
     generated_problem_id = [None]
@@ -743,14 +753,16 @@ def generate_practice_problem(window, topic_name, topic_id, goal_id, objective_i
             problem_id = save_generated_problem(current_user_id, topic_id, goal_id, objective_id, problem, answer, category)
             generated_problem_id[0] = problem_id
 
-            # Show answer input
-            answer_label.pack(pady=5)
-            answer_entry.pack(pady=5)
+            # Show answer input frame
+            answer_frame.pack(pady=10)
+            answer_entry.delete(0, tk.END)  # Clear any previous answer
+            answer_entry.focus()  # Focus on the entry field
         else:
             problem_text.config(state="normal")
             problem_text.delete(1.0, tk.END)
             problem_text.insert(1.0, "Failed to generate problem. Please try again.")
             problem_text.config(state="disabled")
+            answer_frame.pack_forget()  # Hide answer input if generation failed
 
     def submit_answer():
         if correct_answer[0] is None:
