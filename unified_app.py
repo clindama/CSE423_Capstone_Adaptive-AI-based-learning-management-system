@@ -280,18 +280,28 @@ ANSWER: [correct answer here]"""
 
 def save_generated_problem(user_id, topic_id, goal_id, objective_id, problem, answer, category):
     """Save AI-generated problem to database"""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
 
-    cursor.execute("""
-        INSERT INTO GenProblem (user_id, topic_id, goal_id, objective_id, prompt, correct_answer, category)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, (user_id, topic_id, goal_id, objective_id, problem, answer, category))
+        cursor.execute("""
+            INSERT INTO GenProblem (user_id, topic_id, goal_id, objective_id, prompt, correct_answer, category)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, topic_id, goal_id, objective_id, problem, answer, category))
 
-    problem_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
-    return problem_id
+        problem_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        return problem_id
+    except sqlite3.OperationalError as e:
+        if "no such table" in str(e):
+            print(f"ERROR: {e}")
+            print("Please run: python add_ai_tables.py")
+            messagebox.showerror("Database Error",
+                "Missing AI tables in database.\n\n"
+                "Please run this command first:\n"
+                "python add_ai_tables.py")
+        raise
 
 
 def record_practice_attempt(user_id, goal_id, problem_id, student_answer, is_correct):
