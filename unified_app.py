@@ -605,48 +605,347 @@ def show_goals_for_topic(window, topic_name):
               font=("Helvetica", 11)).pack(pady=10)
 
 
+def get_ai_feedback(problem_text, student_answer, correct_answer, is_correct):
+    """Generate AI feedback for a student's answer"""
+    if not AI_AVAILABLE:
+        return "AI feedback not available. Please install google-genai package."
+
+    try:
+        prompt = f"""You are a helpful math tutor. A student attempted this problem:
+
+Problem: {problem_text}
+
+Student's Answer: {student_answer}
+Correct Answer: {correct_answer}
+Result: {"Correct" if is_correct else "Incorrect"}
+
+Provide constructive feedback:
+1. If correct: Praise the student and explain why the answer is right
+2. If incorrect: Gently explain the mistake and guide them to the correct solution
+3. Provide tips or insights to help them understand the concept better
+
+Keep the feedback encouraging, clear, and educational. Use simple language."""
+
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        return f"Could not generate AI feedback: {str(e)}"
+
+
+def show_ai_feedback_dialog(problem_text, student_answer, correct_answer, is_correct):
+    """Show AI feedback in a dialog window"""
+    feedback_window = tk.Toplevel()
+    feedback_window.title("AI Feedback")
+    feedback_window.geometry("700x600")
+
+    # Header
+    header_frame = tk.Frame(feedback_window, bg="#4CAF50" if is_correct else "#f44336", height=60)
+    header_frame.pack(fill="x")
+    header_frame.pack_propagate(False)
+
+    result_text = "✓ Correct Answer" if is_correct else "✗ Incorrect Answer"
+    tk.Label(header_frame, text=result_text, font=("Helvetica", 16, "bold"),
+             bg="#4CAF50" if is_correct else "#f44336", fg="white").pack(pady=15)
+
+    # Content area with scrollbar
+    content_frame = tk.Frame(feedback_window)
+    content_frame.pack(fill="both", expand=True, padx=20, pady=20)
+
+    # Problem section
+    tk.Label(content_frame, text="Problem:", font=("Helvetica", 12, "bold")).pack(anchor="w", pady=(0, 5))
+    problem_label = tk.Label(content_frame, text=problem_text, font=("Helvetica", 10),
+                             wraplength=650, justify="left", bg="#f0f0f0", padx=10, pady=10)
+    problem_label.pack(fill="x", pady=(0, 15))
+
+    # Answers section
+    answers_frame = tk.Frame(content_frame)
+    answers_frame.pack(fill="x", pady=(0, 15))
+
+    tk.Label(answers_frame, text="Your Answer:", font=("Helvetica", 11, "bold")).grid(row=0, column=0, sticky="w", pady=5)
+    tk.Label(answers_frame, text=student_answer, font=("Helvetica", 10)).grid(row=0, column=1, sticky="w", padx=10)
+
+    tk.Label(answers_frame, text="Correct Answer:", font=("Helvetica", 11, "bold")).grid(row=1, column=0, sticky="w", pady=5)
+    tk.Label(answers_frame, text=correct_answer, font=("Helvetica", 10)).grid(row=1, column=1, sticky="w", padx=10)
+
+    # AI Feedback section
+    tk.Label(content_frame, text="AI Tutor Feedback:", font=("Helvetica", 12, "bold")).pack(anchor="w", pady=(10, 5))
+
+    feedback_text = tk.Text(content_frame, height=15, width=70, font=("Helvetica", 10),
+                           wrap="word", bg="#fffef0", padx=10, pady=10)
+    feedback_text.pack(fill="both", expand=True)
+
+    scrollbar = tk.Scrollbar(feedback_text)
+    scrollbar.pack(side="right", fill="y")
+    feedback_text.config(yscrollcommand=scrollbar.set)
+    scrollbar.config(command=feedback_text.yview)
+
+    # Show loading message
+    feedback_text.insert(1.0, "Generating AI feedback... Please wait...")
+    feedback_text.config(state="disabled")
+    feedback_window.update()
+
+    # Generate feedback
+    feedback = get_ai_feedback(problem_text, student_answer, correct_answer, is_correct)
+
+    feedback_text.config(state="normal")
+    feedback_text.delete(1.0, tk.END)
+    feedback_text.insert(1.0, feedback)
+    feedback_text.config(state="disabled")
+
+    # Close button
+    tk.Button(feedback_window, text="Close", command=feedback_window.destroy,
+             font=("Helvetica", 11), width=15, bg="#2196F3", fg="white").pack(pady=15)
+
+
+def fetch_practice_history(username):
+    """Fetch detailed practice history for a user"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Get user_id
+    cursor.execute("SELECT id FROM User WHERE username = ?", (username,))
+    result = cursor.fetchone()
+    if not result:
+        conn.close()
+        return []
+
+    user_id = result[0]
+
+    # Fetch practice history with all details
+    cursor.execute("""
+        SELECT
+            t.name as topic_name,
+            g.title as goal_title,
+            lo.title as objective_title,
+            gp.prompt as problem_text,
+            pp.student_answer,
+            gp.correct_answer,
+            pp.is_correct,
+            gp.category,
+            ps.start_time,
+            gp.id as problem_id
+        FROM PracticeProblem pp
+        JOIN PracticeProblemSet ps ON pp.set_id = ps.id
+        JOIN GenProblem gp ON pp.problem_id = gp.id
+        JOIN Goal g ON gp.goal_id = g.id
+        JOIN Topic t ON gp.topic_id = t.id
+        JOIN LearningObjective lo ON gp.objective_id = lo.id
+        WHERE ps.user_id = ?
+        ORDER BY ps.start_time DESC
+    """, (user_id,))
+
+    history = cursor.fetchall()
+    conn.close()
+    return history
+
+
 def show_progress_dashboard(window):
-    """Display progress tracking dashboard"""
+    """Display enhanced progress tracking dashboard with detailed history"""
     for widget in window.winfo_children():
         widget.destroy()
 
-    header = tk.Label(window, text="Your Progress", font=("Helvetica", 18, "bold"))
-    header.pack(pady=15)
+    # Create main container with scrollbar
+    main_canvas = tk.Canvas(window)
+    scrollbar = tk.Scrollbar(window, orient="vertical", command=main_canvas.yview)
+    scrollable_frame = tk.Frame(main_canvas)
 
-    container = tk.Frame(window)
-    container.pack(fill="both", expand=True)
-
-    # Topic Progress
-    section1 = tk.Label(container, text="Topic Progress", font=("Helvetica", 14, "underline"))
-    section1.pack(anchor="w", padx=10, pady=(10, 5))
-
-    topic_rows = []
-    progress_data = fetch_topic_progress(current_user)
-    for topic, progress in progress_data:
-        pct = 0 if progress is None else progress
-        topic_rows.append((topic, f"{pct}%"))
-
-    build_table(
-        parent=container,
-        columns=["topic", "progress"],
-        heading_map={"topic": "Topic", "progress": "Progress"},
-        rows=topic_rows,
-        stretch_last=True,
-        height=10
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: main_canvas.configure(scrollregion=main_canvas.bbox("all"))
     )
 
-    def show_completed_topics():
-        completed = [topic for topic, prog in progress_data if (prog or 0) == 100]
-        if completed:
-            messagebox.showinfo("Completed Topics", "\n".join(completed))
-        else:
-            messagebox.showinfo("Completed Topics", "No topics completed yet.")
+    main_canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    main_canvas.configure(yscrollcommand=scrollbar.set)
 
-    tk.Button(container, text="View Completed Topics", command=show_completed_topics,
-              font=("Helvetica", 10)).pack(anchor="e", padx=12, pady=(5, 15))
+    # Header
+    header = tk.Label(scrollable_frame, text="📊 Your Learning Progress", font=("Helvetica", 20, "bold"))
+    header.pack(pady=20)
 
-    tk.Button(window, text="← Back to Dashboard", command=lambda: relaunch_dashboard(window),
-              font=("Helvetica", 11)).pack(pady=15)
+    # ==================== SECTION 1: TOPIC PROGRESS ====================
+    topic_section = tk.LabelFrame(scrollable_frame, text="📚 Topic Progress Overview",
+                                  font=("Helvetica", 14, "bold"), padx=20, pady=15)
+    topic_section.pack(fill="x", padx=20, pady=10)
+
+    progress_data = fetch_topic_progress(current_user)
+
+    if progress_data:
+        for topic, progress in progress_data:
+            pct = 0 if progress is None else progress
+
+            topic_frame = tk.Frame(topic_section)
+            topic_frame.pack(fill="x", pady=8)
+
+            tk.Label(topic_frame, text=topic, font=("Helvetica", 11, "bold"), width=30, anchor="w").pack(side="left")
+
+            # Progress bar
+            progress_canvas = tk.Canvas(topic_frame, width=300, height=25, bg="white", highlightthickness=1)
+            progress_canvas.pack(side="left", padx=10)
+
+            # Draw progress bar
+            if pct > 0:
+                bar_width = int(300 * pct / 100)
+                color = "#4CAF50" if pct >= 70 else "#FFC107" if pct >= 40 else "#f44336"
+                progress_canvas.create_rectangle(0, 0, bar_width, 25, fill=color, outline="")
+
+            progress_canvas.create_text(150, 12, text=f"{pct}%", font=("Helvetica", 10, "bold"))
+
+            # Status badge
+            if pct == 100:
+                tk.Label(topic_frame, text="✓ Complete", font=("Helvetica", 9),
+                        bg="#4CAF50", fg="white", padx=8, pady=2).pack(side="left")
+            elif pct >= 70:
+                tk.Label(topic_frame, text="⚡ Almost There", font=("Helvetica", 9),
+                        bg="#FFC107", fg="black", padx=8, pady=2).pack(side="left")
+            elif pct > 0:
+                tk.Label(topic_frame, text="📝 In Progress", font=("Helvetica", 9),
+                        bg="#2196F3", fg="white", padx=8, pady=2).pack(side="left")
+    else:
+        tk.Label(topic_section, text="No progress yet. Start practicing to see your progress!",
+                font=("Helvetica", 10, "italic")).pack(pady=10)
+
+    # ==================== SECTION 2: PRACTICE HISTORY ====================
+    history_section = tk.LabelFrame(scrollable_frame, text="📝 Detailed Practice History",
+                                    font=("Helvetica", 14, "bold"), padx=20, pady=15)
+    history_section.pack(fill="both", expand=True, padx=20, pady=10)
+
+    practice_history = fetch_practice_history(current_user)
+
+    if practice_history:
+        # Group by topic
+        topics_dict = {}
+        for record in practice_history:
+            topic_name = record[0]
+            if topic_name not in topics_dict:
+                topics_dict[topic_name] = []
+            topics_dict[topic_name].append(record)
+
+        # Create notebook (tabs) for each topic
+        notebook = ttk.Notebook(history_section)
+        notebook.pack(fill="both", expand=True)
+
+        for topic_name, records in topics_dict.items():
+            # Create tab for each topic
+            topic_tab = tk.Frame(notebook)
+            notebook.add(topic_tab, text=f"📚 {topic_name} ({len(records)})")
+
+            # Create canvas with scrollbar for this topic
+            topic_canvas = tk.Canvas(topic_tab)
+            topic_scrollbar = tk.Scrollbar(topic_tab, orient="vertical", command=topic_canvas.yview)
+            topic_scrollable = tk.Frame(topic_canvas)
+
+            topic_scrollable.bind(
+                "<Configure>",
+                lambda e: topic_canvas.configure(scrollregion=topic_canvas.bbox("all"))
+            )
+
+            topic_canvas.create_window((0, 0), window=topic_scrollable, anchor="nw")
+            topic_canvas.configure(yscrollcommand=topic_scrollbar.set)
+
+            topic_canvas.pack(side="left", fill="both", expand=True)
+            topic_scrollbar.pack(side="right", fill="y")
+
+            # Display each practice attempt
+            for idx, record in enumerate(records, 1):
+                (topic_name, goal_title, objective_title, problem_text,
+                 student_answer, correct_answer, is_correct, category,
+                 start_time, problem_id) = record
+
+                # Create card for each attempt
+                card = tk.Frame(topic_scrollable, relief="raised", borderwidth=2, bg="#f9f9f9")
+                card.pack(fill="x", padx=10, pady=8)
+
+                # Header row with result indicator
+                header_frame = tk.Frame(card, bg="#4CAF50" if is_correct else "#f44336", height=35)
+                header_frame.pack(fill="x")
+                header_frame.pack_propagate(False)
+
+                result_icon = "✓" if is_correct else "✗"
+                result_text = "CORRECT" if is_correct else "INCORRECT"
+                tk.Label(header_frame, text=f"{result_icon} {result_text}",
+                        font=("Helvetica", 11, "bold"),
+                        bg="#4CAF50" if is_correct else "#f44336",
+                        fg="white").pack(side="left", padx=15, pady=5)
+
+                tk.Label(header_frame, text=f"Attempt #{idx}",
+                        font=("Helvetica", 9),
+                        bg="#4CAF50" if is_correct else "#f44336",
+                        fg="white").pack(side="left")
+
+                tk.Label(header_frame, text=f"📅 {start_time}",
+                        font=("Helvetica", 9),
+                        bg="#4CAF50" if is_correct else "#f44336",
+                        fg="white").pack(side="right", padx=15)
+
+                # Content area
+                content = tk.Frame(card, bg="#f9f9f9", padx=15, pady=10)
+                content.pack(fill="x")
+
+                # Goal and Objective
+                info_frame = tk.Frame(content, bg="#f9f9f9")
+                info_frame.pack(fill="x", pady=(0, 10))
+
+                tk.Label(info_frame, text="🎯 Goal:", font=("Helvetica", 9, "bold"),
+                        bg="#f9f9f9").grid(row=0, column=0, sticky="w", padx=(0, 5))
+                tk.Label(info_frame, text=goal_title, font=("Helvetica", 9),
+                        bg="#f9f9f9").grid(row=0, column=1, sticky="w")
+
+                tk.Label(info_frame, text="📌 Objective:", font=("Helvetica", 9, "bold"),
+                        bg="#f9f9f9").grid(row=1, column=0, sticky="w", padx=(0, 5), pady=(3, 0))
+                tk.Label(info_frame, text=objective_title, font=("Helvetica", 9),
+                        bg="#f9f9f9").grid(row=1, column=1, sticky="w", pady=(3, 0))
+
+                tk.Label(info_frame, text="🏷️ Type:", font=("Helvetica", 9, "bold"),
+                        bg="#f9f9f9").grid(row=2, column=0, sticky="w", padx=(0, 5), pady=(3, 0))
+                tk.Label(info_frame, text=category.capitalize(), font=("Helvetica", 9),
+                        bg="#f9f9f9").grid(row=2, column=1, sticky="w", pady=(3, 0))
+
+                # Problem
+                tk.Label(content, text="❓ Problem:", font=("Helvetica", 10, "bold"),
+                        bg="#f9f9f9").pack(anchor="w", pady=(5, 3))
+                problem_label = tk.Label(content, text=problem_text, font=("Helvetica", 9),
+                                        wraplength=700, justify="left", bg="white",
+                                        padx=10, pady=8, relief="solid", borderwidth=1)
+                problem_label.pack(fill="x", pady=(0, 10))
+
+                # Answers
+                answers_frame = tk.Frame(content, bg="#f9f9f9")
+                answers_frame.pack(fill="x", pady=(0, 10))
+
+                tk.Label(answers_frame, text="Your Answer:", font=("Helvetica", 9, "bold"),
+                        bg="#f9f9f9", width=15, anchor="w").grid(row=0, column=0, sticky="w", pady=3)
+                tk.Label(answers_frame, text=student_answer, font=("Helvetica", 9),
+                        bg="#ffe6e6" if not is_correct else "#e6ffe6",
+                        padx=8, pady=4, relief="solid", borderwidth=1).grid(row=0, column=1, sticky="w", padx=5)
+
+                tk.Label(answers_frame, text="Correct Answer:", font=("Helvetica", 9, "bold"),
+                        bg="#f9f9f9", width=15, anchor="w").grid(row=1, column=0, sticky="w", pady=3)
+                tk.Label(answers_frame, text=correct_answer, font=("Helvetica", 9),
+                        bg="#e6ffe6", padx=8, pady=4, relief="solid", borderwidth=1).grid(row=1, column=1, sticky="w", padx=5)
+
+                # AI Feedback Button
+                feedback_btn = tk.Button(content, text="🤖 Get AI Feedback",
+                                        font=("Helvetica", 10, "bold"),
+                                        bg="#2196F3", fg="white", padx=20, pady=8,
+                                        cursor="hand2",
+                                        command=lambda p=problem_text, s=student_answer, c=correct_answer, i=is_correct:
+                                        show_ai_feedback_dialog(p, s, c, i))
+                feedback_btn.pack(pady=(5, 0))
+
+    else:
+        tk.Label(history_section, text="No practice history yet. Start solving problems to see your history!",
+                font=("Helvetica", 11, "italic"), fg="#666").pack(pady=30)
+
+    # Pack canvas and scrollbar
+    main_canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+    # Back button
+    back_btn = tk.Button(window, text="← Back to Dashboard",
+                        command=lambda: relaunch_dashboard(window),
+                        font=("Helvetica", 12, "bold"), bg="#607D8B", fg="white",
+                        padx=20, pady=10)
+    back_btn.pack(side="bottom", pady=15)
 
 
 def show_practice_for_goal(window, topic_name, goal_id):
