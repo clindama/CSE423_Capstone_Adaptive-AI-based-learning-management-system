@@ -316,9 +316,9 @@ def record_practice_attempt(user_id, goal_id, problem_id, student_answer, is_cor
     """, (user_id, goal_id))
     set_id = cursor.lastrowid
 
-    # Record the attempt
+    # Record the attempt - use problem_id column (not genProblem_id)
     cursor.execute("""
-        INSERT INTO PracticeProblem (set_id, genProblem_id, student_answer, is_correct, is_completed)
+        INSERT INTO PracticeProblem (set_id, problem_id, student_answer, is_correct, is_completed)
         VALUES (?, ?, ?, ?, TRUE)
     """, (set_id, problem_id, student_answer, is_correct))
 
