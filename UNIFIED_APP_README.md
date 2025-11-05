@@ -90,22 +90,32 @@ pip install google-genai faker
 ```
 
 ### Database Setup
-If the database doesn't exist, run:
+
+**IMPORTANT: Run these commands in order:**
+
+1. **Create the base database:**
 ```bash
 python main.py
+```
+
+2. **Add AI tables (required for practice problems):**
+```bash
+python add_ai_tables.py
 ```
 
 This creates `learning_platform.db` with:
 - User table with default admin account
 - Topics and Goals from `toplist.sql`
 - Schema from `test.sql`
+- AI tables: GenProblem, PracticeProblemSet, PracticeProblem
 
 ## Usage Guide
 
 ### First Time Setup
 1. Run `python main.py` to initialize the database
-2. Run `python unified_app.py` to start the application
-3. Login with admin credentials or register a new account
+2. **Run `python add_ai_tables.py` to add AI tables** ⚠️ **REQUIRED!**
+3. Run `python unified_app.py` to start the application
+4. Login with admin credentials or register a new account
 
 ### Practicing with Progress Tracking
 1. **Login** to your account
@@ -173,6 +183,15 @@ The app uses Google's Gemini AI. To use your own API key:
 ### Database Not Found
 - Run `python main.py` to create the database
 - Make sure `test.sql` and `toplist.sql` exist
+
+### "No such table: GenProblem" Error
+- **Solution**: Run `python add_ai_tables.py` to add the missing AI tables
+- This is required for the practice problem feature to work
+
+### Answer Input Not Showing
+- Make sure the problem generated successfully (no errors in terminal)
+- The answer input field appears automatically after clicking "Generate Problem"
+- If you see an error, check that AI tables exist (run `add_ai_tables.py`)
 
 ### Progress Not Updating
 - Make sure you're submitting answers through the practice problem interface
