@@ -25,14 +25,24 @@ python unified_app.py
 - **Computer Pick**: Randomly select a topic for practice
 - Navigate through learning objectives for each goal
 
-### 3. **Progress Tracking** ✨
+### 3. **Enhanced Progress Tracking** ✨ ⭐ NEW!
+- **Visual Progress Bars**: See completion percentage for each topic with color-coded status
+  - 🟢 Green (70-100%): Complete or almost there
+  - 🟡 Yellow (40-69%): In progress
+  - 🔴 Red (0-39%): Just started
+- **Detailed Practice History**: Review every problem you've attempted
+  - Organized by topic in tabbed interface
+  - Individual cards for each attempt
+  - Shows problem, your answer, correct answer
+  - Timestamp and problem type
+  - Goal and objective information
+- **AI Feedback Button**: Click "🤖 Get AI Feedback" on any attempt to get personalized feedback
 - **Real-time progress updates** based on problem-solving performance
 - Track progress at multiple levels:
   - **Topic Progress**: Overall completion percentage per topic
   - **Goal Progress**: Grade and completion status per goal
   - **Automatic Updates**: Progress updates when you complete practice problems
 - View completed topics and achievements
-- Progress dashboard with visual tables
 
 ### 4. **AI-Powered Practice Problems** 🤖
 - Generate custom problems using Google's Gemini AI
@@ -44,9 +54,19 @@ python unified_app.py
 - Immediate feedback on answers
 - **Progress tracking integration**: Your performance automatically updates your goal and topic progress
 
-### 5. **Integrated Workflow**
+### 5. **AI Tutor Feedback** 🤖 ⭐ NEW!
+- Get personalized feedback on any practice attempt
+- Click "🤖 Get AI Feedback" button on problem cards
+- AI analyzes your answer vs. correct answer
+- Provides:
+  - Explanation of why answer is correct/incorrect
+  - Tips and learning strategies
+  - Encouraging and educational feedback
+- Uses Google Gemini 1.5 Flash for fast responses
+
+### 6. **Integrated Workflow**
 ```
-Login → Dashboard → Select Topic → View Goals → Practice Problems → Progress Updates
+Login → Dashboard → Select Topic → View Goals → Practice Problems → Progress Updates → Review History → Get AI Feedback
 ```
 
 ## How Progress Tracking Works
@@ -69,9 +89,12 @@ When you complete a practice problem:
 
 ### Viewing Progress
 - Click **"📊 View Progress"** from the main dashboard
-- See all topics with current progress percentages
-- View completed topics
-- Track your learning journey
+- See all topics with current progress percentages and visual progress bars
+- View detailed practice history organized by topic
+- Click on topic tabs to see all attempts for that topic
+- Review individual problem cards with full details
+- Click "🤖 Get AI Feedback" on any attempt to get personalized feedback
+- Track your learning journey with comprehensive insights
 
 ## Database Schema
 
