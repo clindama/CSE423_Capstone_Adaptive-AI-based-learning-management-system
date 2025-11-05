@@ -626,8 +626,10 @@ Provide constructive feedback:
 
 Keep the feedback encouraging, clear, and educational. Use simple language."""
 
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model='gemini-1.5-flash',
+            contents=prompt
+        )
         return response.text
     except Exception as e:
         return f"Could not generate AI feedback: {str(e)}"
@@ -750,13 +752,26 @@ def show_progress_dashboard(window):
     scrollbar = tk.Scrollbar(window, orient="vertical", command=main_canvas.yview)
     scrollable_frame = tk.Frame(main_canvas)
 
-    scrollable_frame.bind(
-        "<Configure>",
-        lambda e: main_canvas.configure(scrollregion=main_canvas.bbox("all"))
-    )
+    def configure_main_scroll(event):
+        main_canvas.configure(scrollregion=main_canvas.bbox("all"))
+
+    scrollable_frame.bind("<Configure>", configure_main_scroll)
 
     main_canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
     main_canvas.configure(yscrollcommand=scrollbar.set)
+
+    # Enable mouse wheel scrolling for main canvas
+    def on_main_mousewheel(event):
+        main_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+    def bind_mousewheel(event):
+        main_canvas.bind_all("<MouseWheel>", on_main_mousewheel)
+
+    def unbind_mousewheel(event):
+        main_canvas.unbind_all("<MouseWheel>")
+
+    main_canvas.bind("<Enter>", bind_mousewheel)
+    main_canvas.bind("<Leave>", unbind_mousewheel)
 
     # Header
     header = tk.Label(scrollable_frame, text="📊 Your Learning Progress", font=("Helvetica", 20, "bold"))
@@ -834,13 +849,27 @@ def show_progress_dashboard(window):
             topic_scrollbar = tk.Scrollbar(topic_tab, orient="vertical", command=topic_canvas.yview)
             topic_scrollable = tk.Frame(topic_canvas)
 
-            topic_scrollable.bind(
-                "<Configure>",
-                lambda e: topic_canvas.configure(scrollregion=topic_canvas.bbox("all"))
-            )
+            # Use a function to capture the canvas correctly
+            def configure_scroll_region(event, canvas=topic_canvas):
+                canvas.configure(scrollregion=canvas.bbox("all"))
 
-            topic_canvas.create_window((0, 0), window=topic_scrollable, anchor="nw")
+            topic_scrollable.bind("<Configure>", configure_scroll_region)
+
+            topic_canvas.create_window((0, 0), window=topic_scrollable, anchor="nw", width=window.winfo_width()-50)
             topic_canvas.configure(yscrollcommand=topic_scrollbar.set)
+
+            # Enable mouse wheel scrolling
+            def on_tab_mousewheel(event, canvas=topic_canvas):
+                canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+            def bind_tab_mousewheel(event, canvas=topic_canvas):
+                canvas.bind_all("<MouseWheel>", lambda e: on_tab_mousewheel(e, canvas))
+
+            def unbind_tab_mousewheel(event, canvas=topic_canvas):
+                canvas.unbind_all("<MouseWheel>")
+
+            topic_canvas.bind("<Enter>", bind_tab_mousewheel)
+            topic_canvas.bind("<Leave>", unbind_tab_mousewheel)
 
             topic_canvas.pack(side="left", fill="both", expand=True)
             topic_scrollbar.pack(side="right", fill="y")
