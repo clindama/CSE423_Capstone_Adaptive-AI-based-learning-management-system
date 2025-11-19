@@ -23,7 +23,7 @@ except ImportError:
 
 # Configuration
 DB_PATH = "learning_platform.db"
-API_KEY = "AIzaSyAuKWT3v9pI3YZKlxWBZoxEt1pyAm6zNik"  # Replace with your actual API key
+API_KEY = "AIzaSyDlIbDoYs5yqCTpyf-FPXuwRIWvecl5Lc0"  # Your Gemini API key
 
 # Initialize services
 auth_service = AuthService(db_path=DB_PATH)
@@ -33,6 +33,100 @@ if AI_AVAILABLE:
 # Global state
 current_user = None
 current_user_id = None
+
+# ==================== MODERN UI THEME ====================
+
+# Color Palette - Modern, Professional
+COLORS = {
+    'primary': '#2563eb',      # Blue
+    'primary_dark': '#1e40af',
+    'primary_light': '#3b82f6',
+    'success': '#10b981',      # Green
+    'success_dark': '#059669',
+    'warning': '#f59e0b',      # Orange
+    'warning_dark': '#d97706',
+    'danger': '#ef4444',       # Red
+    'danger_dark': '#dc2626',
+    'purple': '#8b5cf6',
+    'purple_dark': '#7c3aed',
+    'bg_primary': '#ffffff',   # White
+    'bg_secondary': '#f8fafc', # Light gray
+    'bg_tertiary': '#f1f5f9',
+    'text_primary': '#1e293b',
+    'text_secondary': '#64748b',
+    'border': '#e2e8f0',
+    'shadow': '#94a3b8'
+}
+
+# Fonts
+FONTS = {
+    'title': ('Segoe UI', 24, 'bold'),
+    'heading': ('Segoe UI', 18, 'bold'),
+    'subheading': ('Segoe UI', 14, 'bold'),
+    'body': ('Segoe UI', 11),
+    'body_bold': ('Segoe UI', 11, 'bold'),
+    'small': ('Segoe UI', 9),
+    'button': ('Segoe UI', 11, 'bold'),
+    'button_large': ('Segoe UI', 13, 'bold')
+}
+
+def create_modern_button(parent, text, command, bg_color, width=20, height=2, icon=""):
+    """Create a modern styled button with hover effects"""
+    btn_frame = tk.Frame(parent, bg=parent['bg'])
+
+    button_text = f"{icon} {text}" if icon else text
+
+    btn = tk.Button(
+        btn_frame,
+        text=button_text,
+        command=command,
+        font=FONTS['button'],
+        bg=bg_color,
+        fg='white',
+        activebackground=bg_color,
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        width=width,
+        height=height,
+        borderwidth=0
+    )
+    btn.pack(padx=2, pady=2)
+
+    # Hover effects
+    def on_enter(e):
+        btn.config(bg=COLORS.get(bg_color + '_dark', bg_color))
+
+    def on_leave(e):
+        btn.config(bg=bg_color)
+
+    btn.bind("<Enter>", on_enter)
+    btn.bind("<Leave>", on_leave)
+
+    return btn_frame
+
+def create_card(parent, title="", padding=20):
+    """Create a modern card container"""
+    card = tk.Frame(
+        parent,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        borderwidth=1,
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+
+    if title:
+        title_label = tk.Label(
+            card,
+            text=title,
+            font=FONTS['subheading'],
+            bg=COLORS['bg_primary'],
+            fg=COLORS['text_primary']
+        )
+        title_label.pack(anchor='w', padx=padding, pady=(padding, 10))
+
+    return card
 
 
 # ==================== DATABASE HELPER FUNCTIONS ====================
@@ -263,10 +357,10 @@ ANSWER: [correct answer here]"""
     
     try:
         response = client.models.generate_content(
-            model='gemini-2.0-flash-exp',
+            model='gemini-2.5-flash',
             contents=prompt
         )
-        
+
         text = response.text
         if "PROBLEM:" in text and "ANSWER:" in text:
             problem = text.split("PROBLEM:")[1].split("ANSWER:")[0].strip()
@@ -358,26 +452,116 @@ def build_table(parent, columns, heading_map, rows, stretch_last=True, height=8)
 # ==================== MAIN APPLICATION SCREENS ====================
 
 def show_login_screen():
-    """Display the login/register screen"""
+    """Display the modern login/register screen"""
     global current_user, current_user_id
 
     root = tk.Tk()
-    root.title("Learning Management System - Login")
-    root.geometry("400x250")
+    root.title("Learning Management System")
+    root.geometry("520x700")
+    root.configure(bg=COLORS['bg_secondary'])
 
-    tk.Label(root, text="Adaptive Learning System", font=("Helvetica", 18, "bold")).pack(pady=20)
+    # Center window
+    root.update_idletasks()
+    width = root.winfo_width()
+    height = root.winfo_height()
+    x = (root.winfo_screenwidth() // 2) - (width // 2)
+    y = (root.winfo_screenheight() // 2) - (height // 2)
+    root.geometry(f'{width}x{height}+{x}+{y}')
 
-    # Login frame
-    login_frame = tk.Frame(root)
-    login_frame.pack(pady=10)
+    # Main container
+    main_frame = tk.Frame(root, bg=COLORS['bg_secondary'])
+    main_frame.pack(expand=True, fill='both', padx=40, pady=40)
 
-    tk.Label(login_frame, text="Username:", font=("Helvetica", 12)).grid(row=0, column=0, padx=10, pady=10, sticky="e")
-    username_entry = tk.Entry(login_frame, font=("Helvetica", 12))
-    username_entry.grid(row=0, column=1, padx=10, pady=10)
+    # Logo/Title area
+    title_frame = tk.Frame(main_frame, bg=COLORS['bg_secondary'])
+    title_frame.pack(pady=(0, 30))
 
-    tk.Label(login_frame, text="Password:", font=("Helvetica", 12)).grid(row=1, column=0, padx=10, pady=10, sticky="e")
-    password_entry = tk.Entry(login_frame, show="*", font=("Helvetica", 12))
-    password_entry.grid(row=1, column=1, padx=10, pady=10)
+    tk.Label(
+        title_frame,
+        text="🎓",
+        font=('Segoe UI', 48),
+        bg=COLORS['bg_secondary']
+    ).pack()
+
+    tk.Label(
+        title_frame,
+        text="Learning Management System",
+        font=FONTS['title'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_primary']
+    ).pack(pady=(10, 5))
+
+    tk.Label(
+        title_frame,
+        text="AI-Powered Adaptive Learning",
+        font=FONTS['body'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_secondary']
+    ).pack()
+
+    # Login card
+    login_card = tk.Frame(
+        main_frame,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    login_card.pack(fill='x', pady=20)
+
+    card_content = tk.Frame(login_card, bg=COLORS['bg_primary'])
+    card_content.pack(padx=40, pady=40)
+
+    tk.Label(
+        card_content,
+        text="Sign In",
+        font=FONTS['heading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(pady=(0, 25))
+
+    # Username
+    tk.Label(
+        card_content,
+        text="Username",
+        font=FONTS['body_bold'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 5))
+
+    username_entry = tk.Entry(
+        card_content,
+        font=FONTS['body'],
+        width=30,
+        relief='solid',
+        borderwidth=1,
+        highlightthickness=2,
+        highlightbackground=COLORS['border'],
+        highlightcolor=COLORS['primary']
+    )
+    username_entry.pack(pady=(0, 20), ipady=8)
+
+    # Password
+    tk.Label(
+        card_content,
+        text="Password",
+        font=FONTS['body_bold'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 5))
+
+    password_entry = tk.Entry(
+        card_content,
+        show="●",
+        font=FONTS['body'],
+        width=30,
+        relief='solid',
+        borderwidth=1,
+        highlightthickness=2,
+        highlightbackground=COLORS['border'],
+        highlightcolor=COLORS['primary']
+    )
+    password_entry.pack(pady=(0, 25), ipady=8)
 
     def handle_login():
         global current_user, current_user_id
@@ -386,104 +570,415 @@ def show_login_screen():
 
         if auth_service.authenticate(username, password):
             current_user = username
-            # Get user ID
             conn = sqlite3.connect(DB_PATH)
             cursor = conn.cursor()
             cursor.execute("SELECT id FROM User WHERE username = ?", (username,))
             current_user_id = cursor.fetchone()[0]
             conn.close()
 
-            messagebox.showinfo("Login Success", f"Welcome, {username}!")
             root.destroy()
             show_main_dashboard()
         else:
             messagebox.showerror("Login Failed", "Invalid username or password.")
 
+    # Login button
+    login_btn = tk.Button(
+        card_content,
+        text="Sign In",
+        command=handle_login,
+        font=FONTS['button_large'],
+        bg=COLORS['primary'],
+        fg='white',
+        activebackground=COLORS['primary_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        width=25,
+        height=2,
+        borderwidth=0
+    )
+    login_btn.pack()
+
+    def on_enter_login(e):
+        login_btn.config(bg=COLORS['primary_dark'])
+
+    def on_leave_login(e):
+        login_btn.config(bg=COLORS['primary'])
+
+    login_btn.bind("<Enter>", on_enter_login)
+    login_btn.bind("<Leave>", on_leave_login)
+
+    # Register link
+    register_frame = tk.Frame(card_content, bg=COLORS['bg_primary'])
+    register_frame.pack(pady=(15, 0))
+
+    tk.Label(
+        register_frame,
+        text="Don't have an account?",
+        font=FONTS['body'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_secondary']
+    ).pack(side='left', padx=(0, 5))
+
     def show_register_window():
         reg_window = tk.Toplevel(root)
-        reg_window.title("Register")
-        reg_window.geometry("400x350")
+        reg_window.title("Create Account")
+        reg_window.geometry("500x600")
+        reg_window.configure(bg=COLORS['bg_secondary'])
 
-        tk.Label(reg_window, text="Register New Account", font=("Helvetica", 14, "bold")).pack(pady=10)
+        # Center window
+        reg_window.update_idletasks()
+        width = reg_window.winfo_width()
+        height = reg_window.winfo_height()
+        x = (reg_window.winfo_screenwidth() // 2) - (width // 2)
+        y = (reg_window.winfo_screenheight() // 2) - (height // 2)
+        reg_window.geometry(f'{width}x{height}+{x}+{y}')
 
-        fields_frame = tk.Frame(reg_window)
-        fields_frame.pack(pady=10)
+        # Main container
+        reg_main = tk.Frame(reg_window, bg=COLORS['bg_secondary'])
+        reg_main.pack(expand=True, fill='both', padx=40, pady=40)
 
-        tk.Label(fields_frame, text="Username:").grid(row=0, column=0, padx=10, pady=5, sticky="e")
-        new_username_entry = tk.Entry(fields_frame)
-        new_username_entry.grid(row=0, column=1, padx=10, pady=5)
+        # Title
+        tk.Label(
+            reg_main,
+            text="Create Account",
+            font=FONTS['heading'],
+            bg=COLORS['bg_secondary'],
+            fg=COLORS['text_primary']
+        ).pack(pady=(0, 20))
 
-        tk.Label(fields_frame, text="Password:").grid(row=1, column=0, padx=10, pady=5, sticky="e")
-        new_password_entry = tk.Entry(fields_frame, show="*")
-        new_password_entry.grid(row=1, column=1, padx=10, pady=5)
+        # Form card
+        form_card = tk.Frame(
+            reg_main,
+            bg=COLORS['bg_primary'],
+            relief='flat',
+            highlightbackground=COLORS['border'],
+            highlightthickness=1
+        )
+        form_card.pack(fill='both', expand=True)
 
-        tk.Label(fields_frame, text="First Name:").grid(row=2, column=0, padx=10, pady=5, sticky="e")
-        new_first_name_entry = tk.Entry(fields_frame)
-        new_first_name_entry.grid(row=2, column=1, padx=10, pady=5)
+        form_content = tk.Frame(form_card, bg=COLORS['bg_primary'])
+        form_content.pack(padx=40, pady=30)
 
-        tk.Label(fields_frame, text="Last Name:").grid(row=3, column=0, padx=10, pady=5, sticky="e")
-        new_last_name_entry = tk.Entry(fields_frame)
-        new_last_name_entry.grid(row=3, column=1, padx=10, pady=5)
+        # Form fields
+        fields = [
+            ("Username", False),
+            ("Password", True),
+            ("First Name", False),
+            ("Last Name", False),
+            ("Email", False)
+        ]
 
-        tk.Label(fields_frame, text="Email:").grid(row=4, column=0, padx=10, pady=5, sticky="e")
-        new_email_entry = tk.Entry(fields_frame)
-        new_email_entry.grid(row=4, column=1, padx=10, pady=5)
+        entries = {}
+
+        for field_name, is_password in fields:
+            tk.Label(
+                form_content,
+                text=field_name,
+                font=FONTS['body_bold'],
+                bg=COLORS['bg_primary'],
+                fg=COLORS['text_primary']
+            ).pack(anchor='w', pady=(10, 5))
+
+            entry = tk.Entry(
+                form_content,
+                show="●" if is_password else "",
+                font=FONTS['body'],
+                width=30,
+                relief='solid',
+                borderwidth=1,
+                highlightthickness=2,
+                highlightbackground=COLORS['border'],
+                highlightcolor=COLORS['primary']
+            )
+            entry.pack(pady=(0, 5), ipady=8)
+            entries[field_name] = entry
 
         def register_user():
-            username = new_username_entry.get()
-            password = new_password_entry.get()
-            first_name = new_first_name_entry.get()
-            last_name = new_last_name_entry.get()
-            email = new_email_entry.get()
+            username = entries["Username"].get()
+            password = entries["Password"].get()
+            first_name = entries["First Name"].get()
+            last_name = entries["Last Name"].get()
+            email = entries["Email"].get()
 
             if auth_service.register(username, password, email, first_name, last_name):
-                messagebox.showinfo("Success", "Registration successful!")
+                messagebox.showinfo("Success", "Registration successful! You can now sign in.")
                 reg_window.destroy()
             else:
                 messagebox.showerror("Error", "Registration failed. Username may already exist.")
 
-        tk.Button(reg_window, text="Register", command=register_user, font=("Helvetica", 12)).pack(pady=20)
+        # Register button
+        reg_btn = tk.Button(
+            form_content,
+            text="Create Account",
+            command=register_user,
+            font=FONTS['button_large'],
+            bg=COLORS['success'],
+            fg='white',
+            activebackground=COLORS['success_dark'],
+            activeforeground='white',
+            relief='flat',
+            cursor='hand2',
+            width=25,
+            height=2,
+            borderwidth=0
+        )
+        reg_btn.pack(pady=(20, 0))
 
-    # Buttons
-    btn_frame = tk.Frame(root)
-    btn_frame.pack(pady=10)
+        def on_enter_reg(e):
+            reg_btn.config(bg=COLORS['success_dark'])
 
-    tk.Button(btn_frame, text="Login", command=handle_login, font=("Helvetica", 12), width=12).grid(row=0, column=0, padx=5)
-    tk.Button(btn_frame, text="Register", command=show_register_window, font=("Helvetica", 12), width=12).grid(row=0, column=1, padx=5)
+        def on_leave_reg(e):
+            reg_btn.config(bg=COLORS['success'])
+
+        reg_btn.bind("<Enter>", on_enter_reg)
+        reg_btn.bind("<Leave>", on_leave_reg)
+
+    register_btn = tk.Label(
+        register_frame,
+        text="Sign up",
+        font=FONTS['body_bold'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['primary'],
+        cursor='hand2'
+    )
+    register_btn.pack(side='left')
+    register_btn.bind("<Button-1>", lambda e: show_register_window())
+
+    # Info text
+    info_frame = tk.Frame(main_frame, bg=COLORS['bg_secondary'])
+    info_frame.pack(pady=20)
+
+    tk.Label(
+        info_frame,
+        text="💡 Default credentials: admin / 1234",
+        font=FONTS['small'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_secondary']
+    ).pack()
+
+    # Enter key bindings
+    password_entry.bind('<Return>', lambda e: handle_login())
+    username_entry.bind('<Return>', lambda e: password_entry.focus())
+
+    # Focus username
+    username_entry.focus()
 
     root.mainloop()
 
 
 def show_main_dashboard():
-    """Display the main dashboard with navigation options"""
+    """Display the modern main dashboard"""
     main_app = tk.Tk()
-    main_app.title("Learning Management System - Dashboard")
-    main_app.geometry("900x650")
+    main_app.title("Learning Management System")
+    main_app.geometry("1100x750")
+    main_app.configure(bg=COLORS['bg_secondary'])
 
-    welcome_label = tk.Label(main_app, text=f"Welcome, {current_user}!", font=("Helvetica", 18, "bold"))
-    welcome_label.pack(pady=20)
+    # Center window
+    main_app.update_idletasks()
+    width = main_app.winfo_width()
+    height = main_app.winfo_height()
+    x = (main_app.winfo_screenwidth() // 2) - (width // 2)
+    y = (main_app.winfo_screenheight() // 2) - (height // 2)
+    main_app.geometry(f'{width}x{height}+{x}+{y}')
 
-    # Navigation buttons
-    nav_frame = tk.Frame(main_app)
-    nav_frame.pack(pady=15)
+    # Header
+    header = tk.Frame(main_app, bg=COLORS['bg_primary'], height=80)
+    header.pack(fill='x', side='top')
+    header.pack_propagate(False)
 
-    tk.Button(nav_frame, text="📚 Student Pick Topic", font=("Helvetica", 14), width=22, height=2,
-              bg="#4CAF50", fg="white", command=lambda: show_student_pick(main_app)).grid(row=0, column=0, padx=10, pady=5)
+    header_content = tk.Frame(header, bg=COLORS['bg_primary'])
+    header_content.pack(fill='both', expand=True, padx=40, pady=20)
 
-    tk.Button(nav_frame, text="🎲 Computer Pick Topic", font=("Helvetica", 14), width=22, height=2,
-              bg="#2196F3", fg="white", command=lambda: handle_computer_pick(main_app)).grid(row=0, column=1, padx=10, pady=5)
+    tk.Label(
+        header_content,
+        text=f"Welcome back, {current_user}! 👋",
+        font=FONTS['title'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(side='left')
 
-    tk.Button(nav_frame, text="📊 View Progress", font=("Helvetica", 14), width=22, height=2,
-              bg="#FF9800", fg="white", command=lambda: show_progress_dashboard(main_app)).grid(row=0, column=2, padx=10, pady=5)
+    logout_btn = tk.Button(
+        header_content,
+        text="🚪 Logout",
+        command=lambda: logout(main_app),
+        font=FONTS['button'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        activebackground=COLORS['border'],
+        relief='flat',
+        cursor='hand2',
+        padx=20,
+        pady=10,
+        borderwidth=0
+    )
+    logout_btn.pack(side='right')
+
+    # Main content area
+    content = tk.Frame(main_app, bg=COLORS['bg_secondary'])
+    content.pack(fill='both', expand=True, padx=40, pady=30)
+
+    # Title
+    tk.Label(
+        content,
+        text="Choose Your Learning Path",
+        font=FONTS['heading'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_primary']
+    ).pack(pady=(0, 10))
+
+    tk.Label(
+        content,
+        text="Select an option below to start your learning journey",
+        font=FONTS['body'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_secondary']
+    ).pack(pady=(0, 30))
+
+    # Cards grid
+    cards_frame = tk.Frame(content, bg=COLORS['bg_secondary'])
+    cards_frame.pack(expand=True)
+
+    # Define dashboard cards
+    dashboard_cards = [
+        {
+            'icon': '📚',
+            'title': 'Student Pick Topic',
+            'description': 'Choose your own learning topic and goals',
+            'color': COLORS['success'],
+            'command': lambda: show_student_pick(main_app)
+        },
+        {
+            'icon': '🎲',
+            'title': 'Computer Pick Topic',
+            'description': 'Let AI select a topic for you',
+            'color': COLORS['primary'],
+            'command': lambda: handle_computer_pick(main_app)
+        },
+        {
+            'icon': '📊',
+            'title': 'View Progress',
+            'description': 'Track your learning achievements',
+            'color': COLORS['warning'],
+            'command': lambda: show_progress_dashboard(main_app)
+        }
+    ]
 
     if AI_AVAILABLE:
-        tk.Button(nav_frame, text="🤖 AI Practice Problems", font=("Helvetica", 14), width=22, height=2,
-                  bg="#9C27B0", fg="white", command=lambda: show_ai_practice(main_app)).grid(row=1, column=0, padx=10, pady=5)
+        dashboard_cards.append({
+            'icon': '🤖',
+            'title': 'AI Practice Problems',
+            'description': 'Practice with AI-generated problems',
+            'color': COLORS['purple'],
+            'command': lambda: show_ai_practice(main_app)
+        })
 
-    tk.Button(nav_frame, text="🚪 Logout", font=("Helvetica", 12), width=15,
-              command=lambda: logout(main_app)).grid(row=2, column=1, pady=20)
+    # Create cards in grid
+    row, col = 0, 0
+    for card_data in dashboard_cards:
+        card = create_dashboard_card(
+            cards_frame,
+            card_data['icon'],
+            card_data['title'],
+            card_data['description'],
+            card_data['color'],
+            card_data['command']
+        )
+        card.grid(row=row, column=col, padx=15, pady=15, sticky='nsew')
+
+        col += 1
+        if col > 1:  # 2 columns
+            col = 0
+            row += 1
+
+    # Configure grid weights
+    for i in range(2):
+        cards_frame.grid_columnconfigure(i, weight=1)
 
     main_app.mainloop()
+
+
+def create_dashboard_card(parent, icon, title, description, color, command):
+    """Create a modern dashboard card"""
+    card = tk.Frame(
+        parent,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1,
+        cursor='hand2'
+    )
+
+    card_content = tk.Frame(card, bg=COLORS['bg_primary'])
+    card_content.pack(padx=30, pady=30, fill='both', expand=True)
+
+    # Icon
+    tk.Label(
+        card_content,
+        text=icon,
+        font=('Segoe UI', 48),
+        bg=COLORS['bg_primary']
+    ).pack(pady=(0, 15))
+
+    # Title
+    tk.Label(
+        card_content,
+        text=title,
+        font=FONTS['subheading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(pady=(0, 10))
+
+    # Description
+    tk.Label(
+        card_content,
+        text=description,
+        font=FONTS['body'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_secondary'],
+        wraplength=250
+    ).pack(pady=(0, 20))
+
+    # Button
+    btn = tk.Button(
+        card_content,
+        text="Get Started →",
+        command=command,
+        font=FONTS['button'],
+        bg=color,
+        fg='white',
+        activebackground=color,
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=25,
+        pady=12,
+        borderwidth=0
+    )
+    btn.pack()
+
+    # Hover effects
+    def on_enter(e):
+        card.config(highlightbackground=color, highlightthickness=2)
+        btn.config(bg=COLORS.get(color + '_dark', color))
+
+    def on_leave(e):
+        card.config(highlightbackground=COLORS['border'], highlightthickness=1)
+        btn.config(bg=color)
+
+    card.bind("<Enter>", on_enter)
+    card.bind("<Leave>", on_leave)
+    card_content.bind("<Enter>", on_enter)
+    card_content.bind("<Leave>", on_leave)
+
+    # Click on card
+    def on_click(e):
+        command()
+
+    card.bind("<Button-1>", on_click)
+    card_content.bind("<Button-1>", on_click)
+
+    return card
 
 
 def logout(window):
@@ -502,11 +997,55 @@ def relaunch_dashboard(window):
 
 
 def show_student_pick(window):
-    """Show topic selection screen"""
+    """Show modern topic selection screen"""
     for widget in window.winfo_children():
         widget.destroy()
 
-    tk.Label(window, text="Choose a Topic", font=("Helvetica", 16, "bold")).pack(pady=20)
+    window.configure(bg=COLORS['bg_secondary'])
+
+    # Header
+    header = tk.Frame(window, bg=COLORS['bg_primary'], height=80)
+    header.pack(fill='x', side='top')
+    header.pack_propagate(False)
+
+    header_content = tk.Frame(header, bg=COLORS['bg_primary'])
+    header_content.pack(fill='both', expand=True, padx=40, pady=20)
+
+    tk.Label(
+        header_content,
+        text="📚 Choose Your Topic",
+        font=FONTS['title'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(side='left')
+
+    back_btn = tk.Button(
+        header_content,
+        text="← Back",
+        command=lambda: relaunch_dashboard(window),
+        font=FONTS['button'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        activebackground=COLORS['border'],
+        relief='flat',
+        cursor='hand2',
+        padx=20,
+        pady=10,
+        borderwidth=0
+    )
+    back_btn.pack(side='right')
+
+    # Content
+    content = tk.Frame(window, bg=COLORS['bg_secondary'])
+    content.pack(fill='both', expand=True, padx=40, pady=30)
+
+    tk.Label(
+        content,
+        text="Select a topic to explore learning goals",
+        font=FONTS['body'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_secondary']
+    ).pack(pady=(0, 20))
 
     topics = fetch_all_topics()
     if not topics:
@@ -514,14 +1053,55 @@ def show_student_pick(window):
         relaunch_dashboard(window)
         return
 
-    for topic_id, topic_name in topics:
-        tk.Button(
-            window, text=topic_name, font=("Helvetica", 13), width=40, height=2,
-            command=lambda t=topic_name: show_goals_for_topic(window, t)
-        ).pack(pady=5)
+    # Topics list
+    topics_frame = tk.Frame(content, bg=COLORS['bg_secondary'])
+    topics_frame.pack(fill='both', expand=True)
 
-    tk.Button(window, text="← Back to Dashboard", command=lambda: relaunch_dashboard(window),
-              font=("Helvetica", 11)).pack(pady=20)
+    for _, topic_name in topics:
+        topic_card = tk.Frame(
+            topics_frame,
+            bg=COLORS['bg_primary'],
+            relief='flat',
+            highlightbackground=COLORS['border'],
+            highlightthickness=1,
+            cursor='hand2'
+        )
+        topic_card.pack(fill='x', pady=8)
+
+        topic_btn = tk.Button(
+            topic_card,
+            text=f"  {topic_name}",
+            command=lambda t=topic_name: show_goals_for_topic(window, t),
+            font=FONTS['subheading'],
+            bg=COLORS['bg_primary'],
+            fg=COLORS['text_primary'],
+            activebackground=COLORS['bg_tertiary'],
+            activeforeground=COLORS['text_primary'],
+            relief='flat',
+            cursor='hand2',
+            anchor='w',
+            padx=30,
+            pady=20,
+            borderwidth=0
+        )
+        topic_btn.pack(fill='x')
+
+        # Hover effect
+        def make_hover(card, btn, t_name):
+            def on_enter(e):
+                card.config(highlightbackground=COLORS['primary'], highlightthickness=2)
+                btn.config(bg=COLORS['bg_tertiary'])
+
+            def on_leave(e):
+                card.config(highlightbackground=COLORS['border'], highlightthickness=1)
+                btn.config(bg=COLORS['bg_primary'])
+
+            card.bind("<Enter>", on_enter)
+            card.bind("<Leave>", on_leave)
+            btn.bind("<Enter>", on_enter)
+            btn.bind("<Leave>", on_leave)
+
+        make_hover(topic_card, topic_btn, topic_name)
 
 
 def handle_computer_pick(window):
@@ -535,12 +1115,43 @@ def handle_computer_pick(window):
 
 
 def show_goals_for_topic(window, topic_name):
-    """Show goals for selected topic"""
+    """Show modern goals screen for selected topic"""
     for widget in window.winfo_children():
         widget.destroy()
 
-    tk.Label(window, text=f"Topic: {topic_name}", font=("Helvetica", 16, "bold")).pack(pady=20)
-    tk.Label(window, text="Learning Goals", font=("Helvetica", 14)).pack(pady=10)
+    window.configure(bg=COLORS['bg_secondary'])
+
+    # Header
+    header = tk.Frame(window, bg=COLORS['bg_primary'], height=80)
+    header.pack(fill='x', side='top')
+    header.pack_propagate(False)
+
+    header_content = tk.Frame(header, bg=COLORS['bg_primary'])
+    header_content.pack(fill='both', expand=True, padx=40, pady=20)
+
+    tk.Label(
+        header_content,
+        text=f"📖 {topic_name}",
+        font=FONTS['title'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(side='left')
+
+    back_btn = tk.Button(
+        header_content,
+        text="← Back",
+        command=lambda: show_student_pick(window),
+        font=FONTS['button'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        activebackground=COLORS['border'],
+        relief='flat',
+        cursor='hand2',
+        padx=20,
+        pady=10,
+        borderwidth=0
+    )
+    back_btn.pack(side='right')
 
     goals = fetch_goals_for_topic(topic_name)
     if not goals:
@@ -550,32 +1161,108 @@ def show_goals_for_topic(window, topic_name):
 
     goal_index = [0]
 
-    goal_label = tk.Label(window, text="", font=("Helvetica", 13), wraplength=700, justify="left")
-    goal_label.pack(pady=20, padx=30)
+    # Content area
+    content = tk.Frame(window, bg=COLORS['bg_secondary'])
+    content.pack(fill='both', expand=True, padx=40, pady=30)
 
-    desc_label = tk.Label(window, text="", font=("Helvetica", 11), wraplength=700, justify="left")
-    desc_label.pack(pady=10, padx=30)
+    # Goal card
+    goal_card = tk.Frame(
+        content,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    goal_card.pack(fill='both', expand=True)
 
-    objectives_frame = tk.Frame(window)
-    objectives_frame.pack(pady=10)
+    card_content = tk.Frame(goal_card, bg=COLORS['bg_primary'])
+    card_content.pack(padx=40, pady=40, fill='both', expand=True)
+
+    # Goal counter
+    goal_counter = tk.Label(
+        card_content,
+        text="",
+        font=FONTS['body'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_secondary']
+    )
+    goal_counter.pack(anchor='w', pady=(0, 10))
+
+    # Goal title
+    goal_title_label = tk.Label(
+        card_content,
+        text="",
+        font=FONTS['heading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary'],
+        wraplength=900,
+        justify='left'
+    )
+    goal_title_label.pack(anchor='w', pady=(0, 15))
+
+    # Goal description
+    goal_desc_label = tk.Label(
+        card_content,
+        text="",
+        font=FONTS['body'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_secondary'],
+        wraplength=900,
+        justify='left'
+    )
+    goal_desc_label.pack(anchor='w', pady=(0, 25))
+
+    # Objectives section
+    objectives_container = tk.Frame(card_content, bg=COLORS['bg_tertiary'])
+    objectives_container.pack(fill='both', expand=True, pady=(10, 0))
+
+    objectives_frame = tk.Frame(objectives_container, bg=COLORS['bg_tertiary'])
+    objectives_frame.pack(padx=25, pady=25, fill='both', expand=True)
 
     def update_goal():
         if goal_index[0] < len(goals):
             goal_id, goal_title, goal_desc = goals[goal_index[0]]
-            goal_label.config(text=f"Goal {goal_index[0] + 1}: {goal_title}")
-            desc_label.config(text=goal_desc)
 
-            # Clear objectives frame
+            goal_counter.config(text=f"Goal {goal_index[0] + 1} of {len(goals)}")
+            goal_title_label.config(text=goal_title)
+            goal_desc_label.config(text=goal_desc)
+
+            # Clear objectives
             for widget in objectives_frame.winfo_children():
                 widget.destroy()
 
             # Show objectives
             objectives = fetch_objectives_for_goal(goal_id)
             if objectives:
-                tk.Label(objectives_frame, text="Learning Objectives:", font=("Helvetica", 12, "underline")).pack(pady=5)
-                for obj_id, obj_title, obj_desc in objectives:
-                    obj_text = f"• {obj_title}"
-                    tk.Label(objectives_frame, text=obj_text, font=("Helvetica", 10), wraplength=650, justify="left").pack(anchor="w", padx=20)
+                tk.Label(
+                    objectives_frame,
+                    text="📋 Learning Objectives",
+                    font=FONTS['subheading'],
+                    bg=COLORS['bg_tertiary'],
+                    fg=COLORS['text_primary']
+                ).pack(anchor='w', pady=(0, 15))
+
+                for _, obj_title, _ in objectives:
+                    obj_frame = tk.Frame(objectives_frame, bg=COLORS['bg_tertiary'])
+                    obj_frame.pack(fill='x', pady=5)
+
+                    tk.Label(
+                        obj_frame,
+                        text="✓",
+                        font=FONTS['body_bold'],
+                        bg=COLORS['bg_tertiary'],
+                        fg=COLORS['success']
+                    ).pack(side='left', padx=(0, 10))
+
+                    tk.Label(
+                        obj_frame,
+                        text=obj_title,
+                        font=FONTS['body'],
+                        bg=COLORS['bg_tertiary'],
+                        fg=COLORS['text_primary'],
+                        wraplength=800,
+                        justify='left'
+                    ).pack(side='left', anchor='w')
 
     def next_goal():
         if goal_index[0] + 1 < len(goals):
@@ -593,16 +1280,62 @@ def show_goals_for_topic(window, topic_name):
 
     update_goal()
 
-    btn_frame = tk.Frame(window)
-    btn_frame.pack(pady=20)
+    # Navigation buttons
+    nav_frame = tk.Frame(content, bg=COLORS['bg_secondary'])
+    nav_frame.pack(pady=(20, 0))
 
-    tk.Button(btn_frame, text="← Previous", command=prev_goal, font=("Helvetica", 11), width=12).grid(row=0, column=0, padx=10)
-    tk.Button(btn_frame, text="Next →", command=next_goal, font=("Helvetica", 11), width=12).grid(row=0, column=1, padx=10)
-    tk.Button(btn_frame, text="Practice Problems", command=lambda: show_practice_for_goal(window, topic_name, goals[goal_index[0]][0]),
-              font=("Helvetica", 11), width=18, bg="#4CAF50", fg="white").grid(row=0, column=2, padx=10)
+    # Previous button
+    prev_btn = tk.Button(
+        nav_frame,
+        text="← Previous",
+        command=prev_goal,
+        font=FONTS['button'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        activebackground=COLORS['border'],
+        relief='flat',
+        cursor='hand2',
+        padx=20,
+        pady=12,
+        borderwidth=0
+    )
+    prev_btn.grid(row=0, column=0, padx=10)
 
-    tk.Button(window, text="← Back to Topics", command=lambda: show_student_pick(window),
-              font=("Helvetica", 11)).pack(pady=10)
+    # Practice button
+    practice_btn = tk.Button(
+        nav_frame,
+        text="📝 Practice Problems",
+        command=lambda: show_practice_for_goal(window, topic_name, goals[goal_index[0]][0]),
+        font=FONTS['button'],
+        bg=COLORS['success'],
+        fg='white',
+        activebackground=COLORS['success_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=25,
+        pady=12,
+        borderwidth=0
+    )
+    practice_btn.grid(row=0, column=1, padx=10)
+
+    # Next button
+    next_btn = tk.Button(
+        nav_frame,
+        text="Next →",
+        command=next_goal,
+        font=FONTS['button'],
+        bg=COLORS['primary'],
+        fg='white',
+        activebackground=COLORS['primary_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=20,
+        pady=12,
+        borderwidth=0
+    )
+    next_btn.grid(row=0, column=2, padx=10)
 
 
 def get_ai_feedback(problem_text, student_answer, correct_answer, is_correct):
@@ -627,7 +1360,7 @@ Provide constructive feedback:
 Keep the feedback encouraging, clear, and educational. Use simple language."""
 
         response = client.models.generate_content(
-            model='gemini-2.0-flash-exp',
+            model='gemini-2.5-flash',
             contents=prompt
         )
         return response.text
@@ -659,68 +1392,454 @@ For detailed help, consult your textbook or ask your instructor."""
 
 
 def show_ai_feedback_dialog(problem_text, student_answer, correct_answer, is_correct):
-    """Show AI feedback in a dialog window"""
+    """Show modern AI feedback dialog"""
     feedback_window = tk.Toplevel()
-    feedback_window.title("AI Feedback")
-    feedback_window.geometry("700x600")
+    feedback_window.title("AI Tutor Feedback")
+    feedback_window.geometry("800x700")
+    feedback_window.configure(bg=COLORS['bg_secondary'])
 
-    # Header
-    header_frame = tk.Frame(feedback_window, bg="#4CAF50" if is_correct else "#f44336", height=60)
-    header_frame.pack(fill="x")
-    header_frame.pack_propagate(False)
+    # Center window
+    feedback_window.update_idletasks()
+    width = feedback_window.winfo_width()
+    height = feedback_window.winfo_height()
+    x = (feedback_window.winfo_screenwidth() // 2) - (width // 2)
+    y = (feedback_window.winfo_screenheight() // 2) - (height // 2)
+    feedback_window.geometry(f'{width}x{height}+{x}+{y}')
 
-    result_text = "✓ Correct Answer" if is_correct else "✗ Incorrect Answer"
-    tk.Label(header_frame, text=result_text, font=("Helvetica", 16, "bold"),
-             bg="#4CAF50" if is_correct else "#f44336", fg="white").pack(pady=15)
+    # Header with result
+    header_color = COLORS['success'] if is_correct else COLORS['danger']
+    header = tk.Frame(feedback_window, bg=header_color, height=80)
+    header.pack(fill='x')
+    header.pack_propagate(False)
 
-    # Content area with scrollbar
-    content_frame = tk.Frame(feedback_window)
-    content_frame.pack(fill="both", expand=True, padx=20, pady=20)
+    header_content = tk.Frame(header, bg=header_color)
+    header_content.pack(expand=True, fill='both', padx=40, pady=20)
 
-    # Problem section
-    tk.Label(content_frame, text="Problem:", font=("Helvetica", 12, "bold")).pack(anchor="w", pady=(0, 5))
-    problem_label = tk.Label(content_frame, text=problem_text, font=("Helvetica", 10),
-                             wraplength=650, justify="left", bg="#f0f0f0", padx=10, pady=10)
-    problem_label.pack(fill="x", pady=(0, 15))
+    result_icon = "✓" if is_correct else "✗"
+    result_text = "Correct Answer!" if is_correct else "Incorrect Answer"
 
-    # Answers section
-    answers_frame = tk.Frame(content_frame)
-    answers_frame.pack(fill="x", pady=(0, 15))
+    tk.Label(
+        header_content,
+        text=f"{result_icon} {result_text}",
+        font=FONTS['title'],
+        bg=header_color,
+        fg='white'
+    ).pack()
 
-    tk.Label(answers_frame, text="Your Answer:", font=("Helvetica", 11, "bold")).grid(row=0, column=0, sticky="w", pady=5)
-    tk.Label(answers_frame, text=student_answer, font=("Helvetica", 10)).grid(row=0, column=1, sticky="w", padx=10)
+    # Content area
+    content = tk.Frame(feedback_window, bg=COLORS['bg_secondary'])
+    content.pack(fill='both', expand=True, padx=40, pady=30)
 
-    tk.Label(answers_frame, text="Correct Answer:", font=("Helvetica", 11, "bold")).grid(row=1, column=0, sticky="w", pady=5)
-    tk.Label(answers_frame, text=correct_answer, font=("Helvetica", 10)).grid(row=1, column=1, sticky="w", padx=10)
+    # Problem card
+    problem_card = tk.Frame(
+        content,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    problem_card.pack(fill='x', pady=(0, 15))
 
-    # AI Feedback section
-    tk.Label(content_frame, text="AI Tutor Feedback:", font=("Helvetica", 12, "bold")).pack(anchor="w", pady=(10, 5))
+    problem_content = tk.Frame(problem_card, bg=COLORS['bg_primary'])
+    problem_content.pack(padx=25, pady=20)
 
-    feedback_text = tk.Text(content_frame, height=15, width=70, font=("Helvetica", 10),
-                           wrap="word", bg="#fffef0", padx=10, pady=10)
-    feedback_text.pack(fill="both", expand=True)
+    tk.Label(
+        problem_content,
+        text="📝 Problem",
+        font=FONTS['subheading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 10))
 
-    scrollbar = tk.Scrollbar(feedback_text)
-    scrollbar.pack(side="right", fill="y")
-    feedback_text.config(yscrollcommand=scrollbar.set)
+    tk.Label(
+        problem_content,
+        text=problem_text,
+        font=FONTS['body'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        wraplength=700,
+        justify='left',
+        padx=15,
+        pady=15
+    ).pack(fill='x')
+
+    # Answers card
+    answers_card = tk.Frame(
+        content,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    answers_card.pack(fill='x', pady=(0, 15))
+
+    answers_content = tk.Frame(answers_card, bg=COLORS['bg_primary'])
+    answers_content.pack(padx=25, pady=20)
+
+    # Your answer
+    tk.Label(
+        answers_content,
+        text="Your Answer:",
+        font=FONTS['body_bold'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 5))
+
+    tk.Label(
+        answers_content,
+        text=student_answer,
+        font=FONTS['body'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        wraplength=700,
+        justify='left',
+        padx=15,
+        pady=10
+    ).pack(fill='x', pady=(0, 15))
+
+    # Correct answer
+    tk.Label(
+        answers_content,
+        text="Correct Answer:",
+        font=FONTS['body_bold'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 5))
+
+    tk.Label(
+        answers_content,
+        text=correct_answer,
+        font=FONTS['body'],
+        bg=COLORS['success'] if is_correct else COLORS['bg_tertiary'],
+        fg='white' if is_correct else COLORS['text_primary'],
+        wraplength=700,
+        justify='left',
+        padx=15,
+        pady=10
+    ).pack(fill='x')
+
+    # AI Feedback card
+    feedback_card = tk.Frame(
+        content,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    feedback_card.pack(fill='both', expand=True)
+
+    feedback_content = tk.Frame(feedback_card, bg=COLORS['bg_primary'])
+    feedback_content.pack(padx=25, pady=20, fill='both', expand=True)
+
+    tk.Label(
+        feedback_content,
+        text="🤖 AI Tutor Feedback",
+        font=FONTS['subheading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 10))
+
+    # Feedback text area with scrollbar
+    text_frame = tk.Frame(feedback_content, bg=COLORS['bg_primary'])
+    text_frame.pack(fill='both', expand=True)
+
+    scrollbar = tk.Scrollbar(text_frame)
+    scrollbar.pack(side='right', fill='y')
+
+    feedback_text = tk.Text(
+        text_frame,
+        font=FONTS['body'],
+        wrap='word',
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        padx=15,
+        pady=15,
+        relief='flat',
+        yscrollcommand=scrollbar.set,
+        borderwidth=0
+    )
+    feedback_text.pack(side='left', fill='both', expand=True)
     scrollbar.config(command=feedback_text.yview)
 
-    # Show loading message
-    feedback_text.insert(1.0, "Generating AI feedback... Please wait...")
-    feedback_text.config(state="disabled")
+    # Show loading
+    feedback_text.insert(1.0, "⏳ Generating AI feedback... Please wait...")
+    feedback_text.config(state='disabled')
     feedback_window.update()
 
     # Generate feedback
     feedback = get_ai_feedback(problem_text, student_answer, correct_answer, is_correct)
 
-    feedback_text.config(state="normal")
+    feedback_text.config(state='normal')
     feedback_text.delete(1.0, tk.END)
     feedback_text.insert(1.0, feedback)
-    feedback_text.config(state="disabled")
+    feedback_text.config(state='disabled')
 
     # Close button
-    tk.Button(feedback_window, text="Close", command=feedback_window.destroy,
-             font=("Helvetica", 11), width=15, bg="#2196F3", fg="white").pack(pady=15)
+    button_frame = tk.Frame(content, bg=COLORS['bg_secondary'])
+    button_frame.pack(pady=(15, 0))
+
+    close_btn = tk.Button(
+        button_frame,
+        text="Close",
+        command=feedback_window.destroy,
+        font=FONTS['button_large'],
+        bg=COLORS['primary'],
+        fg='white',
+        activebackground=COLORS['primary_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=40,
+        pady=12,
+        borderwidth=0
+    )
+    close_btn.pack()
+
+    def on_enter(e):
+        close_btn.config(bg=COLORS['primary_dark'])
+
+    def on_leave(e):
+        close_btn.config(bg=COLORS['primary'])
+
+    close_btn.bind("<Enter>", on_enter)
+    close_btn.bind("<Leave>", on_leave)
+
+
+def show_ai_feedback_dialog_with_next(problem_text, student_answer, correct_answer, is_correct, next_callback):
+    """Show modern AI feedback dialog with Next Problem button"""
+    feedback_window = tk.Toplevel()
+    feedback_window.title("AI Tutor Feedback")
+    feedback_window.geometry("800x700")
+    feedback_window.configure(bg=COLORS['bg_secondary'])
+
+    # Center window
+    feedback_window.update_idletasks()
+    width = feedback_window.winfo_width()
+    height = feedback_window.winfo_height()
+    x = (feedback_window.winfo_screenwidth() // 2) - (width // 2)
+    y = (feedback_window.winfo_screenheight() // 2) - (height // 2)
+    feedback_window.geometry(f'{width}x{height}+{x}+{y}')
+
+    # Header with result
+    header_color = COLORS['success'] if is_correct else COLORS['danger']
+    header = tk.Frame(feedback_window, bg=header_color, height=80)
+    header.pack(fill='x')
+    header.pack_propagate(False)
+
+    header_content = tk.Frame(header, bg=header_color)
+    header_content.pack(expand=True, fill='both', padx=40, pady=20)
+
+    result_icon = "✓" if is_correct else "✗"
+    result_text = "Correct Answer!" if is_correct else "Incorrect Answer"
+
+    tk.Label(
+        header_content,
+        text=f"{result_icon} {result_text}",
+        font=FONTS['title'],
+        bg=header_color,
+        fg='white'
+    ).pack()
+
+    # Content area
+    content = tk.Frame(feedback_window, bg=COLORS['bg_secondary'])
+    content.pack(fill='both', expand=True, padx=40, pady=30)
+
+    # Problem card
+    problem_card = tk.Frame(
+        content,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    problem_card.pack(fill='x', pady=(0, 15))
+
+    problem_content = tk.Frame(problem_card, bg=COLORS['bg_primary'])
+    problem_content.pack(padx=25, pady=20)
+
+    tk.Label(
+        problem_content,
+        text="📝 Problem",
+        font=FONTS['subheading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 10))
+
+    tk.Label(
+        problem_content,
+        text=problem_text,
+        font=FONTS['body'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        wraplength=700,
+        justify='left',
+        padx=15,
+        pady=15
+    ).pack(fill='x')
+
+    # Answers card
+    answers_card = tk.Frame(
+        content,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    answers_card.pack(fill='x', pady=(0, 15))
+
+    answers_content = tk.Frame(answers_card, bg=COLORS['bg_primary'])
+    answers_content.pack(padx=25, pady=20)
+
+    # Your answer
+    tk.Label(
+        answers_content,
+        text="Your Answer:",
+        font=FONTS['body_bold'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 5))
+
+    tk.Label(
+        answers_content,
+        text=student_answer,
+        font=FONTS['body'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        wraplength=700,
+        justify='left',
+        padx=15,
+        pady=10
+    ).pack(fill='x', pady=(0, 15))
+
+    # Correct answer
+    tk.Label(
+        answers_content,
+        text="Correct Answer:",
+        font=FONTS['body_bold'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 5))
+
+    tk.Label(
+        answers_content,
+        text=correct_answer,
+        font=FONTS['body'],
+        bg=COLORS['success'] if is_correct else COLORS['bg_tertiary'],
+        fg='white' if is_correct else COLORS['text_primary'],
+        wraplength=700,
+        justify='left',
+        padx=15,
+        pady=10
+    ).pack(fill='x')
+
+    # AI Feedback card
+    feedback_card = tk.Frame(
+        content,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    feedback_card.pack(fill='both', expand=True)
+
+    feedback_content = tk.Frame(feedback_card, bg=COLORS['bg_primary'])
+    feedback_content.pack(padx=25, pady=20, fill='both', expand=True)
+
+    tk.Label(
+        feedback_content,
+        text="🤖 AI Tutor Feedback",
+        font=FONTS['subheading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 10))
+
+    # Feedback text area with scrollbar
+    text_frame = tk.Frame(feedback_content, bg=COLORS['bg_primary'])
+    text_frame.pack(fill='both', expand=True)
+
+    scrollbar = tk.Scrollbar(text_frame)
+    scrollbar.pack(side='right', fill='y')
+
+    feedback_text = tk.Text(
+        text_frame,
+        font=FONTS['body'],
+        wrap='word',
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        padx=15,
+        pady=15,
+        relief='flat',
+        yscrollcommand=scrollbar.set,
+        borderwidth=0
+    )
+    feedback_text.pack(side='left', fill='both', expand=True)
+    scrollbar.config(command=feedback_text.yview)
+
+    # Show loading
+    feedback_text.insert(1.0, "⏳ Generating AI feedback... Please wait...")
+    feedback_text.config(state='disabled')
+    feedback_window.update()
+
+    # Generate feedback
+    feedback = get_ai_feedback(problem_text, student_answer, correct_answer, is_correct)
+
+    feedback_text.config(state='normal')
+    feedback_text.delete(1.0, tk.END)
+    feedback_text.insert(1.0, feedback)
+    feedback_text.config(state='disabled')
+
+    # Buttons
+    button_frame = tk.Frame(content, bg=COLORS['bg_secondary'])
+    button_frame.pack(pady=(15, 0))
+
+    def close_and_next():
+        feedback_window.destroy()
+        next_callback()
+
+    next_btn = tk.Button(
+        button_frame,
+        text="→ Next Problem",
+        command=close_and_next,
+        font=FONTS['button_large'],
+        bg=COLORS['success'],
+        fg='white',
+        activebackground=COLORS['success_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=40,
+        pady=12,
+        borderwidth=0
+    )
+    next_btn.grid(row=0, column=0, padx=10)
+
+    close_btn = tk.Button(
+        button_frame,
+        text="Close",
+        command=feedback_window.destroy,
+        font=FONTS['button_large'],
+        bg=COLORS['primary'],
+        fg='white',
+        activebackground=COLORS['primary_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=40,
+        pady=12,
+        borderwidth=0
+    )
+    close_btn.grid(row=0, column=1, padx=10)
+
+    def make_hover(btn, normal_color, hover_color):
+        def on_enter(e):
+            btn.config(bg=hover_color)
+        def on_leave(e):
+            btn.config(bg=normal_color)
+        btn.bind("<Enter>", on_enter)
+        btn.bind("<Leave>", on_leave)
+
+    make_hover(next_btn, COLORS['success'], COLORS['success_dark'])
+    make_hover(close_btn, COLORS['primary'], COLORS['primary_dark'])
 
 
 def fetch_practice_history(username):
@@ -1000,11 +2119,14 @@ def show_progress_dashboard(window):
     back_btn.pack(side="bottom", pady=15)
 
 
-def show_practice_for_goal(window, topic_name, goal_id):
-    """Show practice problems for a specific goal"""
-    for widget in window.winfo_children():
-        widget.destroy()
+def show_practice_for_goal(window, topic_name, goal_id, start_objective_index=0, mode='choice'):
+    """Show practice problems for a specific goal - BRD compliant with objective progression
 
+    Args:
+        mode: 'choice' = show tutoring vs practice choice
+              'tutoring' = full instruction sequence
+              'practice' = skip to practice problems
+    """
     # Get goal info
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -1019,94 +2141,842 @@ def show_practice_for_goal(window, topic_name, goal_id):
 
     goal_title, topic_id = result
 
-    tk.Label(window, text=f"Practice: {goal_title}", font=("Helvetica", 16, "bold")).pack(pady=20)
-
+    # Get all objectives for this goal
     objectives = fetch_objectives_for_goal(goal_id)
     if not objectives:
         messagebox.showinfo("No Objectives", "No learning objectives found for this goal.")
         show_goals_for_topic(window, topic_name)
         return
 
-    tk.Label(window, text="Select a Learning Objective:", font=("Helvetica", 13)).pack(pady=10)
-
-    for obj_id, obj_title, obj_desc in objectives:
-        btn = tk.Button(
-            window,
-            text=f"{obj_title}",
-            font=("Helvetica", 11),
-            width=60,
-            height=2,
-            command=lambda oid=obj_id, tid=topic_id, gid=goal_id, ot=obj_title: generate_practice_problem(window, topic_name, tid, gid, oid, ot)
+    # Start with the specified objective (default is first one)
+    if start_objective_index >= len(objectives):
+        # All objectives completed - show completion message
+        messagebox.showinfo(
+            "Goal Complete!",
+            f"Congratulations! You've completed all learning objectives for '{goal_title}'!\n\n"
+            f"You practiced {len(objectives)} objectives."
         )
-        btn.pack(pady=5)
+        show_goals_for_topic(window, topic_name)
+        return
 
-    tk.Button(window, text="← Back to Goals", command=lambda: show_goals_for_topic(window, topic_name),
-              font=("Helvetica", 11)).pack(pady=20)
+    # Get current objective
+    obj_id, obj_title, obj_desc = objectives[start_objective_index]
+
+    # BRD Requirement: Student Pick mode - give choice between tutoring or practice
+    if mode == 'choice':
+        show_tutoring_choice(window, topic_name, topic_id, goal_id, goal_title, objectives, start_objective_index)
+    elif mode == 'tutoring':
+        # Full tutoring sequence: Direct Instruction → Walkthrough → Practice
+        show_direct_instruction(window, topic_name, topic_id, goal_id, goal_title, objectives, start_objective_index)
+    elif mode == 'practice':
+        # Skip to practice problems
+        start_objective_practice_session(
+            window,
+            topic_name,
+            topic_id,
+            goal_id,
+            goal_title,
+            objectives,
+            start_objective_index
+        )
 
 
-def generate_practice_problem(window, topic_name, topic_id, goal_id, objective_id, objective_title):
-    """Generate and display a practice problem"""
+def show_tutoring_choice(window, topic_name, topic_id, goal_id, goal_title, objectives, objective_index):
+    """BRD Requirement: Give student choice between full tutoring or skip to practice"""
+    for widget in window.winfo_children():
+        widget.destroy()
+
+    window.configure(bg=COLORS['bg_secondary'])
+
+    obj_id, obj_title, obj_desc = objectives[objective_index]
+
+    # Header
+    header = tk.Frame(window, bg=COLORS['bg_primary'], height=100)
+    header.pack(fill='x', side='top')
+    header.pack_propagate(False)
+
+    header_content = tk.Frame(header, bg=COLORS['bg_primary'])
+    header_content.pack(fill='both', expand=True, padx=40, pady=20)
+
+    tk.Label(
+        header_content,
+        text=f"📖 {goal_title}",
+        font=FONTS['title'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(side='left')
+
+    tk.Button(
+        header_content,
+        text="← Back",
+        command=lambda: show_goals_for_topic(window, topic_name),
+        font=FONTS['button'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        activebackground=COLORS['border'],
+        relief='flat',
+        cursor='hand2',
+        padx=20,
+        pady=10
+    ).pack(side='right')
+
+    # Content
+    content = tk.Frame(window, bg=COLORS['bg_secondary'])
+    content.pack(fill='both', expand=True, padx=60, pady=40)
+
+    # Objective info
+    tk.Label(
+        content,
+        text=f"Learning Objective {objective_index + 1} of {len(objectives)}",
+        font=FONTS['body'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_secondary']
+    ).pack(pady=(0, 10))
+
+    tk.Label(
+        content,
+        text=obj_title,
+        font=FONTS['heading'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_primary'],
+        wraplength=700
+    ).pack(pady=(0, 30))
+
+    # Choice message
+    tk.Label(
+        content,
+        text="How would you like to learn this objective?",
+        font=FONTS['subheading'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_primary']
+    ).pack(pady=(20, 40))
+
+    # Choice cards
+    cards_frame = tk.Frame(content, bg=COLORS['bg_secondary'])
+    cards_frame.pack(expand=True)
+
+    # Tutoring card (full instruction)
+    tutoring_card = create_card(cards_frame)
+    tutoring_card.pack(side='left', padx=20)
+
+    tk.Label(
+        tutoring_card,
+        text="📚",
+        font=('Segoe UI', 48),
+        bg=COLORS['bg_primary']
+    ).pack(pady=(20, 10))
+
+    tk.Label(
+        tutoring_card,
+        text="Full Tutoring",
+        font=FONTS['heading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(pady=(0, 10))
+
+    tk.Label(
+        tutoring_card,
+        text="Learn with:\n• Direct Instruction\n• Walkthrough Examples\n• Practice Problems",
+        font=FONTS['body'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_secondary'],
+        justify='left'
+    ).pack(pady=(0, 20))
+
+    tk.Button(
+        tutoring_card,
+        text="Start Tutoring",
+        command=lambda: show_practice_for_goal(window, topic_name, goal_id, objective_index, 'tutoring'),
+        font=FONTS['button_large'],
+        bg=COLORS['primary'],
+        fg='white',
+        activebackground=COLORS['primary_dark'],
+        relief='flat',
+        cursor='hand2',
+        padx=30,
+        pady=15
+    ).pack(pady=(0, 20))
+
+    # Practice card (skip to practice)
+    practice_card = create_card(cards_frame)
+    practice_card.pack(side='left', padx=20)
+
+    tk.Label(
+        practice_card,
+        text="🎯",
+        font=('Segoe UI', 48),
+        bg=COLORS['bg_primary']
+    ).pack(pady=(20, 10))
+
+    tk.Label(
+        practice_card,
+        text="Practice Only",
+        font=FONTS['heading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(pady=(0, 10))
+
+    tk.Label(
+        practice_card,
+        text="Skip instruction and:\n• Go straight to practice\n• Minimum 20 problems\n• Achieve 90% mastery",
+        font=FONTS['body'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_secondary'],
+        justify='left'
+    ).pack(pady=(0, 20))
+
+    tk.Button(
+        practice_card,
+        text="Start Practice",
+        command=lambda: show_practice_for_goal(window, topic_name, goal_id, objective_index, 'practice'),
+        font=FONTS['button_large'],
+        bg=COLORS['success'],
+        fg='white',
+        activebackground=COLORS['success_dark'],
+        relief='flat',
+        cursor='hand2',
+        padx=30,
+        pady=15
+    ).pack(pady=(0, 20))
+
+
+def show_direct_instruction(window, topic_name, topic_id, goal_id, goal_title, objectives, objective_index):
+    """BRD Section 4: Direct Instruction - Show learning material with graphics and text"""
+    for widget in window.winfo_children():
+        widget.destroy()
+
+    window.configure(bg=COLORS['bg_secondary'])
+
+    obj_id, obj_title, obj_desc = objectives[objective_index]
+
+    # Header
+    header = tk.Frame(window, bg=COLORS['primary'], height=100)
+    header.pack(fill='x', side='top')
+    header.pack_propagate(False)
+
+    header_content = tk.Frame(header, bg=COLORS['primary'])
+    header_content.pack(fill='both', expand=True, padx=40, pady=20)
+
+    tk.Label(
+        header_content,
+        text=f"📖 Direct Instruction",
+        font=FONTS['title'],
+        bg=COLORS['primary'],
+        fg='white'
+    ).pack(side='left')
+
+    tk.Label(
+        header_content,
+        text=f"Objective {objective_index + 1} of {len(objectives)}",
+        font=FONTS['body'],
+        bg=COLORS['primary'],
+        fg='white'
+    ).pack(side='right')
+
+    # Content area with scrollbar
+    content_frame = tk.Frame(window, bg=COLORS['bg_secondary'])
+    content_frame.pack(fill='both', expand=True)
+
+    canvas = tk.Canvas(content_frame, bg=COLORS['bg_secondary'], highlightthickness=0)
+    scrollbar = tk.Scrollbar(content_frame, orient='vertical', command=canvas.yview)
+    scrollable_frame = tk.Frame(canvas, bg=COLORS['bg_secondary'])
+
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor='nw')
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side='left', fill='both', expand=True, padx=40, pady=30)
+    scrollbar.pack(side='right', fill='y')
+
+    # Objective title
+    tk.Label(
+        scrollable_frame,
+        text=obj_title,
+        font=FONTS['heading'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_primary'],
+        wraplength=700
+    ).pack(pady=(0, 20), anchor='w')
+
+    # Instruction content card
+    instruction_card = create_card(scrollable_frame)
+    instruction_card.pack(fill='both', pady=(0, 30))
+
+    # AI-generated instruction content
+    instruction_text = tk.Text(
+        instruction_card,
+        font=FONTS['body'],
+        wrap='word',
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary'],
+        padx=30,
+        pady=25,
+        relief='flat',
+        height=15,
+        borderwidth=0
+    )
+    instruction_text.pack(fill='both', expand=True)
+
+    # Generate AI instruction content
+    if AI_AVAILABLE:
+        instruction_text.insert(1.0, "⏳ Generating instructional content... Please wait...")
+        window.update()
+
+        instruction_content = generate_instruction_content(obj_title, obj_desc)
+        instruction_text.delete(1.0, tk.END)
+        instruction_text.insert(1.0, instruction_content)
+    else:
+        instruction_text.insert(1.0, f"Learning Objective: {obj_title}\n\n{obj_desc}\n\n"
+                                     "This section would contain detailed instructional content explaining the concept.")
+
+    instruction_text.config(state='disabled')
+
+    # Navigation buttons
+    button_frame = tk.Frame(window, bg=COLORS['bg_secondary'])
+    button_frame.pack(fill='x', padx=40, pady=(0, 30))
+
+    tk.Button(
+        button_frame,
+        text="← Back",
+        command=lambda: show_practice_for_goal(window, topic_name, goal_id, objective_index, 'choice'),
+        font=FONTS['button_large'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        activebackground=COLORS['border'],
+        relief='flat',
+        cursor='hand2',
+        padx=25,
+        pady=15
+    ).pack(side='left')
+
+    tk.Button(
+        button_frame,
+        text="Next: Walkthrough Example →",
+        command=lambda: show_walkthrough(window, topic_name, topic_id, goal_id, goal_title, objectives, objective_index),
+        font=FONTS['button_large'],
+        bg=COLORS['primary'],
+        fg='white',
+        activebackground=COLORS['primary_dark'],
+        relief='flat',
+        cursor='hand2',
+        padx=30,
+        pady=15
+    ).pack(side='right')
+
+
+def show_walkthrough(window, topic_name, topic_id, goal_id, goal_title, objectives, objective_index):
+    """BRD Section 5: Walkthrough Problem Solving - Show step-by-step example"""
+    for widget in window.winfo_children():
+        widget.destroy()
+
+    window.configure(bg=COLORS['bg_secondary'])
+
+    obj_id, obj_title, obj_desc = objectives[objective_index]
+
+    # Header
+    header = tk.Frame(window, bg=COLORS['warning'], height=100)
+    header.pack(fill='x', side='top')
+    header.pack_propagate(False)
+
+    header_content = tk.Frame(header, bg=COLORS['warning'])
+    header_content.pack(fill='both', expand=True, padx=40, pady=20)
+
+    tk.Label(
+        header_content,
+        text=f"🔧 Walkthrough Example",
+        font=FONTS['title'],
+        bg=COLORS['warning'],
+        fg='white'
+    ).pack(side='left')
+
+    tk.Label(
+        header_content,
+        text=f"Objective {objective_index + 1} of {len(objectives)}",
+        font=FONTS['body'],
+        bg=COLORS['warning'],
+        fg='white'
+    ).pack(side='right')
+
+    # Content area with scrollbar
+    content_frame = tk.Frame(window, bg=COLORS['bg_secondary'])
+    content_frame.pack(fill='both', expand=True)
+
+    canvas = tk.Canvas(content_frame, bg=COLORS['bg_secondary'], highlightthickness=0)
+    scrollbar = tk.Scrollbar(content_frame, orient='vertical', command=canvas.yview)
+    scrollable_frame = tk.Frame(canvas, bg=COLORS['bg_secondary'])
+
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor='nw')
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side='left', fill='both', expand=True, padx=40, pady=30)
+    scrollbar.pack(side='right', fill='y')
+
+    # Objective title
+    tk.Label(
+        scrollable_frame,
+        text=obj_title,
+        font=FONTS['heading'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_primary'],
+        wraplength=700
+    ).pack(pady=(0, 20), anchor='w')
+
+    # Walkthrough content card
+    walkthrough_card = create_card(scrollable_frame)
+    walkthrough_card.pack(fill='both', pady=(0, 30))
+
+    # AI-generated walkthrough content
+    walkthrough_text = tk.Text(
+        walkthrough_card,
+        font=FONTS['body'],
+        wrap='word',
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary'],
+        padx=30,
+        pady=25,
+        relief='flat',
+        height=20,
+        borderwidth=0
+    )
+    walkthrough_text.pack(fill='both', expand=True)
+
+    # Generate AI walkthrough content
+    if AI_AVAILABLE:
+        walkthrough_text.insert(1.0, "⏳ Generating walkthrough example... Please wait...")
+        window.update()
+
+        walkthrough_content = generate_walkthrough_content(obj_title, obj_desc)
+        walkthrough_text.delete(1.0, tk.END)
+        walkthrough_text.insert(1.0, walkthrough_content)
+    else:
+        walkthrough_text.insert(1.0, f"Walkthrough Example for: {obj_title}\n\n"
+                                      "This section would contain a step-by-step example problem with detailed solution.")
+
+    walkthrough_text.config(state='disabled')
+
+    # Navigation buttons
+    button_frame = tk.Frame(window, bg=COLORS['bg_secondary'])
+    button_frame.pack(fill='x', padx=40, pady=(0, 30))
+
+    tk.Button(
+        button_frame,
+        text="← Back to Instruction",
+        command=lambda: show_direct_instruction(window, topic_name, topic_id, goal_id, goal_title, objectives, objective_index),
+        font=FONTS['button_large'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        activebackground=COLORS['border'],
+        relief='flat',
+        cursor='hand2',
+        padx=25,
+        pady=15
+    ).pack(side='left')
+
+    tk.Button(
+        button_frame,
+        text="Next: Practice Problems →",
+        command=lambda: start_objective_practice_session(window, topic_name, topic_id, goal_id, goal_title, objectives, objective_index),
+        font=FONTS['button_large'],
+        bg=COLORS['success'],
+        fg='white',
+        activebackground=COLORS['success_dark'],
+        relief='flat',
+        cursor='hand2',
+        padx=30,
+        pady=15
+    ).pack(side='right')
+
+
+def generate_instruction_content(objective_title, objective_desc):
+    """Generate AI instructional content for direct instruction"""
+    if not AI_AVAILABLE:
+        return f"Instructional content for: {objective_title}\n\n{objective_desc}"
+
+    prompt = f"""You are an educational AI tutor. Create detailed instructional content for teaching this learning objective:
+
+Learning Objective: {objective_title}
+Description: {objective_desc}
+
+Provide clear, comprehensive instruction that includes:
+1. Introduction to the concept
+2. Key definitions and terminology
+3. Important principles or rules
+4. Visual descriptions (describe what graphics would show)
+5. Real-world applications or examples
+
+Make it engaging, clear, and appropriate for students learning this topic for the first time.
+Use simple language and break down complex ideas into understandable parts."""
+
+    try:
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt
+        )
+        return response.text
+    except Exception as e:
+        return f"Instructional content for: {objective_title}\n\n{objective_desc}\n\n(AI generation temporarily unavailable)"
+
+
+def generate_walkthrough_content(objective_title, objective_desc):
+    """Generate AI walkthrough example for problem solving"""
+    if not AI_AVAILABLE:
+        return f"Walkthrough example for: {objective_title}\n\n{objective_desc}"
+
+    prompt = f"""You are an educational AI tutor. Create a detailed step-by-step walkthrough example for this learning objective:
+
+Learning Objective: {objective_title}
+Description: {objective_desc}
+
+Provide a complete walkthrough that includes:
+1. A sample problem statement
+2. Step-by-step solution with clear explanations for each step
+3. Why each step is necessary
+4. Common mistakes to avoid
+5. Final answer with verification
+
+Format it clearly with numbered steps. Make it detailed enough that a student can follow along and understand the complete problem-solving process."""
+
+    try:
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt
+        )
+        return response.text
+    except Exception as e:
+        return f"Walkthrough example for: {objective_title}\n\n{objective_desc}\n\n(AI generation temporarily unavailable)"
+
+
+def start_objective_practice_session(window, topic_name, topic_id, goal_id, goal_title, objectives, objective_index):
+    """Start a practice session for a specific learning objective - BRD compliant"""
+    obj_id, obj_title, obj_desc = objectives[objective_index]
+
+    # Track session state
+    session_state = {
+        'problems_attempted': 0,
+        'problems_correct': 0,
+        'min_problems': 20,  # BRD requirement
+        'mastery_threshold': 0.90,  # BRD requirement: 90%
+        'can_exit': False
+    }
+
+    def check_mastery():
+        """Check if student has achieved 90% mastery"""
+        if session_state['problems_attempted'] == 0:
+            return False
+        accuracy = session_state['problems_correct'] / session_state['problems_attempted']
+        return accuracy >= session_state['mastery_threshold']
+
+    def can_complete_objective():
+        """Check if student can complete this objective (BRD: min 20 problems AND 90% mastery)"""
+        return (session_state['problems_attempted'] >= session_state['min_problems'] and
+                check_mastery())
+
+    def on_problem_completed(is_correct):
+        """Called when a problem is completed"""
+        session_state['problems_attempted'] += 1
+        if is_correct:
+            session_state['problems_correct'] += 1
+
+        # Update can_exit flag
+        session_state['can_exit'] = can_complete_objective()
+
+    def move_to_next_objective():
+        """Move to next objective in the goal"""
+        next_index = objective_index + 1
+
+        if next_index < len(objectives):
+            # More objectives to practice
+            messagebox.showinfo(
+                "Objective Complete!",
+                f"Great job! You've mastered '{obj_title}'!\n\n"
+                f"Moving to next objective: {objectives[next_index][1]}"
+            )
+            show_practice_for_goal(window, topic_name, goal_id, next_index)
+        else:
+            # All objectives completed
+            messagebox.showinfo(
+                "Goal Complete!",
+                f"Congratulations! You've completed all objectives for '{goal_title}'!\n\n"
+                f"Total objectives mastered: {len(objectives)}"
+            )
+            show_goals_for_topic(window, topic_name)
+
+    # Generate the practice problem interface
+    generate_practice_problem_with_session(
+        window,
+        topic_name,
+        topic_id,
+        goal_id,
+        obj_id,
+        obj_title,
+        session_state,
+        on_problem_completed,
+        move_to_next_objective,
+        objective_index,
+        len(objectives)
+    )
+
+
+def generate_practice_problem_with_session(window, topic_name, topic_id, goal_id, objective_id, objective_title,
+                                          session_state, on_problem_completed, move_to_next_objective,
+                                          current_obj_index, total_objectives):
+    """Generate and display practice problems with session tracking - BRD compliant"""
     if not AI_AVAILABLE:
         messagebox.showerror("AI Not Available", "AI features require google-genai package to be installed.")
         return
 
-    # Ask for problem type
+    # Create modern practice window
     problem_window = tk.Toplevel(window)
-    problem_window.title("Practice Problem")
-    problem_window.geometry("700x600")
+    problem_window.title("Practice Problems")
+    problem_window.geometry("950x850")
+    problem_window.configure(bg=COLORS['bg_secondary'])
 
-    tk.Label(problem_window, text=f"Generating problem for:", font=("Helvetica", 12, "bold")).pack(pady=10)
-    tk.Label(problem_window, text=objective_title, font=("Helvetica", 11), wraplength=650).pack(pady=5)
+    # Center window
+    problem_window.update_idletasks()
+    width = problem_window.winfo_width()
+    height = problem_window.winfo_height()
+    x = (problem_window.winfo_screenwidth() // 2) - (width // 2)
+    y = (problem_window.winfo_screenheight() // 2) - (height // 2)
+    problem_window.geometry(f'{width}x{height}+{x}+{y}')
 
-    tk.Label(problem_window, text="Select Problem Type:", font=("Helvetica", 12)).pack(pady=15)
+    # Header
+    header = tk.Frame(problem_window, bg=COLORS['primary'], height=100)
+    header.pack(fill='x')
+    header.pack_propagate(False)
+
+    header_content = tk.Frame(header, bg=COLORS['primary'])
+    header_content.pack(fill='both', expand=True, padx=40, pady=20)
+
+    # Title and objective info
+    title_frame = tk.Frame(header_content, bg=COLORS['primary'])
+    title_frame.pack(side='left', fill='both', expand=True)
+
+    tk.Label(
+        title_frame,
+        text=f"📝 {objective_title}",
+        font=FONTS['heading'],
+        bg=COLORS['primary'],
+        fg='white',
+        wraplength=600,
+        justify='left'
+    ).pack(anchor='w')
+
+    tk.Label(
+        title_frame,
+        text=f"Objective {current_obj_index + 1} of {total_objectives}",
+        font=FONTS['body'],
+        bg=COLORS['primary'],
+        fg='white'
+    ).pack(anchor='w', pady=(5, 0))
+
+    close_btn = tk.Button(
+        header_content,
+        text="✕ Close",
+        command=problem_window.destroy,
+        font=FONTS['button'],
+        bg=COLORS['primary_dark'],
+        fg='white',
+        activebackground=COLORS['primary'],
+        relief='flat',
+        cursor='hand2',
+        padx=20,
+        pady=10,
+        borderwidth=0
+    )
+    close_btn.pack(side='right')
+
+    # Progress bar frame
+    progress_frame = tk.Frame(problem_window, bg=COLORS['bg_secondary'])
+    progress_frame.pack(fill='x', padx=40, pady=(20, 10))
+
+    # Progress labels
+    progress_label = tk.Label(
+        progress_frame,
+        text=f"Problems: 0 / {session_state['min_problems']} minimum | Accuracy: 0% | Target: 90%",
+        font=FONTS['body_bold'],
+        bg=COLORS['bg_secondary'],
+        fg=COLORS['text_primary']
+    )
+    progress_label.pack()
+
+    def update_progress_display():
+        """Update the progress display"""
+        attempted = session_state['problems_attempted']
+        correct = session_state['problems_correct']
+        accuracy = (correct / attempted * 100) if attempted > 0 else 0
+
+        # Color code based on progress
+        if attempted >= session_state['min_problems'] and accuracy >= 90:
+            color = COLORS['success']
+            status = "✓ Mastery Achieved!"
+        elif attempted >= session_state['min_problems']:
+            color = COLORS['warning']
+            status = "Continue practicing to reach 90%"
+        else:
+            color = COLORS['text_primary']
+            status = f"{session_state['min_problems'] - attempted} more required"
+
+        progress_label.config(
+            text=f"Problems: {attempted} / {session_state['min_problems']} minimum | "
+                 f"Accuracy: {accuracy:.0f}% | Target: 90% | {status}",
+            fg=color
+        )
+
+    # Content area
+    content = tk.Frame(problem_window, bg=COLORS['bg_secondary'])
+    content.pack(fill='both', expand=True, padx=40, pady=(10, 30))
+
+    # Problem type selection card
+    type_card = tk.Frame(
+        content,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    type_card.pack(fill='x', pady=(0, 20))
+
+    type_content = tk.Frame(type_card, bg=COLORS['bg_primary'])
+    type_content.pack(padx=30, pady=20)
+
+    tk.Label(
+        type_content,
+        text="Select Problem Type",
+        font=FONTS['subheading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 15))
 
     category_var = tk.StringVar(value="factual")
 
     categories = [
-        ("Factual - Basic facts and definitions", "factual"),
-        ("Procedural - Step-by-step problem solving", "procedural"),
-        ("Strategic - Multi-step complex problems", "strategic"),
-        ("Rational - Explanations and reasoning", "rational")
+        ("📚 Factual", "factual", "Basic facts and definitions"),
+        ("🔧 Procedural", "procedural", "Step-by-step problem solving"),
+        ("🎯 Strategic", "strategic", "Multi-step complex problems"),
+        ("💡 Rational", "rational", "Explanations and reasoning")
     ]
 
-    for text, value in categories:
-        tk.Radiobutton(problem_window, text=text, variable=category_var, value=value,
-                      font=("Helvetica", 10)).pack(anchor="w", padx=50)
+    radio_frame = tk.Frame(type_content, bg=COLORS['bg_primary'])
+    radio_frame.pack(fill='x')
 
-    problem_text = tk.Text(problem_window, height=10, width=70, font=("Helvetica", 10), wrap="word", state="disabled")
-    problem_text.pack(pady=15, padx=20)
+    for icon_text, value, description in categories:
+        radio_container = tk.Frame(radio_frame, bg=COLORS['bg_primary'])
+        radio_container.pack(fill='x', pady=5)
 
-    # Answer input section - create a frame for it
-    answer_frame = tk.Frame(problem_window)
-    answer_frame.pack(pady=10)
+        tk.Radiobutton(
+            radio_container,
+            text=f"{icon_text} - {description}",
+            variable=category_var,
+            value=value,
+            font=FONTS['body'],
+            bg=COLORS['bg_primary'],
+            activebackground=COLORS['bg_primary'],
+            selectcolor=COLORS['bg_tertiary']
+        ).pack(anchor='w')
 
-    answer_label = tk.Label(answer_frame, text="Your Answer:", font=("Helvetica", 11))
-    answer_label.grid(row=0, column=0, padx=5, pady=5)
+    # Problem display card
+    problem_card = tk.Frame(
+        content,
+        bg=COLORS['bg_primary'],
+        relief='flat',
+        highlightbackground=COLORS['border'],
+        highlightthickness=1
+    )
+    problem_card.pack(fill='both', expand=True, pady=(0, 20))
 
-    answer_entry = tk.Entry(answer_frame, font=("Helvetica", 11), width=50)
-    answer_entry.grid(row=0, column=1, padx=5, pady=5)
+    problem_content = tk.Frame(problem_card, bg=COLORS['bg_primary'])
+    problem_content.pack(padx=30, pady=25, fill='both', expand=True)
 
-    # Initially hide the answer frame
-    answer_frame.pack_forget()
+    tk.Label(
+        problem_content,
+        text="Problem",
+        font=FONTS['subheading'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 10))
 
+    # Problem text area
+    text_frame = tk.Frame(problem_content, bg=COLORS['bg_primary'])
+    text_frame.pack(fill='both', expand=True, pady=(0, 20))
+
+    scrollbar = tk.Scrollbar(text_frame)
+    scrollbar.pack(side='right', fill='y')
+
+    problem_text = tk.Text(
+        text_frame,
+        height=6,
+        font=FONTS['body'],
+        wrap='word',
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_primary'],
+        padx=15,
+        pady=15,
+        relief='flat',
+        state='disabled',
+        yscrollcommand=scrollbar.set,
+        borderwidth=0
+    )
+    problem_text.pack(side='left', fill='both', expand=True)
+    scrollbar.config(command=problem_text.yview)
+
+    # Answer input section
+    answer_section = tk.Frame(problem_content, bg=COLORS['bg_primary'])
+    answer_section.pack(fill='x')
+
+    tk.Label(
+        answer_section,
+        text="Your Answer",
+        font=FONTS['body_bold'],
+        bg=COLORS['bg_primary'],
+        fg=COLORS['text_primary']
+    ).pack(anchor='w', pady=(0, 8))
+
+    answer_entry = tk.Entry(
+        answer_section,
+        font=FONTS['body'],
+        relief='solid',
+        borderwidth=1,
+        highlightthickness=2,
+        highlightbackground=COLORS['border'],
+        highlightcolor=COLORS['primary']
+    )
+    answer_entry.pack(fill='x', ipady=10)
+
+    # Initially hide answer section
+    answer_section.pack_forget()
+
+    # State variables
     correct_answer = [None]
     generated_problem_id = [None]
 
     def generate():
+        """Generate a new problem"""
         category = category_var.get()
-        problem_text.config(state="normal")
+
+        # Show loading
+        problem_text.config(state='normal')
         problem_text.delete(1.0, tk.END)
-        problem_text.insert(1.0, "Generating problem... Please wait...")
-        problem_text.config(state="disabled")
+        problem_text.insert(1.0, "⏳ Generating problem... Please wait...")
+        problem_text.config(state='disabled')
         problem_window.update()
 
+        # Generate problem
         problem, answer = generate_ai_problem(objective_id, category)
 
         if problem and answer:
-            problem_text.config(state="normal")
+            problem_text.config(state='normal')
             problem_text.delete(1.0, tk.END)
             problem_text.insert(1.0, problem)
-            problem_text.config(state="disabled")
+            problem_text.config(state='disabled')
 
             correct_answer[0] = answer
 
@@ -1114,18 +2984,23 @@ def generate_practice_problem(window, topic_name, topic_id, goal_id, objective_i
             problem_id = save_generated_problem(current_user_id, topic_id, goal_id, objective_id, problem, answer, category)
             generated_problem_id[0] = problem_id
 
-            # Show answer input frame
-            answer_frame.pack(pady=10)
-            answer_entry.delete(0, tk.END)  # Clear any previous answer
-            answer_entry.focus()  # Focus on the entry field
+            # Show answer input
+            answer_section.pack(fill='x')
+            answer_entry.delete(0, tk.END)
+            answer_entry.focus()
+
+            # Update button states
+            submit_btn.config(state='normal')
         else:
-            problem_text.config(state="normal")
+            problem_text.config(state='normal')
             problem_text.delete(1.0, tk.END)
-            problem_text.insert(1.0, "Failed to generate problem. Please try again.")
-            problem_text.config(state="disabled")
-            answer_frame.pack_forget()  # Hide answer input if generation failed
+            problem_text.insert(1.0, "❌ Failed to generate problem. Please try again.")
+            problem_text.config(state='disabled')
+            answer_section.pack_forget()
+            submit_btn.config(state='disabled')
 
     def submit_answer():
+        """Submit answer and show feedback"""
         if correct_answer[0] is None:
             messagebox.showwarning("No Problem", "Please generate a problem first.")
             return
@@ -1135,31 +3010,179 @@ def generate_practice_problem(window, topic_name, topic_id, goal_id, objective_i
             messagebox.showwarning("No Answer", "Please enter your answer.")
             return
 
-        # Simple check - could be enhanced with AI evaluation
+        # Get problem text
+        problem_text_content = problem_text.get(1.0, tk.END).strip()
+
+        # Check answer
         is_correct = student_answer.lower() == correct_answer[0].lower()
 
-        # Record the attempt
+        # Record attempt
         record_practice_attempt(current_user_id, goal_id, generated_problem_id[0], student_answer, is_correct)
-
-        # Update progress (simplified - 1 correct out of 1 total)
         update_goal_progress(current_user, goal_id, 1 if is_correct else 0, 1)
 
-        if is_correct:
-            messagebox.showinfo("Correct! ✓", f"Great job! Your answer is correct.\n\nCorrect Answer: {correct_answer[0]}")
+        # Update session state
+        on_problem_completed(is_correct)
+        update_progress_display()
+
+        # Show AI feedback dialog (non-blocking)
+        if AI_AVAILABLE:
+            show_ai_feedback_dialog_with_next(
+                problem_text_content,
+                student_answer,
+                correct_answer[0],
+                is_correct,
+                lambda: next_problem()
+            )
         else:
-            messagebox.showinfo("Incorrect ✗", f"Not quite right. Keep practicing!\n\nYour Answer: {student_answer}\nCorrect Answer: {correct_answer[0]}")
+            result = "Correct! ✓" if is_correct else "Incorrect ✗"
+            msg = f"{result}\n\nYour Answer: {student_answer}\nCorrect Answer: {correct_answer[0]}\n\nGenerate another problem?"
+            if messagebox.askyesno("Result", msg):
+                next_problem()
+
+    def next_problem():
+        """Prepare for next problem"""
+        # Clear current problem
+        problem_text.config(state='normal')
+        problem_text.delete(1.0, tk.END)
+        problem_text.insert(1.0, "Click 'Generate Problem' to start a new problem")
+        problem_text.config(state='disabled')
+
+        # Clear answer
+        answer_entry.delete(0, tk.END)
+        answer_section.pack_forget()
+
+        # Reset state
+        correct_answer[0] = None
+        generated_problem_id[0] = None
+        submit_btn.config(state='disabled')
+
+        # Check if can complete objective
+        if session_state['can_exit']:
+            complete_btn.config(state='normal', bg=COLORS['success'])
+
+    def complete_objective():
+        """Complete the current objective and move to next"""
+        if not session_state['can_exit']:
+            messagebox.showwarning(
+                "Not Ready",
+                f"You need to complete at least {session_state['min_problems']} problems "
+                f"with 90% accuracy to complete this objective.\n\n"
+                f"Current: {session_state['problems_attempted']} problems, "
+                f"{(session_state['problems_correct']/max(1,session_state['problems_attempted'])*100):.0f}% accuracy"
+            )
+            return
 
         problem_window.destroy()
+        move_to_next_objective()
 
-    btn_frame = tk.Frame(problem_window)
-    btn_frame.pack(pady=15)
+    # Action buttons
+    button_frame = tk.Frame(content, bg=COLORS['bg_secondary'])
+    button_frame.pack(pady=(0, 0))
 
-    tk.Button(btn_frame, text="Generate Problem", command=generate, font=("Helvetica", 11),
-              bg="#4CAF50", fg="white", width=18).grid(row=0, column=0, padx=10)
-    tk.Button(btn_frame, text="Submit Answer", command=submit_answer, font=("Helvetica", 11),
-              bg="#2196F3", fg="white", width=18).grid(row=0, column=1, padx=10)
-    tk.Button(btn_frame, text="Close", command=problem_window.destroy, font=("Helvetica", 11),
-              width=18).grid(row=0, column=2, padx=10)
+    # Generate button
+    generate_btn = tk.Button(
+        button_frame,
+        text="🎲 Generate Problem",
+        command=generate,
+        font=FONTS['button_large'],
+        bg=COLORS['success'],
+        fg='white',
+        activebackground=COLORS['success_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=25,
+        pady=15,
+        borderwidth=0
+    )
+    generate_btn.grid(row=0, column=0, padx=8)
+
+    # Submit button
+    submit_btn = tk.Button(
+        button_frame,
+        text="✓ Submit Answer",
+        command=submit_answer,
+        font=FONTS['button_large'],
+        bg=COLORS['primary'],
+        fg='white',
+        activebackground=COLORS['primary_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=25,
+        pady=15,
+        borderwidth=0,
+        state='disabled'
+    )
+    submit_btn.grid(row=0, column=1, padx=8)
+
+    # Next problem button
+    next_btn = tk.Button(
+        button_frame,
+        text="→ Next Problem",
+        command=next_problem,
+        font=FONTS['button_large'],
+        bg=COLORS['warning'],
+        fg='white',
+        activebackground=COLORS['warning_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=25,
+        pady=15,
+        borderwidth=0
+    )
+    next_btn.grid(row=0, column=2, padx=8)
+
+    # Complete objective button (initially disabled)
+    complete_btn = tk.Button(
+        button_frame,
+        text="✓ Complete Objective",
+        command=complete_objective,
+        font=FONTS['button_large'],
+        bg=COLORS['bg_tertiary'],
+        fg=COLORS['text_secondary'],
+        activebackground=COLORS['success_dark'],
+        activeforeground='white',
+        relief='flat',
+        cursor='hand2',
+        padx=25,
+        pady=15,
+        borderwidth=0,
+        state='disabled'
+    )
+    complete_btn.grid(row=0, column=3, padx=8)
+
+    # Hover effects
+    def make_hover(btn, normal_color, hover_color):
+        def on_enter(e):
+            if btn['state'] != 'disabled':
+                btn.config(bg=hover_color)
+        def on_leave(e):
+            if btn['state'] != 'disabled':
+                btn.config(bg=normal_color)
+        btn.bind("<Enter>", on_enter)
+        btn.bind("<Leave>", on_leave)
+
+    make_hover(generate_btn, COLORS['success'], COLORS['success_dark'])
+    make_hover(submit_btn, COLORS['primary'], COLORS['primary_dark'])
+    make_hover(next_btn, COLORS['warning'], COLORS['warning_dark'])
+
+    # Enter key to submit
+    answer_entry.bind('<Return>', lambda e: submit_answer())
+
+    # Show initial message
+    problem_text.config(state='normal')
+    problem_text.insert(1.0, "👋 Welcome! Select a problem type above and click 'Generate Problem' to begin.")
+    problem_text.config(state='disabled')
+
+
+def generate_practice_problem(window, topic_name, topic_id, goal_id, objective_id, objective_title):
+    """Legacy wrapper - redirects to BRD-compliant session-based practice"""
+    # This is a wrapper for backward compatibility
+    # Create a single-objective session
+    objectives = [(objective_id, objective_title, "")]
+    start_objective_practice_session(window, topic_name, topic_id, goal_id, "", objectives, 0)
 
 
 def show_ai_practice(window):
