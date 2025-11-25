@@ -1,0 +1,104 @@
+================================================================================
+COMPREHENSIVE TEST REPORT
+Adaptive AI-Based Learning Management System
+================================================================================
+Test Execution Date: 2025-11-25 16:11:04
+Total Tests: 5
+Tests Passed: 0
+Tests Failed: 5
+================================================================================
+
+TEST SUMMARY
+--------------------------------------------------------------------------------
+Test ID      Test Name                      Status    
+--------------------------------------------------------------------------------
+TEST-01      Content Generation             ❌ FAIL    
+TEST-02      Problem Generation             ❌ FAIL    
+TEST-03      User Data Tracking             ❌ FAIL    
+TEST-04      User Profile Update            ❌ FAIL    
+TEST-05      AI Feedback                    ❌ FAIL    
+--------------------------------------------------------------------------------
+
+
+DETAILED TEST RESULTS
+================================================================================
+
+TEST-01: Content Generation
+--------------------------------------------------------------------------------
+Description: Verify AI generates unique instructional content based on user profiles
+Requirement: AI Tutor must generate personalized instructional content
+Status: FAILED ❌
+Return Code: 1
+
+Errors:
+Traceback (most recent call last):
+  File "C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\tests\test_content_generation.py", line 12, in <module>
+    from ai_tutor import generate_instructional_content, get_or_create_user_profile
+ImportError: cannot import name 'generate_instructional_content' from 'ai_tutor' (C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\ai_tutor.py)
+
+
+================================================================================
+
+TEST-02: Problem Generation
+--------------------------------------------------------------------------------
+Description: Verify AI generates personalized practice problems based on user profiles
+Requirement: AI Tutor must generate personalized practice problems
+Status: FAILED ❌
+Return Code: 1
+
+Errors:
+Traceback (most recent call last):
+  File "C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\tests\test_problem_generation.py", line 12, in <module>
+    from ai_tutor import generate_practice_problem, get_or_create_user_profile
+ImportError: cannot import name 'generate_practice_problem' from 'ai_tutor' (C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\ai_tutor.py)
+
+
+================================================================================
+
+TEST-03: User Data Tracking
+--------------------------------------------------------------------------------
+Description: Verify user progress and practice attempts are correctly stored
+Requirement: System must track and persist user progress and performance data
+Status: FAILED ❌
+Return Code: 1
+
+Errors:
+Traceback (most recent call last):
+  File "C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\tests\test_user_data_tracking.py", line 14, in <module>
+    from ai_tutor import generate_practice_problem, get_or_create_user_profile
+ImportError: cannot import name 'generate_practice_problem' from 'ai_tutor' (C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\ai_tutor.py)
+
+
+================================================================================
+
+TEST-04: User Profile Update
+--------------------------------------------------------------------------------
+Description: Verify AI updates user profiles with performance notes over time
+Requirement: AI Tutor must maintain and update student profiles based on performance
+Status: FAILED ❌
+Return Code: 1
+
+Errors:
+Traceback (most recent call last):
+  File "C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\tests\test_user_profile_update.py", line 12, in <module>
+    from ai_tutor import update_student_profile, get_or_create_user_profile, generate_practice_problem
+ImportError: cannot import name 'update_student_profile' from 'ai_tutor' (C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\ai_tutor.py)
+
+
+================================================================================
+
+TEST-05: AI Feedback
+--------------------------------------------------------------------------------
+Description: Verify AI provides meaningful feedback on student answers
+Requirement: AI Tutor must provide constructive feedback on student responses
+Status: FAILED ❌
+Return Code: 1
+
+Errors:
+Traceback (most recent call last):
+  File "C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\tests\test_ai_feedback.py", line 12, in <module>
+    from ai_tutor import generate_practice_problem, get_or_create_user_profile
+ImportError: cannot import name 'generate_practice_problem' from 'ai_tutor' (C:\Users\soohu\CSE423_Capstone_Adaptive-AI-based-learning-management-system\ai_tutor.py)
+
+
+================================================================================
