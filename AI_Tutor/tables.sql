@@ -80,11 +80,11 @@ CREATE TABLE InstructionContent (
     objective_id INTEGER NOT NULL,
     method_id INTEGER NOT NULL,
     instruct_content TEXT NOT NULL,
+    user_id INTEGER,
+    is_generated BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (objective_id) REFERENCES LearningObjective(id),
-    FOREIGN KEY (method_id) REFERENCES InstructionMethod(id)
-    -- Ensures that each objective can have multiple methodsS
-    -- but each method can only be assigned once per objective
-    -- UNIQUE(objective_id, method_id)
+    FOREIGN KEY (method_id) REFERENCES InstructionMethod(id),
+    FOREIGN KEY (user_id) REFERENCES User(id)
 );
 
 -- Instruction Completion Table
@@ -331,18 +331,18 @@ CREATE TABLE SystemMemory (
 );
 
 
--- extra
+-- extra for DEMO purposes
 INSERT INTO UserLMSProfile (
     user_id, preferred_learner_style, target_difficulty, preferred_length,
     preferred_numeric_complexity, focus_category, performance_score, ai_goal, notes
 ) VALUES
 -- User 2: decently smart, procedural, likes sports, struggles with ratSional
-(2, 'procedural', 3, 'medium', 'integers_only', 'rational', 0, 'teach_new',
- 'Prefers procedure-based problems. Likes sports examples. Struggles with rationale.'),
+(2, 'nature', 3, 'medium', 'integers_only', 'rational', 0, 'teach_new',
+ 'Prefers factual-based problems. Likes sports examples. Struggles with rationale.'),
 -- User 3: super smart, prefers rational and strategic, likes complex wording
-(3, 'rational', 4, 'long', 'mixed', 'factual', 0, 'challenge', 
+(3, 'logical', 4, 'long', 'mixed', 'factual', 0, 'challenge', 
  'Prefers rational and strategic questions. Likes complex and sophisticated wording.'),
 -- User 4: struggles with math, prefers factual, really struggles with strategic, likes simple visuals
-(4, 'factual', 2, 'short', 'integers_only', 'strategic', 0, 'teach_new',
+(4, 'visual', 2, 'short', 'integers_only', 'strategic', 0, 'teach_new',
  'Prefers simple and visual problems. Struggles with strategy. Struggles with math overall.');
 
