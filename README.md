@@ -48,7 +48,12 @@ An intelligent Learning Management System (LMS) that uses Google's Gemini AI to 
 
    # Add AI-specific tables (UserLMSProfile, GenProblem, etc.)
    python add_ai_tables.py
+
+   # Fix PracticeProblem table schema (if upgrading from old version)
+   python fix_practice_problem_table.py
    ```
+
+   **Note**: If you're setting up for the first time, you can skip the last step. It's only needed if you're upgrading from an older version of the database.
 
 4. **Configure API Key**
 
@@ -295,6 +300,23 @@ PROFILE_UPDATE_FREQUENCY = 5  # Update profile every N problems
 - PracticeProblem table (individual attempts)
 
 **Run**: `python add_ai_tables.py` (run once after main.py)
+
+---
+
+#### `fix_practice_problem_table.py` (Database Migration)
+**Purpose**: Fix PracticeProblem table schema to use genProblem_id
+
+**What it does**:
+- Migrates the PracticeProblem table from `problem_id` to `genProblem_id`
+- Preserves existing data during migration
+- Required for compatibility with advanceAIDemo.py database schema
+
+**When to run**:
+- If upgrading from an older version of the database
+- If you see errors like "no such column: pp.genProblem_id"
+- Not needed for fresh installations
+
+**Run**: `python fix_practice_problem_table.py` (interactive, will ask for confirmation)
 
 ---
 
@@ -557,6 +579,13 @@ pip install google-genai
 ```bash
 # Solution: Run the migration script
 python add_ai_tables.py
+```
+
+**Issue**: "no such column: pp.genProblem_id" or Progress Tracking shows nothing
+```bash
+# Solution: Run the database migration script
+python fix_practice_problem_table.py
+# Type 'yes' when prompted to confirm the migration
 ```
 
 **Issue**: "Database is locked"
