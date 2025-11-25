@@ -78,7 +78,25 @@ def add_ai_tables():
                 UNIQUE (set_id, genProblem_id)
             )
         """))
-    
+
+    # UserLMSProfile table
+    if 'UserLMSProfile' not in existing_tables:
+        tables_to_create.append(('UserLMSProfile', """
+            CREATE TABLE UserLMSProfile (
+                user_id INTEGER PRIMARY KEY,
+                preferred_learner_style TEXT,
+                target_difficulty INTEGER,
+                preferred_length TEXT,
+                preferred_numeric_complexity TEXT,
+                focus_category TEXT,
+                performance_score REAL,
+                ai_goal TEXT,
+                notes TEXT,
+                last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES User(id)
+            )
+        """))
+
     if not tables_to_create:
         print("\n✅ All AI tables already exist!")
         conn.close()

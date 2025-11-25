@@ -2,108 +2,52 @@
 Unified Learning Management System
 Main entry point for the Adaptive AI-based Learning Management System
 Integrates login, progress tracking, topic selection, and AI-powered problem generation
+
+This is the main orchestration file that brings together all modules.
+For detailed documentation, see PROJECT_STRUCTURE.md
 """
 
 import tkinter as tk
-from tkinter import messagebox, ttk, simpledialog
-from login_subsystem import AuthService
+from tkinter import messagebox, ttk
 import sqlite3
-import random
-import string
 import os
 
-# Try to import AI features (optional)
-try:
-    import google.genai as genai
-    from google.genai import types
-    AI_AVAILABLE = True
-except ImportError:
-    AI_AVAILABLE = False
-    print("Warning: google-genai not installed. AI features will be disabled.")
-
-# Configuration
-DB_PATH = "learning_platform.db"
-API_KEY = "AIzaSyDlIbDoYs5yqCTpyf-FPXuwRIWvecl5Lc0"  # Your Gemini API key
+# Import from our modules
+from config import (
+    DB_PATH, AI_AVAILABLE, COLORS, FONTS,
+    MIN_PROBLEMS_FOR_MASTERY, MASTERY_THRESHOLD,
+    PROFILE_UPDATE_FREQUENCY, CATEGORY_DESCRIPTIONS,
+    client  # AI client for feedback generation
+)
+from ai_tutor import (
+    load_user_profile, generate_problem,
+    Profile_Alg, get_full_performance
+)
+from database import (
+    fetch_all_topics, fetch_goals_for_topic,
+    fetch_objectives_for_goal, get_topic_id_by_name,
+    get_goal_info, save_generated_problem,
+    record_practice_attempt, get_practice_history
+)
+from progress_tracker import (
+    update_topic_progress, update_goal_progress,
+    get_user_progress_summary, get_practice_statistics
+)
+from ui_components import (
+    create_modern_button, create_dashboard_card,
+    create_scrollable_frame, setup_mousewheel_scrolling,
+    center_window, get_responsive_window_size
+)
+from login_subsystem import AuthService
 
 # Initialize services
 auth_service = AuthService(db_path=DB_PATH)
-if AI_AVAILABLE:
-    client = genai.Client(api_key=API_KEY)
 
 # Global state
 current_user = None
 current_user_id = None
 
-# ==================== MODERN UI THEME ====================
-
-# Color Palette - Modern, Professional
-COLORS = {
-    'primary': '#2563eb',      # Blue
-    'primary_dark': '#1e40af',
-    'primary_light': '#3b82f6',
-    'success': '#10b981',      # Green
-    'success_dark': '#059669',
-    'warning': '#f59e0b',      # Orange
-    'warning_dark': '#d97706',
-    'danger': '#ef4444',       # Red
-    'danger_dark': '#dc2626',
-    'purple': '#8b5cf6',
-    'purple_dark': '#7c3aed',
-    'bg_primary': '#ffffff',   # White
-    'bg_secondary': '#f8fafc', # Light gray
-    'bg_tertiary': '#f1f5f9',
-    'text_primary': '#1e293b',
-    'text_secondary': '#64748b',
-    'border': '#e2e8f0',
-    'shadow': '#94a3b8'
-}
-
-# Fonts
-FONTS = {
-    'title': ('Segoe UI', 24, 'bold'),
-    'heading': ('Segoe UI', 18, 'bold'),
-    'subheading': ('Segoe UI', 14, 'bold'),
-    'body': ('Segoe UI', 11),
-    'body_bold': ('Segoe UI', 11, 'bold'),
-    'small': ('Segoe UI', 9),
-    'button': ('Segoe UI', 11, 'bold'),
-    'button_large': ('Segoe UI', 13, 'bold')
-}
-
-def create_modern_button(parent, text, command, bg_color, width=20, height=2, icon=""):
-    """Create a modern styled button with hover effects"""
-    btn_frame = tk.Frame(parent, bg=parent['bg'])
-
-    button_text = f"{icon} {text}" if icon else text
-
-    btn = tk.Button(
-        btn_frame,
-        text=button_text,
-        command=command,
-        font=FONTS['button'],
-        bg=bg_color,
-        fg='white',
-        activebackground=bg_color,
-        activeforeground='white',
-        relief='flat',
-        cursor='hand2',
-        width=width,
-        height=height,
-        borderwidth=0
-    )
-    btn.pack(padx=2, pady=2)
-
-    # Hover effects
-    def on_enter(e):
-        btn.config(bg=COLORS.get(bg_color + '_dark', bg_color))
-
-    def on_leave(e):
-        btn.config(bg=bg_color)
-
-    btn.bind("<Enter>", on_enter)
-    btn.bind("<Leave>", on_leave)
-
-    return btn_frame
+# ==================== HELPER FUNCTIONS ====================
 
 def create_card(parent, title="", padding=20):
     """Create a modern card container"""
@@ -129,53 +73,14 @@ def create_card(parent, title="", padding=20):
     return card
 
 
-# ==================== DATABASE HELPER FUNCTIONS ====================
-
-def fetch_all_topics():
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, name FROM Topic ORDER BY topic_order ASC")
-    topics = cursor.fetchall()
-    conn.close()
-    return topics
-
-
 def fetch_random_topic():
+    """Fetch a random topic from the database"""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("SELECT id, name FROM Topic ORDER BY RANDOM() LIMIT 1")
     topic = cursor.fetchone()
     conn.close()
     return topic
-
-
-def fetch_goals_for_topic(topic_name):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT id FROM Topic WHERE name = ?", (topic_name,))
-    topic = cursor.fetchone()
-    if not topic:
-        conn.close()
-        return []
-    topic_id = topic[0]
-    cursor.execute("SELECT id, title, description FROM Goal WHERE topic_id = ? ORDER BY goal_order ASC", (topic_id,))
-    goals = cursor.fetchall()
-    conn.close()
-    return goals
-
-
-def fetch_objectives_for_goal(goal_id):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("""
-        SELECT id, title, description 
-        FROM LearningObjective 
-        WHERE goal_id = ? 
-        ORDER BY obj_order ASC
-    """, (goal_id,))
-    objectives = cursor.fetchall()
-    conn.close()
-    return objectives
 
 
 def fetch_topic_progress(username):
@@ -313,112 +218,6 @@ def mark_topic_complete(username, topic_name):
 
 
 # ==================== AI PROBLEM GENERATION ====================
-
-def generate_ai_problem(objective_id, category='factual'):
-    """Generate an AI problem for a given learning objective"""
-    if not AI_AVAILABLE:
-        return None, None
-    
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    cursor.execute("""
-        SELECT lo.title, lo.description, g.title, t.name
-        FROM LearningObjective lo
-        JOIN Goal g ON lo.goal_id = g.id
-        JOIN Topic t ON g.topic_id = t.id
-        WHERE lo.id = ?
-    """, (objective_id,))
-    
-    result = cursor.fetchone()
-    conn.close()
-    
-    if not result:
-        return None, None
-    
-    obj_title, obj_desc, goal_title, topic_name = result
-    
-    prompt = f"""You are an educational AI tutor. Generate a {category} knowledge question.
-
-Topic: {topic_name}
-Goal: {goal_title}
-Learning Objective: {obj_title}
-Description: {obj_desc}
-
-Knowledge Type: {category}
-- Factual: Basic facts and definitions
-- Procedural: Step-by-step problem solving
-- Strategic: Multi-step complex problems
-- Rational: Explanations and reasoning
-
-Generate a clear, concise problem and its answer. Format:
-PROBLEM: [your problem here]
-ANSWER: [correct answer here]"""
-    
-    try:
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt
-        )
-
-        text = response.text
-        if "PROBLEM:" in text and "ANSWER:" in text:
-            problem = text.split("PROBLEM:")[1].split("ANSWER:")[0].strip()
-            answer = text.split("ANSWER:")[1].strip()
-            return problem, answer
-    except Exception as e:
-        print(f"AI generation error: {e}")
-    
-    return None, None
-
-
-def save_generated_problem(user_id, topic_id, goal_id, objective_id, problem, answer, category):
-    """Save AI-generated problem to database"""
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-
-        cursor.execute("""
-            INSERT INTO GenProblem (user_id, topic_id, goal_id, objective_id, prompt, correct_answer, category)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (user_id, topic_id, goal_id, objective_id, problem, answer, category))
-
-        problem_id = cursor.lastrowid
-        conn.commit()
-        conn.close()
-        return problem_id
-    except sqlite3.OperationalError as e:
-        if "no such table" in str(e):
-            print(f"ERROR: {e}")
-            print("Please run: python add_ai_tables.py")
-            messagebox.showerror("Database Error",
-                "Missing AI tables in database.\n\n"
-                "Please run this command first:\n"
-                "python add_ai_tables.py")
-        raise
-
-
-def record_practice_attempt(user_id, goal_id, problem_id, student_answer, is_correct):
-    """Record a practice problem attempt"""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    # Create or get practice set
-    cursor.execute("""
-        INSERT INTO PracticeProblemSet (user_id, goal_id)
-        VALUES (?, ?)
-    """, (user_id, goal_id))
-    set_id = cursor.lastrowid
-
-    # Record the attempt - use problem_id column (not genProblem_id)
-    cursor.execute("""
-        INSERT INTO PracticeProblem (set_id, problem_id, student_answer, is_correct, is_completed)
-        VALUES (?, ?, ?, ?, TRUE)
-    """, (set_id, problem_id, student_answer, is_correct))
-
-    conn.commit()
-    conn.close()
-
 
 # ==================== UI HELPER FUNCTIONS ====================
 
@@ -771,16 +570,23 @@ def show_main_dashboard():
     """Display the modern main dashboard"""
     main_app = tk.Tk()
     main_app.title("Learning Management System")
-    main_app.geometry("1100x750")
+
+    # Get screen dimensions
+    screen_width = main_app.winfo_screenwidth()
+    screen_height = main_app.winfo_screenheight()
+
+    # Set window size to 85% of screen or max 1100x750
+    window_width = min(1100, int(screen_width * 0.85))
+    window_height = min(750, int(screen_height * 0.85))
+
+    main_app.geometry(f"{window_width}x{window_height}")
     main_app.configure(bg=COLORS['bg_secondary'])
 
     # Center window
     main_app.update_idletasks()
-    width = main_app.winfo_width()
-    height = main_app.winfo_height()
-    x = (main_app.winfo_screenwidth() // 2) - (width // 2)
-    y = (main_app.winfo_screenheight() // 2) - (height // 2)
-    main_app.geometry(f'{width}x{height}+{x}+{y}')
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    main_app.geometry(f'{window_width}x{window_height}+{x}+{y}')
 
     # Header
     header = tk.Frame(main_app, bg=COLORS['bg_primary'], height=80)
@@ -814,9 +620,54 @@ def show_main_dashboard():
     )
     logout_btn.pack(side='right')
 
-    # Main content area
-    content = tk.Frame(main_app, bg=COLORS['bg_secondary'])
-    content.pack(fill='both', expand=True, padx=40, pady=30)
+    # Create scrollable main content area
+    main_container = tk.Frame(main_app, bg=COLORS['bg_secondary'])
+    main_container.pack(fill='both', expand=True, padx=40, pady=30)
+
+    # Canvas for scrolling
+    canvas = tk.Canvas(main_container, bg=COLORS['bg_secondary'], highlightthickness=0)
+    scrollbar = tk.Scrollbar(main_container, orient="vertical", command=canvas.yview)
+
+    # Content frame inside canvas
+    content = tk.Frame(canvas, bg=COLORS['bg_secondary'])
+
+    # Configure canvas
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    # Pack scrollbar and canvas
+    scrollbar.pack(side="right", fill="y")
+    canvas.pack(side="left", fill="both", expand=True)
+
+    # Create window in canvas
+    canvas_frame = canvas.create_window((0, 0), window=content, anchor="nw")
+
+    # Configure scroll region when content changes
+    def configure_scroll_region(event=None):
+        canvas.configure(scrollregion=canvas.bbox("all"))
+        # Make content frame width match canvas width
+        canvas.itemconfig(canvas_frame, width=canvas.winfo_width())
+
+    content.bind("<Configure>", configure_scroll_region)
+    canvas.bind("<Configure>", configure_scroll_region)
+
+    # Enable mousewheel scrolling
+    def on_mousewheel(event):
+        canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+    def bind_mousewheel(event=None):
+        main_app.bind("<MouseWheel>", on_mousewheel)
+        canvas.bind("<MouseWheel>", on_mousewheel)
+
+    def unbind_mousewheel(event=None):
+        main_app.unbind("<MouseWheel>")
+        canvas.unbind("<MouseWheel>")
+
+    # Bind when mouse enters the window
+    main_app.bind("<Enter>", bind_mousewheel)
+    main_app.bind("<Leave>", unbind_mousewheel)
+
+    # Initial bind
+    bind_mousewheel()
 
     # Title
     tk.Label(
@@ -837,7 +688,7 @@ def show_main_dashboard():
 
     # Cards grid
     cards_frame = tk.Frame(content, bg=COLORS['bg_secondary'])
-    cards_frame.pack(expand=True)
+    cards_frame.pack(expand=True, pady=(0, 30))
 
     # Define dashboard cards
     dashboard_cards = [
@@ -1395,16 +1246,23 @@ def show_ai_feedback_dialog(problem_text, student_answer, correct_answer, is_cor
     """Show modern AI feedback dialog"""
     feedback_window = tk.Toplevel()
     feedback_window.title("AI Tutor Feedback")
-    feedback_window.geometry("800x700")
+
+    # Get screen dimensions
+    screen_width = feedback_window.winfo_screenwidth()
+    screen_height = feedback_window.winfo_screenheight()
+
+    # Set window size to 80% of screen or max 800x700
+    window_width = min(800, int(screen_width * 0.8))
+    window_height = min(700, int(screen_height * 0.8))
+
+    feedback_window.geometry(f"{window_width}x{window_height}")
     feedback_window.configure(bg=COLORS['bg_secondary'])
 
     # Center window
     feedback_window.update_idletasks()
-    width = feedback_window.winfo_width()
-    height = feedback_window.winfo_height()
-    x = (feedback_window.winfo_screenwidth() // 2) - (width // 2)
-    y = (feedback_window.winfo_screenheight() // 2) - (height // 2)
-    feedback_window.geometry(f'{width}x{height}+{x}+{y}')
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    feedback_window.geometry(f'{window_width}x{window_height}+{x}+{y}')
 
     # Header with result
     header_color = COLORS['success'] if is_correct else COLORS['danger']
@@ -1609,16 +1467,23 @@ def show_ai_feedback_dialog_with_next(problem_text, student_answer, correct_answ
     """Show modern AI feedback dialog with Next Problem button"""
     feedback_window = tk.Toplevel()
     feedback_window.title("AI Tutor Feedback")
-    feedback_window.geometry("800x700")
+
+    # Get screen dimensions
+    screen_width = feedback_window.winfo_screenwidth()
+    screen_height = feedback_window.winfo_screenheight()
+
+    # Set window size to 80% of screen or max 800x700
+    window_width = min(800, int(screen_width * 0.8))
+    window_height = min(700, int(screen_height * 0.8))
+
+    feedback_window.geometry(f"{window_width}x{window_height}")
     feedback_window.configure(bg=COLORS['bg_secondary'])
 
     # Center window
     feedback_window.update_idletasks()
-    width = feedback_window.winfo_width()
-    height = feedback_window.winfo_height()
-    x = (feedback_window.winfo_screenwidth() // 2) - (width // 2)
-    y = (feedback_window.winfo_screenheight() // 2) - (height // 2)
-    feedback_window.geometry(f'{width}x{height}+{x}+{y}')
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    feedback_window.geometry(f'{window_width}x{window_height}+{x}+{y}')
 
     # Header with result
     header_color = COLORS['success'] if is_correct else COLORS['danger']
@@ -1871,7 +1736,7 @@ def fetch_practice_history(username):
             gp.id as problem_id
         FROM PracticeProblem pp
         JOIN PracticeProblemSet ps ON pp.set_id = ps.id
-        JOIN GenProblem gp ON pp.problem_id = gp.id
+        JOIN GenProblem gp ON pp.genProblem_id = gp.id
         JOIN Goal g ON gp.goal_id = g.id
         JOIN Topic t ON gp.topic_id = t.id
         JOIN LearningObjective lo ON gp.objective_id = lo.id
@@ -2737,16 +2602,23 @@ def generate_practice_problem_with_session(window, topic_name, topic_id, goal_id
     # Create modern practice window
     problem_window = tk.Toplevel(window)
     problem_window.title("Practice Problems")
-    problem_window.geometry("950x850")
+
+    # Get screen dimensions
+    screen_width = problem_window.winfo_screenwidth()
+    screen_height = problem_window.winfo_screenheight()
+
+    # Set window size to 90% of screen or max 950x850
+    window_width = min(950, int(screen_width * 0.9))
+    window_height = min(850, int(screen_height * 0.9))
+
+    problem_window.geometry(f"{window_width}x{window_height}")
     problem_window.configure(bg=COLORS['bg_secondary'])
 
     # Center window
     problem_window.update_idletasks()
-    width = problem_window.winfo_width()
-    height = problem_window.winfo_height()
-    x = (problem_window.winfo_screenwidth() // 2) - (width // 2)
-    y = (problem_window.winfo_screenheight() // 2) - (height // 2)
-    problem_window.geometry(f'{width}x{height}+{x}+{y}')
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    problem_window.geometry(f'{window_width}x{window_height}+{x}+{y}')
 
     # Header
     header = tk.Frame(problem_window, bg=COLORS['primary'], height=100)
@@ -2831,9 +2703,54 @@ def generate_practice_problem_with_session(window, topic_name, topic_id, goal_id
             fg=color
         )
 
-    # Content area
-    content = tk.Frame(problem_window, bg=COLORS['bg_secondary'])
-    content.pack(fill='both', expand=True, padx=40, pady=(10, 30))
+    # Create scrollable content area
+    main_container = tk.Frame(problem_window, bg=COLORS['bg_secondary'])
+    main_container.pack(fill='both', expand=True, padx=40, pady=(10, 30))
+
+    # Canvas for scrolling
+    canvas = tk.Canvas(main_container, bg=COLORS['bg_secondary'], highlightthickness=0)
+    scrollbar = tk.Scrollbar(main_container, orient="vertical", command=canvas.yview)
+
+    # Content frame inside canvas
+    content = tk.Frame(canvas, bg=COLORS['bg_secondary'])
+
+    # Configure canvas
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    # Pack scrollbar and canvas
+    scrollbar.pack(side="right", fill="y")
+    canvas.pack(side="left", fill="both", expand=True)
+
+    # Create window in canvas
+    canvas_frame = canvas.create_window((0, 0), window=content, anchor="nw")
+
+    # Configure scroll region when content changes
+    def configure_scroll_region(event=None):
+        canvas.configure(scrollregion=canvas.bbox("all"))
+        # Make content frame width match canvas width
+        canvas.itemconfig(canvas_frame, width=canvas.winfo_width())
+
+    content.bind("<Configure>", configure_scroll_region)
+    canvas.bind("<Configure>", configure_scroll_region)
+
+    # Enable mousewheel scrolling - bind to window and canvas
+    def on_mousewheel(event):
+        canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+    def bind_mousewheel(event=None):
+        problem_window.bind("<MouseWheel>", on_mousewheel)
+        canvas.bind("<MouseWheel>", on_mousewheel)
+
+    def unbind_mousewheel(event=None):
+        problem_window.unbind("<MouseWheel>")
+        canvas.unbind("<MouseWheel>")
+
+    # Bind when mouse enters the window
+    problem_window.bind("<Enter>", bind_mousewheel)
+    problem_window.bind("<Leave>", unbind_mousewheel)
+
+    # Initial bind
+    bind_mousewheel()
 
     # Problem type selection card
     type_card = tk.Frame(
@@ -2958,9 +2875,26 @@ def generate_practice_problem_with_session(window, topic_name, topic_id, goal_id
     correct_answer = [None]
     generated_problem_id = [None]
 
+    # Track problem count for profile updates
+    problem_count = [0]
+
     def generate():
         """Generate a new problem"""
-        category = category_var.get()
+        # Get objective details
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT title, description FROM LearningObjective WHERE id = ?", (objective_id,))
+        obj_result = cursor.fetchone()
+        conn.close()
+
+        if not obj_result:
+            messagebox.showerror("Error", "Objective not found.")
+            return
+
+        obj_title, obj_desc = obj_result
+
+        # Load user profile
+        profile = load_user_profile(current_user_id)
 
         # Show loading
         problem_text.config(state='normal')
@@ -2969,10 +2903,10 @@ def generate_practice_problem_with_session(window, topic_name, topic_id, goal_id
         problem_text.config(state='disabled')
         problem_window.update()
 
-        # Generate problem
-        problem, answer = generate_ai_problem(objective_id, category)
+        # Generate problem using advanced AI
+        problem, answer, category = generate_problem(obj_title, obj_desc, profile)
 
-        if problem and answer:
+        if problem and answer and category:
             problem_text.config(state='normal')
             problem_text.delete(1.0, tk.END)
             problem_text.insert(1.0, problem)
@@ -2991,6 +2925,9 @@ def generate_practice_problem_with_session(window, topic_name, topic_id, goal_id
 
             # Update button states
             submit_btn.config(state='normal')
+
+            # Increment problem count
+            problem_count[0] += 1
         else:
             problem_text.config(state='normal')
             problem_text.delete(1.0, tk.END)
@@ -3023,6 +2960,10 @@ def generate_practice_problem_with_session(window, topic_name, topic_id, goal_id
         # Update session state
         on_problem_completed(is_correct)
         update_progress_display()
+
+        # Run Profile_Alg every N problems (configured in config.py)
+        if problem_count[0] % PROFILE_UPDATE_FREQUENCY == 0:
+            Profile_Alg(current_user_id)
 
         # Show AI feedback dialog (non-blocking)
         if AI_AVAILABLE:
